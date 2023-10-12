@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 12.10.2023.
 //
 
-#include "Observer.h"
+#include "../Include/Observer.h"
 
 void Subject::attach(Observer* observer) {
     this->observers.push_back(observer);

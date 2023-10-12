@@ -8,6 +8,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra ")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -fsanitize=address")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -pedantic -flto -march=native -mtune=native")
 
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
+
 add_compile_definitions(ZPG_SAFE_PIXEL_ACCESS)
 add_compile_definitions(ZPG_PERF)
 
@@ -18,48 +21,11 @@ endif()
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}")
 
+file(GLOB SOURCES "src/*.cpp")
+file(GLOB HEADERS "Include/*.h")
+file(GLOB MODELS "models/*.h")
 
-add_executable(ZPG
-        main.cpp
-        Application/Application.cpp
-        Application/Application.h
-        Enums/Colors.h
-        Enums/ModelKind.h
-        Models/Models.h
-        Models/plain.h
-        Models/pyramid.h
-        Models/sphere.h
-        Models/square.h
-        Models/suzi_flat.h
-        Models/suzi_smooth.h
-        Models/triangle.h
-        RenderableModel/RenderableModel.cpp
-        RenderableModel/RenderableModel.h
-        RenderableModel/Model/Model.cpp
-        RenderableModel/Model/Model.h
-        RenderableModel/Shader/Shader.cpp
-        RenderableModel/Shader/Shader.h
-        RenderableModel/Transformation/Transformation.cpp
-        RenderableModel/Transformation/Transformation.h
-        Scene/Scene.cpp
-        Scene/Scene.h
-        ModelLoader/ModelLoader.cpp
-        ModelLoader/ModelLoader.h
-        RenderableModel/Transformation/Rotation.cpp
-        RenderableModel/Transformation/Rotation.h
-        RenderableModel/Transformation/Scale.cpp
-        RenderableModel/Transformation/Scale.h
-        RenderableModel/Transformation/Translation.cpp
-        RenderableModel/Transformation/Translation.h
-        RenderableModel/Transformation/Composite.cpp
-        RenderableModel/Transformation/Composite.h
-        Camera/Camera.cpp
-        Camera/Camera.h
-        CallbackController/CallbackController.cpp
-        CallbackController/CallbackController.h
-        RenderableModel/Shader/Observer.cpp
-        RenderableModel/Shader/Observer.h
-)
+add_executable(ZPG main.cpp ${SOURCES} ${HEADERS} ${MODELS})
 
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)

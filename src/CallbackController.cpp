@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 10.10.2023.
 //
 
-#include "CallbackController.h"
+#include "../Include/CallbackController.h"
 
 void CallbackController::cursorCallback(GLFWwindow* window, double x, double y) {
     Camera* cam = Application::get().getCurrentScene()->getCamera();

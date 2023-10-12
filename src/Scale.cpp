@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 05.10.2023.
 //
 
-#include "Scale.h"
+#include "../Include/Scale.h"
 
 Scale::Scale(glm::vec3 scale) : scale(scale) {}
 

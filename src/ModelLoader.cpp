@@ -1,13 +1,14 @@
-#include "ModelLoader.h"
+#include "../Include/ModelLoader.h"
 
 RenderableModelBuilder ModelLoader::loadModel(const std::string &file) {
     Assimp::Importer importer;
 
     fprintf(stdout, "[DEBUG] Loading file %s\n", file.c_str());
 
-    const aiScene* scene = importer.ReadFile(file, aiProcess_Triangulate |
-                                                                aiProcess_GenNormals |
-                                                                aiProcess_JoinIdenticalVertices);
+    std::string filePath = "../Models/obj/" + file;
+    const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate |
+                                                                    aiProcess_GenNormals |
+                                                                    aiProcess_JoinIdenticalVertices);
 
 
     if (!scene) {

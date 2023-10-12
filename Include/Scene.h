@@ -2,8 +2,8 @@
 #define SCENE_H
 
 #include <vector>
-#include "../RenderableModel/RenderableModel.h"
-#include "../Camera/Camera.h"
+#include "RenderableModel.h"
+#include "Camera.h"
 
 class Scene {
 	

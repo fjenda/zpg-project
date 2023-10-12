@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 05.10.2023.
 //
 
-#include "Rotation.h"
+#include "../Include/Rotation.h"
 
 Rotation::Rotation(float angle, glm::vec3 axis) : angle(angle), axis(axis) {}
 

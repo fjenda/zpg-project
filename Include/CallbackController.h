@@ -5,7 +5,7 @@
 #ifndef ZPGPROJECT_CALLBACKCONTROLLER_H
 #define ZPGPROJECT_CALLBACKCONTROLLER_H
 
-#include "../Application/Application.h"
+#include "Application.h"
 
 class CallbackController : public Subject {
 public:

@@ -1,5 +1,5 @@
-#include "Shader.h"
-#include "../../Camera/Camera.h"
+#include "../Include/Shader.h"
+#include "../Include/Camera.h"
 
 Shader::~Shader() {
 	glDeleteProgram(shaderProgram);
@@ -23,7 +23,7 @@ Shader::Shader(glm::vec3 color) {
             "}";
     }
     else {
-        std::ifstream fragmentShaderFile("fragmentShader.frag");
+        std::ifstream fragmentShaderFile("../Shaders/fragmentShader.frag");
         std::string fragmentShaderLine;
 
         while (std::getline(fragmentShaderFile, fragmentShaderLine)) {
@@ -34,7 +34,7 @@ Shader::Shader(glm::vec3 color) {
     const char* fragment_shader = fragment_shader_str.c_str();
 
     // Vertex shader loading
-    std::ifstream vertexShaderFile("vertexShader.vert");
+    std::ifstream vertexShaderFile("../Shaders/vertexShader.vert");
     std::string vertexShaderLine;
 
     while (std::getline(vertexShaderFile, vertexShaderLine)) {

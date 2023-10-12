@@ -1,14 +1,14 @@
 #ifndef RENDERABLEMODEL_H
 #define RENDERABLEMODEL_H
 
-#include "Model/Model.h"
-#include "Shader/Shader.h"
-#include "../Enums/ModelKind.h"
-#include "Transformation/Transformation.h"
-#include "Transformation/Composite.h"
-#include "Transformation/Rotation.h"
-#include "Transformation/Scale.h"
-#include "Transformation/Translation.h"
+#include "Model.h"
+#include "Shader.h"
+#include "ModelKind.h"
+#include "Transformation.h"
+#include "Composite.h"
+#include "Rotation.h"
+#include "Scale.h"
+#include "Translation.h"
 
 #include <vector>
 

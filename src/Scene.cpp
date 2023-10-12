@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "../Include/Scene.h"
 
 Scene::Scene(int id) {
     this->id = id;

@@ -5,12 +5,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// include chrono for time measurement
+// Include chrono for time measurement
 #include <chrono>
 
 
-#include "Application/Application.h"
-#include "Enums/Colors.h"
+#include "Include/Application.h"
+#include "Include/Colors.h"
 #include "Models/pyramid.h"
 
 

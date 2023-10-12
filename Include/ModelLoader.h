@@ -10,7 +10,7 @@
 #include <assimp/postprocess.h>     // Post processing flags
 
 #include <string>
-#include "../RenderableModel/RenderableModel.h"
+#include "RenderableModel.h"
 
 
 class ModelLoader {

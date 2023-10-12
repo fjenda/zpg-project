@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 05.10.2023.
 //
 
-#include "Translation.h"
+#include "../Include/Translation.h"
 
 Translation::Translation(glm::vec3 translation) : translation(translation) {}
 

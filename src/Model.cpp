@@ -1,4 +1,4 @@
-#include "Model.h"
+#include "../Include/Model.h"
 
 Model::~Model() {
 	glDeleteVertexArrays(1, &VAO);

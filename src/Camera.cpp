@@ -2,9 +2,9 @@
 // Created by Honza Fojtík on 10.10.2023.
 //
 
-#include "Camera.h"
-#include "../RenderableModel/Shader/Shader.h"
-#include "../Application/Application.h"
+#include "../Include/Camera.h"
+#include "../Include/Shader.h"
+#include "../Include/Application.h"
 
 Camera::Camera(Shader* shader) {
     this->shader = shader;

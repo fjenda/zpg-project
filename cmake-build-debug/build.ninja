@@ -52,122 +52,122 @@ build cmake_object_order_depends_target_ZPG: phony || CMakeFiles/ZPG.dir
 build CMakeFiles/ZPG.dir/main.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/main.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
   DEP_FILE = CMakeFiles/ZPG.dir/main.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
   OBJECT_FILE_DIR = CMakeFiles/ZPG.dir
 
-build CMakeFiles/ZPG.dir/Application/Application.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/Application/Application.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Application.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Application.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/Application/Application.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Application.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/Application
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/RenderableModel.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/RenderableModel.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/CallbackController.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/CallbackController.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/RenderableModel.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/CallbackController.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Model/Model.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Model/Model.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Camera.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Camera.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Model/Model.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Camera.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Model
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Shader/Shader.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Shader/Shader.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Composite.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Composite.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Shader/Shader.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Composite.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Shader
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Transformation/Transformation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Transformation/Transformation.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Model.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Model.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Transformation/Transformation.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Model.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Transformation
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/Scene/Scene.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/Scene/Scene.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/ModelLoader.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/ModelLoader.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/Scene/Scene.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/ModelLoader.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/Scene
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/ModelLoader/ModelLoader.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/ModelLoader/ModelLoader.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Observer.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Observer.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/ModelLoader/ModelLoader.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Observer.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/ModelLoader
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Transformation/Rotation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Transformation/Rotation.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/RenderableModel.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/RenderableModel.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Transformation/Rotation.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/RenderableModel.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Transformation
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Transformation/Scale.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Transformation/Scale.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Rotation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Rotation.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Transformation/Scale.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Rotation.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Transformation
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Transformation/Translation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Transformation/Translation.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Scale.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Scale.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Transformation/Translation.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Scale.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Transformation
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Transformation/Composite.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Transformation/Composite.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Scene.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Scene.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Transformation/Composite.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Scene.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Transformation
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/Camera/Camera.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/Camera/Camera.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Shader.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Shader.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/Camera/Camera.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Shader.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/Camera
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/CallbackController/CallbackController.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/CallbackController/CallbackController.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Transformation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Transformation.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/CallbackController/CallbackController.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Transformation.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/CallbackController
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
-build CMakeFiles/ZPG.dir/RenderableModel/Shader/Observer.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/RenderableModel/Shader/Observer.cpp || cmake_object_order_depends_target_ZPG
+build CMakeFiles/ZPG.dir/src/Translation.cpp.o: CXX_COMPILER__ZPG_unscanned_Debug /Users/honza/Documents/Programování/ZPG/zpgProjekt/src/Translation.cpp || cmake_object_order_depends_target_ZPG
   DEFINES = -DZPG_DEBUG -DZPG_PERF -DZPG_SAFE_PIXEL_ACCESS
-  DEP_FILE = CMakeFiles/ZPG.dir/RenderableModel/Shader/Observer.cpp.o.d
-  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
+  DEP_FILE = CMakeFiles/ZPG.dir/src/Translation.cpp.o.d
+  FLAGS = -Wall -Wextra  -g -g -fsanitize=address -std=gnu++17 -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks  -fsanitize=address
   INCLUDES = -isystem /usr/local/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks -isystem /usr/local/lib
   OBJECT_DIR = CMakeFiles/ZPG.dir
-  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/RenderableModel/Shader
+  OBJECT_FILE_DIR = CMakeFiles/ZPG.dir/src
 
 
 # =============================================================================
@@ -177,8 +177,9 @@ build CMakeFiles/ZPG.dir/RenderableModel/Shader/Observer.cpp.o: CXX_COMPILER__ZP
 #############################################
 # Link the executable ZPG
 
-build ZPG: CXX_EXECUTABLE_LINKER__ZPG_Debug CMakeFiles/ZPG.dir/main.cpp.o CMakeFiles/ZPG.dir/Application/Application.cpp.o CMakeFiles/ZPG.dir/RenderableModel/RenderableModel.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Model/Model.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Shader/Shader.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Transformation/Transformation.cpp.o CMakeFiles/ZPG.dir/Scene/Scene.cpp.o CMakeFiles/ZPG.dir/ModelLoader/ModelLoader.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Transformation/Rotation.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Transformation/Scale.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Transformation/Translation.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Transformation/Composite.cpp.o CMakeFiles/ZPG.dir/Camera/Camera.cpp.o CMakeFiles/ZPG.dir/CallbackController/CallbackController.cpp.o CMakeFiles/ZPG.dir/RenderableModel/Shader/Observer.cpp.o | /usr/local/lib/libGLEW.2.2.0.dylib /usr/local/lib/libglfw.3.3.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL.tbd /usr/local/lib/libassimp.5.2.4.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX13.sdk/usr/lib/libz.tbd
+build ZPG: CXX_EXECUTABLE_LINKER__ZPG_Debug CMakeFiles/ZPG.dir/main.cpp.o CMakeFiles/ZPG.dir/src/Application.cpp.o CMakeFiles/ZPG.dir/src/CallbackController.cpp.o CMakeFiles/ZPG.dir/src/Camera.cpp.o CMakeFiles/ZPG.dir/src/Composite.cpp.o CMakeFiles/ZPG.dir/src/Model.cpp.o CMakeFiles/ZPG.dir/src/ModelLoader.cpp.o CMakeFiles/ZPG.dir/src/Observer.cpp.o CMakeFiles/ZPG.dir/src/RenderableModel.cpp.o CMakeFiles/ZPG.dir/src/Rotation.cpp.o CMakeFiles/ZPG.dir/src/Scale.cpp.o CMakeFiles/ZPG.dir/src/Scene.cpp.o CMakeFiles/ZPG.dir/src/Shader.cpp.o CMakeFiles/ZPG.dir/src/Transformation.cpp.o CMakeFiles/ZPG.dir/src/Translation.cpp.o | /usr/local/lib/libGLEW.2.2.0.dylib /usr/local/lib/libglfw.3.3.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL.tbd /usr/local/lib/libassimp.5.2.4.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX13.sdk/usr/lib/libz.tbd
   FLAGS = -Wall -Wextra  -g -g -fsanitize=address -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
+  LINK_FLAGS = -fsanitize=address
   LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib  /usr/local/lib/libGLEW.2.2.0.dylib  /usr/local/lib/libglfw.3.3.dylib  /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL.tbd  /usr/local/lib/libassimp.5.2.4.dylib  -Xlinker -framework -Xlinker OpenGL  /Library/Developer/CommandLineTools/SDKs/MacOSX13.sdk/usr/lib/libz.tbd
   LINK_PATH = -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks
   OBJECT_DIR = CMakeFiles/ZPG.dir

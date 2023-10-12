@@ -1,9 +1,9 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "../Scene/Scene.h"
-#include "../ModelLoader/ModelLoader.h"
-#include "../CallbackController/CallbackController.h"
+#include "Scene.h"
+#include "ModelLoader.h"
+#include "CallbackController.h"
 
 class Application {
 

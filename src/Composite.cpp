@@ -2,7 +2,7 @@
 // Created by Honza Fojtík on 05.10.2023.
 //
 
-#include "Composite.h"
+#include "../Include/Composite.h"
 
 glm::mat4 Composite::getMatrix() {
     glm::mat4 matrix = glm::mat4(1.0f);
