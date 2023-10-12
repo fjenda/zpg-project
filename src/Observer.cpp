@@ -13,7 +13,6 @@ void Subject::detach(Observer* observer) {
 }
 
 void Subject::notify() {
-    fprintf(stdout, "[DEBUG] Notifying observers\n");
     for (auto observer : this->observers) {
         observer->update(this);
     }

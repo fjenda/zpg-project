@@ -32,8 +32,11 @@ private:
     float lastX;
     float lastY;
 public:
-    Camera(Shader* shader);
+    Camera();
+    explicit Camera(Shader* shader);
     ~Camera();
+
+    void setShader(Shader* shader);
 
     glm::mat4 getCamera();
     glm::mat4 getPerspective();
@@ -42,6 +45,9 @@ public:
     void moveBackward(float speed);
     void moveLeft(float speed);
     void moveRight(float speed);
+
+    void scrollAction(float yoffset);
+    void mouseAction(float x, float y);
 
     void setCameraFront(glm::vec3 front) { this->cameraFront = front; }
 

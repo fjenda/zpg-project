@@ -1,8 +1,12 @@
 #include "../Include/Scene.h"
+#include "../Include/CallbackController.h"
 
 Scene::Scene(int id) {
     this->id = id;
-    this->camera = new Camera(ShaderBuilder().build());
+    Shader* s = ShaderBuilder().build();
+    this->camera = new Camera(s);
+    s->setCamera(this->camera);
+    CallbackController::setCamera(this->camera);
     fprintf(stdout, "[DEBUG] Scene #%d created\n", id);
 }
 

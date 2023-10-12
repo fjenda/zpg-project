@@ -93,7 +93,7 @@ void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
 }
 
 void Shader::setViewMatrix() {
-    glm::mat4 viewMatrix = camera->getCamera();
+    this->viewMatrix = camera->getCamera();
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "view");
 
     if (matrixID == -1) {
@@ -104,8 +104,8 @@ void Shader::setViewMatrix() {
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 }
 
-void Shader::setProjectionMatrix() const {
-    glm::mat4 projectionMatrix = camera->getPerspective();
+void Shader::setProjectionMatrix() {
+    this->projectionMatrix = camera->getPerspective();
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "projection");
 
     if (matrixID == -1) {
@@ -123,6 +123,7 @@ void Shader::setCamera(Camera *camera) {
 void Shader::update(Subject *subject) {
     if (subject == this->camera) {
         this->setViewMatrix();
+        this->setProjectionMatrix();
     }
 }
 
@@ -155,7 +156,7 @@ Shader* ShaderBuilder::build() {
 //        return nullptr;
 //    }
 
-    Shader* s = new Shader(this->color);
+    auto s = new Shader(this->color);
     s->setCamera(this->camera);
     return s;
 }

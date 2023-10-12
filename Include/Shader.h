@@ -28,7 +28,9 @@ private:
 	GLuint vertexShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;
-	
+
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 4.f/4.f, 0.1f, 100.0f);
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
 //	glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
 
 public:
@@ -40,7 +42,7 @@ public:
 	//void setModelViewProjectionMatrix(glm::mat4 MVPMatrix);
     void setModelMatrix(glm::mat4 modelMatrix) const;
     void setViewMatrix();
-    void setProjectionMatrix() const;
+    void setProjectionMatrix();
 
     void setCamera(Camera* camera);
 

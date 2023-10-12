@@ -3,51 +3,25 @@
 //
 
 #include "../Include/CallbackController.h"
+Camera* CallbackController::camera = nullptr;
+
+void CallbackController::setCamera(Camera* c) {
+    instance().camera = c;
+}
+
+CallbackController& CallbackController::instance() {
+    static CallbackController instance;
+    return instance;
+}
 
 void CallbackController::cursorCallback(GLFWwindow* window, double x, double y) {
-    Camera* cam = Application::get().getCurrentScene()->getCamera();
-
-    if (cam->getFirstMouse()) {
-        cam->setLastX(x);
-        cam->setLastY(y);
-        cam->setFirstMouse(false);
-    }
-
-    float xoffset = x - cam->getLastX();
-    float yoffset = cam->getLastY() - y;
-    cam->setLastX(x);
-    cam->setLastY(y);
-
-    const float sensitivity = 0.1f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-
-    cam->setYaw(cam->getYaw() + xoffset);
-    cam->setPitch(cam->getPitch() + yoffset);
-
-    if (cam->getPitch() > 89.0f)
-        cam->setPitch(89.0f);
-    if (cam->getPitch() < -89.0f)
-        cam->setPitch(-89.0f);
-
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(cam->getYaw())) * cos(glm::radians(cam->getPitch()));
-    direction.y = sin(glm::radians(cam->getPitch()));
-    direction.z = sin(glm::radians(cam->getYaw())) * cos(glm::radians(cam->getPitch()));
-    cam->setCameraFront(glm::normalize(direction));
+    Application::get().getCurrentScene()->getCamera()->mouseAction(x, y);
 
     //fprintf(stdout, "[CALLBACK] cursorCallback [%f %f]\n", x, y);
 }
 
 void CallbackController::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-    Camera* cam = Application::get().getCurrentScene()->getCamera();
-
-    cam->setFov(cam->getFov() - yoffset);
-    if (cam->getFov() < 10.0f)
-        cam->setFov(10.0f);
-    if (cam->getFov() > 90.0f)
-        cam->setFov(90.0f);
-
+    Application::get().getCurrentScene()->getCamera()->scrollAction(yoffset);
     //fprintf(stdout, "[CALLBACK] scrollCallback [%f %f]\n", xoffset, yoffset);
 }
 
