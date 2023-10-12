@@ -8,71 +8,29 @@ Application::~Application() {
     fprintf(stdout, "[DEBUG] Application destroyed\n");
 }
 
-void Application::initialization(int width, int height)
+void Application::initialization(int w, int h)
 {     
-	this->width = width;
-	this->height = height;
-    
-//    glfwSetErrorCallback([](int error, const char* description) -> void { Application::get().error_callback(error, description); });
+	this->width = w;
+	this->height = h;
+    this->window = new Window(w, h);;
 
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
-
-    //inicialization of correct version of OpenGL
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-       
-    
-    this->window = glfwCreateWindow(800, 800, "ZPG", NULL, NULL);
-    if (!this->window) {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }  
-    
-    glfwMakeContextCurrent(this->window);
-    glfwSwapInterval(1);
-
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
-    // get version info
-    printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
-    printf("Using GLEW %s\n", glewGetString(GLEW_VERSION));
-    printf("Vendor %s\n", glGetString(GL_VENDOR));
-    printf("Renderer %s\n", glGetString(GL_RENDERER));
-    printf("GLSL %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-    int major, minor, revision;
-    glfwGetVersion(&major, &minor, &revision);
-    printf("Using GLFW %i.%i.%i\n", major, minor, revision);
-    
-    glfwGetFramebufferSize(this->window, &this->width, &this->height);
-
-    //set the viewport
-    glViewport(0, 0, this->width, this->height);
-
-    //set key callbacks
+    //set callbacks
     setCallbacks();
 
-    //enable depth buffer
-	glEnable(GL_DEPTH_TEST);
-
     //hide the cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-    //init scene
-    this->currentScene = new Scene(1);
+    glfwSetInputMode(this->window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     //init scenes
+    this->currentScene = new Scene(1);
     this->scenes.push_back(this->currentScene);
 }
 
 void Application::run()
 {
-    while (!glfwWindowShouldClose(this->window)) {
+    //enable depth buffer
+    glEnable(GL_DEPTH_TEST);
+
+    while (!glfwWindowShouldClose(this->window->getWindow())) {
         // calculate delta time of current frame
         float currentFrame = glfwGetTime();
         this->deltaTime = currentFrame - this->lastFrame;
@@ -86,12 +44,11 @@ void Application::run()
         // update other events like input handling
         glfwPollEvents();
         // put the stuff we’ve been drawing onto the display
-        glfwSwapBuffers(this->window);
+        glfwSwapBuffers(this->window->getWindow());
     }
 
-    glfwDestroyWindow(this->window);
+    glfwDestroyWindow(this->window->getWindow());
     glfwTerminate();
-    //exit(EXIT_SUCCESS);
 }
 
 Application& Application::get() {
@@ -120,11 +77,11 @@ Scene* Application::getSceneById(int id) {
 void Application::setCallbacks() {
     // Sets the key callback
     glfwSetErrorCallback(CallbackController::errorCallback);
-    glfwSetKeyCallback(this->window, CallbackController::keyCallback);
-    glfwSetCursorPosCallback(this->window, CallbackController::cursorCallback);
-    glfwSetMouseButtonCallback(this->window, CallbackController::buttonCallback);
-    glfwSetWindowFocusCallback(this->window, CallbackController::windowFocusCallback);
-    glfwSetWindowIconifyCallback(this->window, CallbackController::windowIconifyCallback);
-    glfwSetWindowSizeCallback(this->window, CallbackController::windowSizeCallback);
-    glfwSetScrollCallback(this->window, CallbackController::scrollCallback);
+    glfwSetKeyCallback(this->window->getWindow(), CallbackController::keyCallback);
+    glfwSetCursorPosCallback(this->window->getWindow(), CallbackController::cursorCallback);
+    glfwSetMouseButtonCallback(this->window->getWindow(), CallbackController::buttonCallback);
+    glfwSetWindowFocusCallback(this->window->getWindow(), CallbackController::windowFocusCallback);
+    glfwSetWindowIconifyCallback(this->window->getWindow(), CallbackController::windowIconifyCallback);
+    glfwSetWindowSizeCallback(this->window->getWindow(), CallbackController::windowSizeCallback);
+    glfwSetScrollCallback(this->window->getWindow(), CallbackController::scrollCallback);
 }

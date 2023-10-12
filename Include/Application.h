@@ -4,13 +4,15 @@
 #include "Scene.h"
 #include "ModelLoader.h"
 #include "CallbackController.h"
+#include "Window.h"
 
 class Application {
 
 private:
 	Application() = default;
 
-	GLFWwindow* window;
+    Window* window;
+	//GLFWwindow* window;
 	Scene* currentScene;
     std::vector<Scene*> scenes;
 
@@ -23,7 +25,7 @@ public:
 	static Application& get();
 	~Application();
 
-	void initialization(int width, int height);
+	void initialization(int w, int h);
 	void run();
 
     void createScene();
