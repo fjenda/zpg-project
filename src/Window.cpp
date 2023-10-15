@@ -25,10 +25,6 @@ Window::Window(int w, int h) {
     glfwMakeContextCurrent(this->window);
     glfwSwapInterval(1);
 
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
     getVersionInfo();
 
     //set the viewport

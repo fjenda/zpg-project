@@ -8,12 +8,12 @@
 
 Camera::Camera() : Camera(nullptr) {}
 
-Camera::Camera(Shader* shader) {
-    this->shader = shader;
-    attach(shader);
+Camera::Camera(Shader* s) {
+    this->shader = s;
+    attach(this->shader);
 
     this->position = glm::vec3(0.f, 0.f, 10.f);
-    this->target = glm::vec3(0.f, 0.f, 0.f);
+//    this->target = glm::vec3(0.f, 0.f, 0.f);
     this->cameraUp = glm::vec3(0.f, 1.f, 0.f);
     this->cameraFront = glm::vec3(0.f, 0.f, -1.f);
 
@@ -24,11 +24,16 @@ Camera::Camera(Shader* shader) {
 }
 
 Camera::~Camera() {
+    detach(this->shader);
     delete shader;
 }
 
-void Camera::setShader(Shader *shader) {
-    this->shader = shader;
+void Camera::setShader(Shader* s) {
+    this->shader = s;
+}
+
+void Camera::update(Subject* subject) {
+    // TOOD
 }
 
 glm::mat4 Camera::getCamera() {
@@ -59,6 +64,18 @@ void Camera::moveRight(float speed) {
     notify();
 }
 
+void Camera::move(bool forward, bool backward, bool left, bool right) {
+    float speed = 2.5f * Application::get().getDeltaTime();
+    if (forward)
+        moveForward(speed);
+    if (backward)
+        moveBackward(speed);
+    if (left)
+        moveLeft(speed);
+    if (right)
+        moveRight(speed);
+}
+
 void Camera::scrollAction(float yoffset) {
     this->fov -= yoffset;
 
@@ -66,6 +83,7 @@ void Camera::scrollAction(float yoffset) {
         this->fov = 10.f;
     if (this->fov > 90.f)
         this->fov = 90.f;
+
     notify();
 }
 

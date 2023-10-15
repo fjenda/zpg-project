@@ -3,10 +3,12 @@
 
 Scene::Scene(int id) {
     this->id = id;
-    Shader* s = ShaderBuilder().build();
-    this->camera = new Camera(s);
-    s->setCamera(this->camera);
+    this->shader = ShaderBuilder().build();
+    this->camera = new Camera(this->shader);
+    this->shader->setCamera(this->camera);
     CallbackController::setCamera(this->camera);
+
+    this->camera->notify();
     fprintf(stdout, "[DEBUG] Scene #%d created\n", id);
 }
 
@@ -17,7 +19,13 @@ Scene::~Scene() {
 	fprintf(stdout, "[DEBUG] Scene #%d & models destroyed\n", id);
 }
 
-void Scene::render() {
+void Scene::render(GLFWwindow* window) {
+    this->camera->move(glfwGetKey(window, GLFW_KEY_W),
+                       glfwGetKey(window, GLFW_KEY_S),
+                       glfwGetKey(window, GLFW_KEY_A),
+                       glfwGetKey(window, GLFW_KEY_D));
+
+
 	for (auto model : models) {
         model->tick();
 		model->render();

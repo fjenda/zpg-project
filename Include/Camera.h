@@ -14,12 +14,12 @@
 
 class Shader;
 
-class Camera : public Subject {
+class Camera : public Subject, public Observer {
 private:
     Shader* shader;
 
     glm::vec3 position;
-    glm::vec3 target;
+//    glm::vec3 target;
     glm::vec3 cameraUp;
     glm::vec3 cameraFront;
     float fov = 45.f;
@@ -33,10 +33,11 @@ private:
     float lastY;
 public:
     Camera();
-    explicit Camera(Shader* shader);
+    explicit Camera(Shader* s);
     ~Camera();
 
-    void setShader(Shader* shader);
+    void setShader(Shader* s);
+    void update(Subject* subject) override;
 
     glm::mat4 getCamera();
     glm::mat4 getPerspective();
@@ -45,6 +46,8 @@ public:
     void moveBackward(float speed);
     void moveLeft(float speed);
     void moveRight(float speed);
+    void move(bool forward, bool backward, bool left, bool right);
+
 
     void scrollAction(float yoffset);
     void mouseAction(float x, float y);

@@ -3,15 +3,38 @@
 //
 
 #include "../Include/CallbackController.h"
+#include "../Include/Application.h"
+
+
 Camera* CallbackController::camera = nullptr;
+CallbackController* CallbackController::controller = nullptr;
+
+CallbackController::CallbackController(GLFWwindow* window) {
+    this->window = window;
+    controller = this;
+}
 
 void CallbackController::setCamera(Camera* c) {
     instance().camera = c;
+    instance().attach(instance().camera);
+    instance().notify();
 }
 
 CallbackController& CallbackController::instance() {
-    static CallbackController instance;
-    return instance;
+    return *controller;
+}
+
+void CallbackController::initialization() {
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
+
+    glfwSetErrorCallback(errorCallback);
+    glfwSetKeyCallback(window, keyCallback);
+    glfwSetWindowFocusCallback(window, windowFocusCallback);
+    glfwSetWindowIconifyCallback(window, windowIconifyCallback);
+    glfwSetWindowSizeCallback(window, windowSizeCallback);
+    glfwSetCursorPosCallback(window, cursorCallback);
+    glfwSetMouseButtonCallback(window, buttonCallback);
+    glfwSetScrollCallback(window, scrollCallback);
 }
 
 void CallbackController::cursorCallback(GLFWwindow* window, double x, double y) {
@@ -32,6 +55,8 @@ void CallbackController::buttonCallback(GLFWwindow* window, int button, int acti
 void CallbackController::errorCallback(int error, const char* description) { fputs(description, stderr); }
 
 void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
+
     // ending application
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -48,27 +73,6 @@ void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, 
                 Application::get().getCurrentScene()->getCamera()->setFirstMouse(true);
                 return;
             }
-        }
-    }
-
-    // moving the camera
-    if ((key == GLFW_KEY_W || key == GLFW_KEY_S ||
-         key == GLFW_KEY_A || key == GLFW_KEY_D) &&
-        (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        float cameraSpeed = 15.f * Application::get().getDeltaTime();
-        Camera *cam = Application::get().getCurrentScene()->getCamera();
-
-        if (key == GLFW_KEY_W) {
-            cam->moveForward(cameraSpeed);
-        }
-        if (key == GLFW_KEY_S) {
-            cam->moveBackward(cameraSpeed);
-        }
-        if (key == GLFW_KEY_A) {
-            cam->moveLeft(cameraSpeed);
-        }
-        if (key == GLFW_KEY_D) {
-            cam->moveRight(cameraSpeed);
         }
     }
 

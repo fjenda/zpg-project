@@ -21,8 +21,8 @@ void RenderableModel::render() {
 	// render
 	this->shader->use();
 	this->shader->setModelMatrix(modelMatrix);
-//    this->shader->setViewMatrix();
-//    this->shader->setProjectionMatrix();
+    this->shader->setViewMatrix();
+    this->shader->setProjectionMatrix();
 	this->model->bindVertexArray();
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);

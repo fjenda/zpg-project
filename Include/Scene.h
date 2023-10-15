@@ -12,11 +12,12 @@ private:
 	std::vector<RenderableModel*> models;
 
     Camera* camera;
+    Shader* shader;
 public:
 	Scene(int id);
 	~Scene();
 
-	void render();
+	void render(GLFWwindow* window);
 	void addModel(RenderableModel* model);
     void addModel(const std::string& pFile);
 

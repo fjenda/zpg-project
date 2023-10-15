@@ -15,11 +15,12 @@ private:
 	//GLFWwindow* window;
 	Scene* currentScene;
     std::vector<Scene*> scenes;
+    CallbackController* callbackController;
 
 	int width;
 	int height;
-    float lastFrame = 0;
-    float deltaTime = 0;
+    float lastFrame = 0.0f;
+    float deltaTime = 0.0f;
 
 public:
 	static Application& get();
@@ -41,7 +42,7 @@ public:
 
     float getDeltaTime() { return this->deltaTime; }
 
-    void setCallbacks();
+//    void setCallbacks();
 };
 
 #endif

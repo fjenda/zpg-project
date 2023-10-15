@@ -12,10 +12,16 @@ void Application::initialization(int w, int h)
 {     
 	this->width = w;
 	this->height = h;
-    this->window = new Window(w, h);;
+    this->window = new Window(w, h);
+    this->callbackController = new CallbackController(this->window->getWindow());
+    this->callbackController->initialization();
+
+    // start GLEW extension handler
+    glewExperimental = GL_TRUE;
+    glewInit();
 
     //set callbacks
-    setCallbacks();
+//    setCallbacks();
 
     //hide the cursor
     glfwSetInputMode(this->window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -36,13 +42,14 @@ void Application::run()
         this->deltaTime = currentFrame - this->lastFrame;
         this->lastFrame = currentFrame;
 
+        // update other events like input handling
+        glfwPollEvents();
+
         // clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        this->currentScene->render();
+        this->currentScene->render(this->window->getWindow());
 
-        // update other events like input handling
-        glfwPollEvents();
         // put the stuff we’ve been drawing onto the display
         glfwSwapBuffers(this->window->getWindow());
     }
@@ -74,14 +81,14 @@ Scene* Application::getSceneById(int id) {
     throw std::runtime_error("Scene with id " + std::to_string(id) + " not found");
 }
 
-void Application::setCallbacks() {
-    // Sets the key callback
-    glfwSetErrorCallback(CallbackController::errorCallback);
-    glfwSetKeyCallback(this->window->getWindow(), CallbackController::keyCallback);
-    glfwSetCursorPosCallback(this->window->getWindow(), CallbackController::cursorCallback);
-    glfwSetMouseButtonCallback(this->window->getWindow(), CallbackController::buttonCallback);
-    glfwSetWindowFocusCallback(this->window->getWindow(), CallbackController::windowFocusCallback);
-    glfwSetWindowIconifyCallback(this->window->getWindow(), CallbackController::windowIconifyCallback);
-    glfwSetWindowSizeCallback(this->window->getWindow(), CallbackController::windowSizeCallback);
-    glfwSetScrollCallback(this->window->getWindow(), CallbackController::scrollCallback);
-}
+//void Application::setCallbacks() {
+//    // Sets the key callback
+//    glfwSetErrorCallback(CallbackController::errorCallback);
+//    glfwSetKeyCallback(this->window->getWindow(), CallbackController::keyCallback);
+//    glfwSetCursorPosCallback(this->window->getWindow(), CallbackController::cursorCallback);
+//    glfwSetMouseButtonCallback(this->window->getWindow(), CallbackController::buttonCallback);
+//    glfwSetWindowFocusCallback(this->window->getWindow(), CallbackController::windowFocusCallback);
+//    glfwSetWindowIconifyCallback(this->window->getWindow(), CallbackController::windowIconifyCallback);
+//    glfwSetWindowSizeCallback(this->window->getWindow(), CallbackController::windowSizeCallback);
+//    glfwSetScrollCallback(this->window->getWindow(), CallbackController::scrollCallback);
+//}

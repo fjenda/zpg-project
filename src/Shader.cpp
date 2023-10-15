@@ -93,7 +93,6 @@ void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
 }
 
 void Shader::setViewMatrix() {
-    this->viewMatrix = camera->getCamera();
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "view");
 
     if (matrixID == -1) {
@@ -105,7 +104,6 @@ void Shader::setViewMatrix() {
 }
 
 void Shader::setProjectionMatrix() {
-    this->projectionMatrix = camera->getPerspective();
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "projection");
 
     if (matrixID == -1) {
@@ -116,14 +114,22 @@ void Shader::setProjectionMatrix() {
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
+void Shader::updateViewMatrix() {
+    this->viewMatrix = camera->getCamera();
+}
+
+void Shader::updateProjectionMatrix() {
+    this->projectionMatrix = camera->getPerspective();
+}
+
 void Shader::setCamera(Camera *camera) {
     this->camera = camera;
 }
 
 void Shader::update(Subject *subject) {
     if (subject == this->camera) {
-        this->setViewMatrix();
-        this->setProjectionMatrix();
+        this->updateViewMatrix();
+        this->updateProjectionMatrix();
     }
 }
 
@@ -151,12 +157,11 @@ ShaderBuilder* ShaderBuilder::setCamera(Camera* camera) {
 }
 
 Shader* ShaderBuilder::build() {
-//    if (this->camera == nullptr) {
-//        fprintf(stderr, "[ERROR] ShaderBuilder::build: camera is null\n");
-//        return nullptr;
-//    }
-
     auto s = new Shader(this->color);
-    s->setCamera(this->camera);
+
+    if (this->camera != nullptr) {
+        s->setCamera(this->camera);
+        this->camera->attach(s);
+    }
     return s;
 }

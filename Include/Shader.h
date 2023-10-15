@@ -30,7 +30,7 @@ private:
 	GLuint shaderProgram;
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 4.f/4.f, 0.1f, 100.0f);
-    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.f, 0.f, 10.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
 //	glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
 
 public:
@@ -44,6 +44,9 @@ public:
     void setViewMatrix();
     void setProjectionMatrix();
 
+    void updateViewMatrix();
+    void updateProjectionMatrix();
+
     void setCamera(Camera* camera);
 
     void update(Subject* subject) override;
@@ -53,7 +56,7 @@ public:
 
 class ShaderBuilder {
 private:
-    Camera* camera;
+    Camera* camera = nullptr;
     glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
 
 public:

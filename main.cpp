@@ -8,7 +8,6 @@
 // Include chrono for time measurement
 #include <chrono>
 
-
 #include "Include/Application.h"
 #include "Include/Colors.h"
 #include "Models/pyramid.h"
@@ -36,7 +35,7 @@ int main(void)
     sc1Transform->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
     sc1Transform->addChild(new Scale(glm::vec3(0.8f)));
     sc1Transform->addChild(new Translation(glm::vec3(2.f, 0.0f, 0.f)));
-    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
+//    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
 
     auto sc1Transform2 = new Composite();
     sc1Transform2->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
