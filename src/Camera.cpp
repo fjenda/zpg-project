@@ -41,7 +41,7 @@ glm::mat4 Camera::getCamera() {
 }
 
 glm::mat4 Camera::getPerspective() {
-    return glm::perspective(glm::radians(this->fov), (float)Application::get().getWidth() / (float)Application::get().getHeight(), 0.1f, 100.f);
+    return glm::perspective(glm::radians(this->fov), (float)Application::get().getRatio(), 0.1f, 100.f);
 }
 
 void Camera::moveForward(float speed) {
@@ -112,11 +112,30 @@ void Camera::mouseAction(float x, float y) {
     if (pitch < -89.0f)
         pitch = -89.0f;
 
+    if (yaw > 360.f)
+        yaw -= 360.f;
+    if (yaw < -360.f)
+        yaw += 360.f;
+
     glm::vec3 direction;
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     this->cameraFront = glm::normalize(direction);
 
+    notify();
+}
+
+void Camera::enableDebugInterface() {
+    // Camera frame
+    ImGui::BeginChildFrame(ImGui::GetID("Camera"), ImVec2(300, 120));
+    ImGui::Text("Camera");
+    ImGui::DragFloat3("Position", glm::value_ptr(this->position), -1.f, 1.f);
+    ImGui::SliderFloat("Yaw", &this->yaw, -180.f, 180.f);
+    ImGui::SliderFloat("Pitch", &this->pitch, -180.f, 180.f);
+    ImGui::SliderFloat("Fov", &this->fov, 10.f, 90.f);
+    ImGui::EndChildFrame();
+
+    // notify after changing
     notify();
 }

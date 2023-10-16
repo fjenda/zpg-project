@@ -21,6 +21,7 @@ private:
 
     float deltaTime;
     float lastFrame = 0.0f;
+    bool firstInit = true;
 
 public:
     RenderableModel(Model* model, Shader* shader, Transformation* transformation);
@@ -32,6 +33,7 @@ public:
     void tick();
 
 	void infoLog();
+    void enableDebugInterface(int id);
 };
 
 class RenderableModelBuilder {

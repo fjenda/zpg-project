@@ -11,6 +11,7 @@
 #include "Include/Application.h"
 #include "Include/Colors.h"
 #include "Models/pyramid.h"
+#include "Scenes/BallScene.h"
 
 
 int main(void)
@@ -22,7 +23,7 @@ int main(void)
     app.initialization(800, 800);
 
     // Scene 1 automatically created
-    app.createScene();  // Scene 2
+    app.addScene(new BallScene(2));  // Scene 2 - added from preset
     app.createScene();  // Scene 3
     // Scene # = press number to switch to desired scene
 
@@ -35,7 +36,7 @@ int main(void)
     sc1Transform->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
     sc1Transform->addChild(new Scale(glm::vec3(0.8f)));
     sc1Transform->addChild(new Translation(glm::vec3(2.f, 0.0f, 0.f)));
-//    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
+    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
 
     auto sc1Transform2 = new Composite();
     sc1Transform2->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
@@ -66,20 +67,6 @@ int main(void)
             ->setColor(NORMALS)
             ->build())
         ->setTransformation(sc1Transform2)
-        ->build());
-
-    auto sc2Transform = new Composite();
-    sc2Transform->addChild(new Rotation(270.f, glm::vec3(0.f, 1.f, 0.f)));
-    sc2Transform->addChild(new Scale(glm::vec3(1.2f)));
-    sc2Transform->addChild(new Translation(glm::vec3(-3.f, 0.f, 0.f)));
-
-    // Scene 2
-    app.getSceneById(2)->addModel(ModelLoader::loadModel("m4.obj")
-        .setShader(ShaderBuilder()
-            .setCamera(app.getSceneById(2)->getCamera())
-            ->setColor(NORMALS)
-            ->build())
-        ->setTransformation(sc2Transform)
         ->build());
 
     auto pyramidTransform = new Composite();

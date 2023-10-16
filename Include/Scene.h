@@ -26,6 +26,8 @@ public:
     Camera* getCamera() { return this->camera; }
 
 	std::vector<RenderableModel*> getModels();
+
+    void enableDebugInterface();
 };
 
 #endif

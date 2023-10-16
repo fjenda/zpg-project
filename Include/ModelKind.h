@@ -8,7 +8,10 @@ enum class ModelKind {
 	PYRAMID,
 	PLAIN,
 	SUZI,
-	SUZI_SMOOTH
+	SUZI_SMOOTH,
+    TREE,
+    BUSHES,
+    GIFT,
 };
 
 #endif

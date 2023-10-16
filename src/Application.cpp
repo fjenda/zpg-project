@@ -12,6 +12,7 @@ void Application::initialization(int w, int h)
 {     
 	this->width = w;
 	this->height = h;
+    this->ratio = (float) w / (float) h;
     this->window = new Window(w, h);
     this->callbackController = new CallbackController(this->window->getWindow());
     this->callbackController->initialization();
@@ -29,6 +30,12 @@ void Application::initialization(int w, int h)
     //init scenes
     this->currentScene = new Scene(1);
     this->scenes.push_back(this->currentScene);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui_ImplGlfw_InitForOpenGL(this->window->getWindow(), true);
+    ImGui_ImplOpenGL3_Init();
+
 }
 
 void Application::run()
@@ -45,14 +52,31 @@ void Application::run()
         // update other events like input handling
         glfwPollEvents();
 
+        // loop of imgui
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        this->enableDebugInterface();
+
+        // set background color
+//        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
         // clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         this->currentScene->render(this->window->getWindow());
 
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         // put the stuff we’ve been drawing onto the display
         glfwSwapBuffers(this->window->getWindow());
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwDestroyWindow(this->window->getWindow());
     glfwTerminate();
@@ -81,14 +105,15 @@ Scene* Application::getSceneById(int id) {
     throw std::runtime_error("Scene with id " + std::to_string(id) + " not found");
 }
 
-//void Application::setCallbacks() {
-//    // Sets the key callback
-//    glfwSetErrorCallback(CallbackController::errorCallback);
-//    glfwSetKeyCallback(this->window->getWindow(), CallbackController::keyCallback);
-//    glfwSetCursorPosCallback(this->window->getWindow(), CallbackController::cursorCallback);
-//    glfwSetMouseButtonCallback(this->window->getWindow(), CallbackController::buttonCallback);
-//    glfwSetWindowFocusCallback(this->window->getWindow(), CallbackController::windowFocusCallback);
-//    glfwSetWindowIconifyCallback(this->window->getWindow(), CallbackController::windowIconifyCallback);
-//    glfwSetWindowSizeCallback(this->window->getWindow(), CallbackController::windowSizeCallback);
-//    glfwSetScrollCallback(this->window->getWindow(), CallbackController::scrollCallback);
-//}
+void Application::addScene(Scene *scene) {
+    for (auto s : this->scenes) {
+        if (s->getId() == scene->getId()) {
+            throw std::runtime_error("Scene with id " + std::to_string(scene->getId()) + " already exists");
+        }
+    }
+    this->scenes.push_back(scene);
+}
+
+void Application::enableDebugInterface() {
+    this->currentScene->enableDebugInterface();
+}

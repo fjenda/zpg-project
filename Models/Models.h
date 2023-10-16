@@ -8,5 +8,8 @@
 #include "suzi_smooth.h"
 #include "triangle.h"
 #include "pyramid.h"
+#include "bushes.h"
+#include "tree.h"
+#include "gift.h"
 
 #endif

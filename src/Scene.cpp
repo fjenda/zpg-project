@@ -1,5 +1,6 @@
 #include "../Include/Scene.h"
 #include "../Include/CallbackController.h"
+#include "imgui/imgui.h"
 
 Scene::Scene(int id) {
     this->id = id;
@@ -41,4 +42,23 @@ void Scene::addModel(RenderableModel* model) {
 
 std::vector<RenderableModel*> Scene::getModels() {
 	return models;
+}
+
+void Scene::enableDebugInterface() {
+    ImGui::Begin("Debug interface");
+
+    this->camera->enableDebugInterface();
+
+
+    ImGui::BeginChildFrame(ImGui::GetID("Models"), ImVec2(300, 300));
+    ImGui::Text("Models - %zu", models.size());
+    int i = 1;
+    for (auto model : models) {
+        model->enableDebugInterface(i);
+        i++;
+    }
+
+    ImGui::EndChild();
+
+    ImGui::End();
 }

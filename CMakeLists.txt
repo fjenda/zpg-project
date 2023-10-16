@@ -24,8 +24,14 @@ set(OUTPUT_DIR "${CMAKE_BINARY_DIR}")
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB HEADERS "Include/*.h")
 file(GLOB MODELS "models/*.h")
+file(GLOB LIB_H "lib/*.h")
+file(GLOB_RECURSE LIB_CPP "lib/*.cpp")
 
-add_executable(ZPG main.cpp ${SOURCES} ${HEADERS} ${MODELS})
+add_executable(ZPG main.cpp ${SOURCES} ${HEADERS} ${MODELS} ${LIB_H} ${LIB_CPP}
+        Include/Light.h
+        src/Light.cpp
+        Scenes/BallScene.cpp
+        Scenes/BallScene.h)
 
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -38,3 +44,4 @@ target_link_libraries(ZPG glfw)
 target_link_libraries(ZPG OpenGL::GL)
 target_link_libraries(ZPG glm::glm)
 target_link_libraries(ZPG assimp::assimp)
+target_include_directories(ZPG PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib)

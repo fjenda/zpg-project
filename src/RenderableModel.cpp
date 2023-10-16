@@ -1,6 +1,7 @@
 #include "../Include/RenderableModel.h"
 
 #include "../Models/Models.h"
+#include "imgui/imgui.h"
 
 RenderableModel::~RenderableModel() {
 	delete model;
@@ -21,8 +22,14 @@ void RenderableModel::render() {
 	// render
 	this->shader->use();
 	this->shader->setModelMatrix(modelMatrix);
-    this->shader->setViewMatrix();
-    this->shader->setProjectionMatrix();
+    this->shader->setUniformCamera();
+
+    if (firstInit) {
+        this->shader->setViewMatrix();
+        this->shader->setProjectionMatrix();
+        firstInit = false;
+    }
+
 	this->model->bindVertexArray();
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);
@@ -42,6 +49,16 @@ void RenderableModel::infoLog() {
 	this->shader->infoLog();
 }
 
+void RenderableModel::enableDebugInterface(int id) {
+    ImGui::BeginChild("RenderableModel");
+    ImGui::Text("RenderableModel #%d", id);
+    ImGui::Indent();
+    ImGui::Text("Model:");
+    ImGui::Unindent();
+
+    ImGui::EndChildFrame();
+}
+
 RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
 	switch (kind) {
 		case ModelKind::PLAIN: model = new Model(plain); break;
@@ -51,6 +68,9 @@ RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
 		case ModelKind::PYRAMID: model = new Model(pyramid); break;
 		case ModelKind::SUZI: model = new Model(suziFlat); break;
 		case ModelKind::SUZI_SMOOTH: model = new Model(suziSmooth); break;
+        case ModelKind::TREE: model = new Model(tree); break;
+        case ModelKind::BUSHES: model = new Model(bushes); break;
+        case ModelKind::GIFT: model = new Model(gift); break;
 	}
 }
 

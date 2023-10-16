@@ -39,6 +39,9 @@ public:
     void setShader(Shader* s);
     void update(Subject* subject) override;
 
+    glm::vec3 getPosition() const { return this->position; }
+    glm::vec3 getDirection() const { return this->cameraFront; }
+
     glm::mat4 getCamera();
     glm::mat4 getPerspective();
 
@@ -47,7 +50,6 @@ public:
     void moveLeft(float speed);
     void moveRight(float speed);
     void move(bool forward, bool backward, bool left, bool right);
-
 
     void scrollAction(float yoffset);
     void mouseAction(float x, float y);
@@ -67,6 +69,8 @@ public:
     void setFirstMouse(bool fm) { this->firstMouse = fm; }
     void setLastX(float x) { this->lastX = x; }
     void setLastY(float y) { this->lastY = y; }
+
+    void enableDebugInterface();
 };
 
 

@@ -5,11 +5,18 @@ Shader::~Shader() {
 	glDeleteProgram(shaderProgram);
 }
 
-Shader::Shader() : Shader(glm::vec3(0.0f, 0.0f, 0.0f)) {}
+Shader::Shader() : Shader("vertexShader.vert", "fragmentShader.frag", glm::vec3(0.0f, 0.0f, 0.0f)) {}
 
-Shader::Shader(glm::vec3 color) {
+Shader::Shader(glm::vec3 color) : Shader("vertexShader.vert", "fragmentShader.frag", color) {}
+
+Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath, glm::vec3 color) {
+    this->lights.push_back(new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.4f)));
     std::string fragment_shader_str;
     std::string vertex_shader_str;
+    std::ifstream vertexShaderFile("../Shaders/" + vertexShaderPath);
+    std::ifstream fragmentShaderFile("../Shaders/" + fragmentShaderPath);
+    this->vertexShaderPath = vertexShaderPath;
+    this->fragmentShaderPath = fragmentShaderPath;
 
     // Fragment shader loading
     // check if color isnt 0, 0, 0 -> color with normals
@@ -23,7 +30,6 @@ Shader::Shader(glm::vec3 color) {
             "}";
     }
     else {
-        std::ifstream fragmentShaderFile("../Shaders/fragmentShader.frag");
         std::string fragmentShaderLine;
 
         while (std::getline(fragmentShaderFile, fragmentShaderLine)) {
@@ -34,7 +40,6 @@ Shader::Shader(glm::vec3 color) {
     const char* fragment_shader = fragment_shader_str.c_str();
 
     // Vertex shader loading
-    std::ifstream vertexShaderFile("../Shaders/vertexShader.vert");
     std::string vertexShaderLine;
 
     while (std::getline(vertexShaderFile, vertexShaderLine)) {
@@ -89,7 +94,7 @@ void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
         return;
     }
 
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glProgramUniformMatrix4fv(this->shaderProgram, matrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
 void Shader::setViewMatrix() {
@@ -100,7 +105,7 @@ void Shader::setViewMatrix() {
         return;
     }
 
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+    glProgramUniformMatrix4fv(this->shaderProgram, matrixID, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 }
 
 void Shader::setProjectionMatrix() {
@@ -111,15 +116,36 @@ void Shader::setProjectionMatrix() {
         return;
     }
 
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glProgramUniformMatrix4fv(this->shaderProgram, matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+}
+
+void Shader::setUniformCamera() const {
+    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" && this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
+        return;
+    }
+
+    GLuint posID = glGetUniformLocation(this->shaderProgram, "cameraPosition");
+    GLuint lightID = glGetUniformLocation(this->shaderProgram, "lightPos");
+    GLuint lightColorID = glGetUniformLocation(this->shaderProgram, "lightColor");
+
+    if (posID == -1 || lightID == -1 || lightColorID == -1) {
+        fprintf(stderr, "[ERROR] Shader::setUniformCamera: one or more IDs not found \n");
+        return;
+    }
+
+    glProgramUniform3fv(this->shaderProgram, posID, 1, glm::value_ptr(camera->getPosition()));
+    glProgramUniform3fv(this->shaderProgram, lightID, 1, glm::value_ptr(this->lights[0]->getPosition()));
+    glProgramUniform3fv(this->shaderProgram, lightColorID, 1, glm::value_ptr(this->lights[0]->getColor()));
 }
 
 void Shader::updateViewMatrix() {
     this->viewMatrix = camera->getCamera();
+    this->setViewMatrix();
 }
 
 void Shader::updateProjectionMatrix() {
     this->projectionMatrix = camera->getPerspective();
+    this->setProjectionMatrix();
 }
 
 void Shader::setCamera(Camera *camera) {
@@ -146,6 +172,16 @@ ShaderBuilder::ShaderBuilder(glm::vec3 color) {
     this->color = color;
 }
 
+ShaderBuilder* ShaderBuilder::setVertexShader(std::string vertexShaderPath) {
+    this->vertexShaderPath = vertexShaderPath;
+    return this;
+}
+
+ShaderBuilder* ShaderBuilder::setFragmentShader(std::string fragmentShaderPath) {
+    this->fragmentShaderPath = fragmentShaderPath;
+    return this;
+}
+
 ShaderBuilder* ShaderBuilder::setColor(glm::vec3 color) {
     this->color = color;
     return this;
@@ -157,7 +193,7 @@ ShaderBuilder* ShaderBuilder::setCamera(Camera* camera) {
 }
 
 Shader* ShaderBuilder::build() {
-    auto s = new Shader(this->color);
+    auto s = new Shader(this->vertexShaderPath, this->fragmentShaderPath, this->color);
 
     if (this->camera != nullptr) {
         s->setCamera(this->camera);
