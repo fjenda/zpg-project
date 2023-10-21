@@ -22,6 +22,7 @@ void RenderableModel::render() {
 	// render
 	this->shader->use();
 	this->shader->setModelMatrix(modelMatrix);
+    this->shader->setUniformLights();
     this->shader->setUniformCamera();
 
     if (firstInit) {
@@ -41,6 +42,10 @@ void RenderableModel::tick() {
     lastFrame = currentFrame;
 
     transformations->tick(deltaTime);
+}
+
+void RenderableModel::setShaderLight(std::vector<Light *> l) {
+    this->shader->setLights(l);
 }
 
 void RenderableModel::infoLog() {

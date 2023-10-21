@@ -1,3 +1,15 @@
+/**
+ * @file Shader.h
+ *
+ * @brief Shader class
+ *
+ * @details Shader class for loading and using shaders
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef SHADER_H
 #define SHADER_H
 
@@ -49,8 +61,10 @@ public:
     void setModelMatrix(glm::mat4 modelMatrix) const;
     void setViewMatrix();
     void setProjectionMatrix();
-
+    void setUniformLights() const;
     void setUniformCamera() const;
+
+    void setLights(std::vector<Light*> l);
 
     void updateViewMatrix();
     void updateProjectionMatrix();

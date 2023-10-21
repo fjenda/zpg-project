@@ -1,6 +1,14 @@
-//
-// Created by Honza Fojtík on 10.10.2023.
-//
+/**
+ * @file Camera.h
+ *
+ * @brief Camera class
+ *
+ * @details Camera class for 3D scene
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_CAMERA_H
 #define ZPGPROJECT_CAMERA_H
@@ -11,6 +19,7 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 #include "Observer.h"
+#include "Light.h"
 
 class Shader;
 

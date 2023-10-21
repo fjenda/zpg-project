@@ -1,3 +1,13 @@
+/**
+ * @file ModelKind.h
+ *
+ * @brief Enum class for model kinds
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef MODELKIND_H
 #define MODELKIND_H
 

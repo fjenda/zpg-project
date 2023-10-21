@@ -1,3 +1,13 @@
+/**
+ * @file Colors.h
+ *
+ * @brief Colors for rendering
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef COLORS_H
 #define COLORS_H
 

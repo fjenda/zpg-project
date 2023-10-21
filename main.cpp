@@ -29,7 +29,6 @@ int main(void)
 
     auto floorTransform = new Composite();
     floorTransform->addChild(new Translation(glm::vec3(0.f, -1.f, 1.f)));
-    floorTransform->addChild(new Rotation(90.f, glm::vec3(1.f, 0.f, 0.f)));
     floorTransform->addChild(new Scale(glm::vec3(3.f, 3.f, 3.f)));
 
     auto sc1Transform = new Composite();

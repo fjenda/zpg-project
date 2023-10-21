@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "../Include/Scene.h"
 #include "../Include/CallbackController.h"
 #include "imgui/imgui.h"
@@ -34,6 +36,7 @@ void Scene::render(GLFWwindow* window) {
 }
 
 void Scene::addModel(RenderableModel* model) {
+    model->setShaderLight(lights);
 	models.push_back(model);
 
 	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
@@ -42,6 +45,11 @@ void Scene::addModel(RenderableModel* model) {
 
 std::vector<RenderableModel*> Scene::getModels() {
 	return models;
+}
+
+void Scene::setLights(const std::vector<Light *> l) {
+    this->lights = l;
+    this->shader->setLights(l);
 }
 
 void Scene::enableDebugInterface() {

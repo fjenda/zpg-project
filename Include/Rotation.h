@@ -1,6 +1,16 @@
-//
-// Created by Honza Fojtík on 05.10.2023.
-//
+/**
+ * @file Rotation.h
+ *
+ * @brief Class for rotation transformation
+ *
+ * @details Class for rotation transformation
+ *          It is used for rotating objects
+ *          It is derived from Transformation class
+ *
+ * @author Martin Nemec
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_ROTATION_H
 #define ZPGPROJECT_ROTATION_H

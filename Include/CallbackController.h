@@ -1,6 +1,14 @@
-//
-// Created by Honza Fojtík on 10.10.2023.
-//
+/**
+ * @file CallbackController.h
+ *
+ * @brief CallbackController class
+ *
+ * @details CallbackController class is used to handle all callbacks from GLFW.
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_CALLBACKCONTROLLER_H
 #define ZPGPROJECT_CALLBACKCONTROLLER_H

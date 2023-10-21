@@ -1,7 +1,15 @@
-//
-// Created by Honza Fojtík on 12.10.2023.
-//
-
+/**
+ * @file Window.h
+ *
+ * @brief Window class
+ *
+ * @details This file contains Window class which is used for creating window and getting version info
+ *          of OpenGL and GLEW.
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 #ifndef ZPGPROJECT_WINDOW_H
 #define ZPGPROJECT_WINDOW_H
 

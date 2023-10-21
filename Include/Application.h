@@ -1,3 +1,13 @@
+/**
+ * @file Application.h
+ *
+ * @brief Class for application
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef APPLICATION_H
 #define APPLICATION_H
 

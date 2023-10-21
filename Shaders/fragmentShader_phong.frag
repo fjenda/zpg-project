@@ -10,6 +10,7 @@ uniform vec3 lightColor;
 
 void main(void) {
     vec3 objectColor = vec3(0.263f, 0.78f, 0.8f);
+//    vec3 objectColor = vec3(1.0f, 1.0f, 1.0f);
     vec3 computedColor = objectColor * lightColor;
     vec3 lightVector = lightPos - fragPosition;
     vec3 ambient = (0.2f * computedColor);

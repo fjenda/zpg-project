@@ -1,3 +1,17 @@
+/**
+ * @file Model.h
+ *
+ * @brief Model class
+ *
+ * @details Definition of Model class
+ *          Model class is used for storing vertices and indices of model
+ *          and for binding them to OpenGL
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef MODEL_H
 #define MODEL_H
 

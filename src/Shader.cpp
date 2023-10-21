@@ -10,7 +10,7 @@ Shader::Shader() : Shader("vertexShader.vert", "fragmentShader.frag", glm::vec3(
 Shader::Shader(glm::vec3 color) : Shader("vertexShader.vert", "fragmentShader.frag", color) {}
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath, glm::vec3 color) {
-    this->lights.push_back(new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.4f)));
+//    this->lights.push_back(new Light(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(0.4f)));
     std::string fragment_shader_str;
     std::string vertex_shader_str;
     std::ifstream vertexShaderFile("../Shaders/" + vertexShaderPath);
@@ -119,23 +119,41 @@ void Shader::setProjectionMatrix() {
     glProgramUniformMatrix4fv(this->shaderProgram, matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
+void Shader::setUniformLights() const {
+    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" || this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
+        return;
+    }
+
+    GLuint lightID = glGetUniformLocation(this->shaderProgram, "lightPos");
+    GLuint lightColorID = glGetUniformLocation(this->shaderProgram, "lightColor");
+
+    if (lightID == -1 || lightColorID == -1) {
+        fprintf(stderr, "[ERROR] Shader::setUniformLights: one or more IDs not found \n");
+        return;
+    }
+
+    // TODO: multiple lights
+    glProgramUniform3fv(this->shaderProgram, lightID, 1, glm::value_ptr(lights[0]->getPosition()));
+    glProgramUniform3fv(this->shaderProgram, lightColorID, 1, glm::value_ptr(lights[0]->getColor()));
+}
+
 void Shader::setUniformCamera() const {
-    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" && this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
+    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" || this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
         return;
     }
 
     GLuint posID = glGetUniformLocation(this->shaderProgram, "cameraPosition");
-    GLuint lightID = glGetUniformLocation(this->shaderProgram, "lightPos");
-    GLuint lightColorID = glGetUniformLocation(this->shaderProgram, "lightColor");
 
-    if (posID == -1 || lightID == -1 || lightColorID == -1) {
-        fprintf(stderr, "[ERROR] Shader::setUniformCamera: one or more IDs not found \n");
+    if (posID == -1) {
+        fprintf(stderr, "[ERROR] Shader::setUniformCamera: ID not found \n");
         return;
     }
 
     glProgramUniform3fv(this->shaderProgram, posID, 1, glm::value_ptr(camera->getPosition()));
-    glProgramUniform3fv(this->shaderProgram, lightID, 1, glm::value_ptr(this->lights[0]->getPosition()));
-    glProgramUniform3fv(this->shaderProgram, lightColorID, 1, glm::value_ptr(this->lights[0]->getColor()));
+}
+
+void Shader::setLights(std::vector<Light *> l) {
+    this->lights = l;
 }
 
 void Shader::updateViewMatrix() {

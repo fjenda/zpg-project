@@ -1,6 +1,14 @@
-//
-// Created by Honza Fojtík on 12.10.2023.
-//
+/**
+ * @file Observer.h
+ *
+ * @brief Observer pattern
+ *
+ * @details Observer pattern is used to notify all observers about changes in subject.
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_OBSERVER_H
 #define ZPGPROJECT_OBSERVER_H

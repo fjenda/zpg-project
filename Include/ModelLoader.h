@@ -1,7 +1,15 @@
-//
-// Created by Honza Fojtík on 02.10.2023.
-//
-
+/**
+ * @file ModelLoader.h
+ *
+ * @brief  ModelLoader class
+ *
+ * @details This class is used to load models from files.
+ *          It uses Assimp library to load models.
+ *
+ * @author Martin Nemec
+ *
+ * @year 2023
+ **/
 #ifndef MODELLOADER_H
 #define MODELLOADER_H
 

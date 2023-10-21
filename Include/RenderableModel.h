@@ -1,3 +1,17 @@
+/**
+ * @file RenderableModel.h
+ *
+ * @brief Class for renderable models
+ *
+ * @details This class is used for rendering models. It contains
+ *          model, shader and transformation. It also contains
+ *          methods for rendering and ticking.
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef RENDERABLEMODEL_H
 #define RENDERABLEMODEL_H
 
@@ -31,6 +45,8 @@ public:
 
 	void render();
     void tick();
+
+    void setShaderLight(std::vector<Light*> l);
 
 	void infoLog();
     void enableDebugInterface(int id);

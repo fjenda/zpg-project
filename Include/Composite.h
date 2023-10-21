@@ -1,6 +1,14 @@
-//
-// Created by Honza Fojtík on 05.10.2023.
-//
+/**
+ * @file Composite.h
+ *
+ * @brief Composite class
+ *
+ * @details Composite class for transformations
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_COMPOSITE_H
 #define ZPGPROJECT_COMPOSITE_H

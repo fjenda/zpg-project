@@ -1,6 +1,14 @@
-//
-// Created by Honza Fojtík on 16.10.2023.
-//
+/**
+ * @file Light.h
+ *
+ * @brief Class for light source
+ *
+ * @details This class is used for light source. It contains position, color and intensity of the light.
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_LIGHT_H
 #define ZPGPROJECT_LIGHT_H
@@ -14,11 +22,13 @@ class Light {
 private:
     glm::vec3 position;
     glm::vec3 color;
+    float intensity = 1.f;
 
 public:
-    Light(glm::vec3 position, glm::vec3 color);
+    Light(glm::vec3 position, float intensity, glm::vec3 color);
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getColor() const { return this->color; }
+    float getIntensity() const { return this->intensity; }
 
     void enableDebugInterface();
 };

@@ -1,3 +1,17 @@
+/**
+ * @file Transformation.h
+ *
+ * @brief Transformation class
+ *
+ * @details Defines Transformation class
+ *          Transformation class is abstract class for all transformations
+ *          It contains virtual methods for getting transformation matrix and for ticking
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
+
 #ifndef TRANSFORMATION_H
 #define TRANSFORMATION_H
 

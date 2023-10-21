@@ -5,6 +5,10 @@
 #include "BallScene.h"
 
 BallScene::BallScene(int id) : Scene(id) {
+    std::vector<Light*> sceneLights;
+    sceneLights.push_back(new Light(glm::vec3(3.0f, -3.0f, 0.0f), 1, glm::vec3(0.4f)));
+    setLights(sceneLights);
+
     addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(getCamera())

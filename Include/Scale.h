@@ -1,6 +1,16 @@
-//
-// Created by Honza Fojtík on 05.10.2023.
-//
+/**
+ * @file Scale.h
+ *
+ * @brief Scale transformation
+ *
+ * @details Scale transformation
+ *          It is used for scaling objects
+ *          It is derived from Transformation class
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_SCALE_H
 #define ZPGPROJECT_SCALE_H

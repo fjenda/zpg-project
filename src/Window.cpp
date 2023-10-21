@@ -32,7 +32,8 @@ Window::Window(int w, int h) {
     glViewport(0, 0, this->width, this->height);
 
     //hide the cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);}
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
 
 Window::~Window() {
     glfwDestroyWindow(this->window);

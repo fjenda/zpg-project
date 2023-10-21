@@ -1,6 +1,16 @@
-//
-// Created by Honza Fojtík on 05.10.2023.
-//
+/**
+ * @file Translation.h
+ *
+ * @brief Translation class
+ *
+ * @details Translation class for transformation
+ *          It is used for translating objects
+ *          It is derived from Transformation class
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_TRANSLATION_H
 #define ZPGPROJECT_TRANSLATION_H

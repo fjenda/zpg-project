@@ -4,8 +4,9 @@
 
 #include "../Include/Light.h"
 
-Light::Light(glm::vec3 position, glm::vec3 color) {
+Light::Light(glm::vec3 position, float intensity, glm::vec3 color) {
     this->position = position;
+    this->intensity = intensity;
     this->color = color;
 }
 

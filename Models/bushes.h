@@ -11,7 +11,7 @@
  * @year 2023
  **/
 #pragma once
-#include <vector>
+
 const std::vector<float> bushes = {
    -0.010f , -0.001f , 0.010f , -0.760f , 0.489f , 0.429f ,
    0.016f , 0.036f , 0.020f , -0.705f , 0.615f , -0.353f ,
