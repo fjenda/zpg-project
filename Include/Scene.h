@@ -28,6 +28,7 @@ private:
 
     Camera* camera;
     Shader* shader;
+
 public:
 	Scene(int id);
 	~Scene();

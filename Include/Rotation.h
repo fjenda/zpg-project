@@ -7,7 +7,7 @@
  *          It is used for rotating objects
  *          It is derived from Transformation class
  *
- * @author Martin Nemec
+ * @author Jan Fojtik
  *
  * @year 2023
  **/

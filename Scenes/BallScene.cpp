@@ -3,18 +3,18 @@
 //
 
 #include "BallScene.h"
+#include "../Include/ModelLoader.h"
 
 BallScene::BallScene(int id) : Scene(id) {
     std::vector<Light*> sceneLights;
-    sceneLights.push_back(new Light(glm::vec3(3.0f, -3.0f, 0.0f), 1, glm::vec3(0.4f)));
+    sceneLights.push_back(new Light(glm::vec3(0.f), 1, glm::vec3(0.4f)));
     setLights(sceneLights);
 
     addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(getCamera())
-            ->setColor(NORMALS)
             ->setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("fragmentShader_phong.frag")
+            ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(3.f, 0.f, 0.f)))
         ->build());
@@ -22,9 +22,8 @@ BallScene::BallScene(int id) : Scene(id) {
     addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(getCamera())
-            ->setColor(NORMALS)
             ->setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("fragmentShader_phong.frag")
+            ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(-3.f, 0.f, 0.f)))
         ->build());
@@ -32,9 +31,8 @@ BallScene::BallScene(int id) : Scene(id) {
     addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(getCamera())
-            ->setColor(NORMALS)
             ->setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("fragmentShader_phong.frag")
+            ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, -3.f, 0.f)))
         ->build());
@@ -42,9 +40,8 @@ BallScene::BallScene(int id) : Scene(id) {
     addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(getCamera())
-            ->setColor(NORMALS)
             ->setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("fragmentShader_phong.frag")
+            ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, 3.f, 0.f)))
         ->build());

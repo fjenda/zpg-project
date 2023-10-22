@@ -126,8 +126,9 @@ void Shader::setUniformLights() const {
 
     GLuint lightID = glGetUniformLocation(this->shaderProgram, "lightPos");
     GLuint lightColorID = glGetUniformLocation(this->shaderProgram, "lightColor");
+    GLuint lightIntensityID = glGetUniformLocation(this->shaderProgram, "lightIntensity");
 
-    if (lightID == -1 || lightColorID == -1) {
+    if (lightID == -1 || lightColorID == -1 || lightIntensityID == -1) {
         fprintf(stderr, "[ERROR] Shader::setUniformLights: one or more IDs not found \n");
         return;
     }
@@ -135,6 +136,7 @@ void Shader::setUniformLights() const {
     // TODO: multiple lights
     glProgramUniform3fv(this->shaderProgram, lightID, 1, glm::value_ptr(lights[0]->getPosition()));
     glProgramUniform3fv(this->shaderProgram, lightColorID, 1, glm::value_ptr(lights[0]->getColor()));
+    glProgramUniform1f(this->shaderProgram, lightIntensityID, lights[0]->getIntensity());
 }
 
 void Shader::setUniformCamera() const {

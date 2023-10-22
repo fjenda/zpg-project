@@ -6,7 +6,7 @@
  * @details This class is used to load models from files.
  *          It uses Assimp library to load models.
  *
- * @author Martin Nemec
+ * @author Jan Fojtik
  *
  * @year 2023
  **/

@@ -1,6 +1,12 @@
-//
-// Created by Honza Fojtík on 16.10.2023.
-//
+/**
+ * @file BallScene.h
+ *
+ * @brief BallScene class
+ *
+ * @author Jan Fojtik
+ *
+ * @year 2023
+ **/
 
 #ifndef ZPGPROJECT_BALLSCENE_H
 #define ZPGPROJECT_BALLSCENE_H
