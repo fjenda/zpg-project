@@ -2,7 +2,12 @@
 #include "../Include/Camera.h"
 
 Shader::~Shader() {
-	glDeleteProgram(shaderProgram);
+    GLint* result;
+    glGetProgramiv(this->shaderProgram, GL_DELETE_STATUS, result);
+
+    if (result == nullptr) {
+        glDeleteProgram(this->shaderProgram);
+    }
 }
 
 Shader::Shader() : Shader("vertexShader.vert", "fragmentShader.frag", glm::vec3(0.0f, 0.0f, 0.0f)) {}
@@ -11,12 +16,13 @@ Shader::Shader(glm::vec3 color) : Shader("vertexShader.vert", "fragmentShader.fr
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath, glm::vec3 color) {
 //    this->lights.push_back(new Light(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(0.4f)));
+    this->vertexShaderPath = vertexShaderPath;
+    this->fragmentShaderPath = fragmentShaderPath;
+
     std::string fragment_shader_str;
     std::string vertex_shader_str;
     std::ifstream vertexShaderFile("../Shaders/" + vertexShaderPath);
     std::ifstream fragmentShaderFile("../Shaders/" + fragmentShaderPath);
-    this->vertexShaderPath = vertexShaderPath;
-    this->fragmentShaderPath = fragmentShaderPath;
 
     // Fragment shader loading
     // check if color isnt 0, 0, 0 -> color with normals
@@ -89,7 +95,7 @@ void Shader::use() const {
 void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "model");
 
-    if (matrixID == -1) {
+    if (matrixID == -1u) {
         fprintf(stderr, "[ERROR] Shader::setModelMatrix: matrixID not found\n");
         return;
     }
@@ -100,7 +106,7 @@ void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
 void Shader::setViewMatrix() {
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "view");
 
-    if (matrixID == -1) {
+    if (matrixID == -1u) {
         fprintf(stderr, "[ERROR] Shader::setViewMatrix: matrixID not found\n");
         return;
     }
@@ -111,7 +117,7 @@ void Shader::setViewMatrix() {
 void Shader::setProjectionMatrix() {
     GLuint matrixID = glGetUniformLocation(this->shaderProgram, "projection");
 
-    if (matrixID == -1) {
+    if (matrixID == -1u) {
         fprintf(stderr, "[ERROR] Shader::setProjectionMatrix: matrixID not found\n");
         return;
     }
@@ -120,38 +126,82 @@ void Shader::setProjectionMatrix() {
 }
 
 void Shader::setUniformLights() const {
-    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" || this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
+    if (this->vertexShaderPath == "vertexShader.vert" ||
+        this->fragmentShaderPath == "fragmentShader.frag" ||
+        this->fragmentShaderPath == "constant_fs.frag") {
         return;
     }
 
-    GLuint lightID = glGetUniformLocation(this->shaderProgram, "lightPos");
+    GLuint lightPosID = glGetUniformLocation(this->shaderProgram, "lightPos");
     GLuint lightColorID = glGetUniformLocation(this->shaderProgram, "lightColor");
-    GLuint lightIntensityID = glGetUniformLocation(this->shaderProgram, "lightIntensity");
 
-    if (lightID == -1 || lightColorID == -1 || lightIntensityID == -1) {
-        fprintf(stderr, "[ERROR] Shader::setUniformLights: one or more IDs not found \n");
+    if (lightPosID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformLights: lightPosID not found \n");
+        return;
+    }
+
+    if (lightColorID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformLights: lightColorID not found \n");
         return;
     }
 
     // TODO: multiple lights
-    glProgramUniform3fv(this->shaderProgram, lightID, 1, glm::value_ptr(lights[0]->getPosition()));
+    glProgramUniform3fv(this->shaderProgram, lightPosID, 1, glm::value_ptr(lights[0]->getPosition()));
     glProgramUniform3fv(this->shaderProgram, lightColorID, 1, glm::value_ptr(lights[0]->getColor()));
-    glProgramUniform1f(this->shaderProgram, lightIntensityID, lights[0]->getIntensity());
 }
 
 void Shader::setUniformCamera() const {
-    if (this->vertexShaderPath == "../Shaders/vertexShader.vert" || this->fragmentShaderPath == "../Shaders/fragmentShader.frag") {
+    if (this->vertexShaderPath == "vertexShader.vert" ||
+        this->fragmentShaderPath == "fragmentShader.frag" ||
+        this->fragmentShaderPath == "constant_fs.frag" ||
+        this->fragmentShaderPath == "lambert_fs.frag") {
         return;
     }
 
     GLuint posID = glGetUniformLocation(this->shaderProgram, "cameraPosition");
 
-    if (posID == -1) {
+    if (posID == -1u) {
+        printf("%s \n", this->fragmentShaderPath.c_str());
         fprintf(stderr, "[ERROR] Shader::setUniformCamera: ID not found \n");
         return;
     }
 
     glProgramUniform3fv(this->shaderProgram, posID, 1, glm::value_ptr(camera->getPosition()));
+}
+
+void Shader::setUniformMaterial(Material *material) const {
+    if (this->fragmentShaderPath != "phong_v2.frag")
+        return;
+
+    GLuint ambientID = glGetUniformLocation(this->shaderProgram, "r_ambient");
+    GLuint diffuseID = glGetUniformLocation(this->shaderProgram, "r_diffuse");
+    GLuint specularID = glGetUniformLocation(this->shaderProgram, "r_specular");
+    GLuint shininessID = glGetUniformLocation(this->shaderProgram, "shininess");
+
+    if (ambientID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformMaterial: ambientID not found \n");
+        return;
+    }
+
+    if (diffuseID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformMaterial: diffuseID not found \n");
+        return;
+    }
+
+    if (specularID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformMaterial: specularID not found \n");
+        return;
+    }
+
+    if (shininessID == -1u) {
+        fprintf(stderr, "[ERROR] Shader::setUniformMaterial: shininessID not found \n");
+        return;
+    }
+
+    glProgramUniform3fv(this->shaderProgram, ambientID, 1, glm::value_ptr(material->getAmbient()));
+    glProgramUniform3fv(this->shaderProgram, diffuseID, 1, glm::value_ptr(material->getDiffuse()));
+    glProgramUniform3fv(this->shaderProgram, specularID, 1, glm::value_ptr(material->getSpecular()));
+    glProgramUniform1f(this->shaderProgram, shininessID, material->getShininess());
 }
 
 void Shader::setLights(std::vector<Light *> l) {

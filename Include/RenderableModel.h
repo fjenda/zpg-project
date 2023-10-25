@@ -23,6 +23,7 @@
 #include "Rotation.h"
 #include "Scale.h"
 #include "Translation.h"
+#include "Material.h"
 
 #include <vector>
 
@@ -32,13 +33,14 @@ private:
 	Model* model;
 	Shader* shader;
 	Transformation* transformations;
+    Material* material;
 
     float deltaTime;
     float lastFrame = 0.0f;
     bool firstInit = true;
 
 public:
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
 //    explicit RenderableModel(std::vector<float> points);
 //    explicit RenderableModel(ModelKind kind);
 	~RenderableModel();
@@ -58,6 +60,7 @@ private:
 	Model* model;
 	Shader* shader;
 	Transformation* transformation;
+    Material* material;
 	std::vector<float> points;
 	
 public:
@@ -75,6 +78,7 @@ public:
 
 	RenderableModelBuilder* setShader(Shader * shader);
 	RenderableModelBuilder* setTransformation(Transformation * transformation);
+    RenderableModelBuilder* setMaterial(Material* material);
 	RenderableModel* build();	
 };
 	

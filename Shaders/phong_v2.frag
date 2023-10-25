@@ -8,7 +8,11 @@ uniform vec3 cameraPosition;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 
-// phong shader
+uniform vec3 r_ambient;
+uniform vec3 r_diffuse;
+uniform vec3 r_specular;
+uniform float shininess;
+
 void main(void) {
     // object color
     vec3 objectColor = vec3(0.385, 0.647, 0.812);
@@ -17,19 +21,19 @@ void main(void) {
     vec3 lightDir = lightPos - position;
 
     // ambient
-    vec3 ambient = 0.1 * lightColor;
+    vec3 ambient = r_ambient * lightColor;
 
     // diffuse
     float diff = max(dot(normalize(lightDir), normalize(normal)), 0.0);
-    vec3 diffuse = diff * objectColor;
+    vec3 diffuse = r_diffuse * diff * lightColor;
 
     // specular
     vec3 viewDir = normalize(cameraPosition - position);
     vec3 reflectDir = reflect(-normalize(lightDir), normalize(normal));
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = 1.0f * spec * lightColor;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+    vec3 specular = r_specular * spec * lightColor;
 
     // result
-    vec3 result = ambient + diffuse + specular;
+    vec3 result = (ambient + diffuse + specular) * objectColor;
     frag_color = vec4(result, 1.0);
 }

@@ -30,6 +30,7 @@
 #include <fstream>
 #include "Observer.h"
 #include "Light.h"
+#include "Material.h"
 
 class Camera;
 
@@ -63,6 +64,7 @@ public:
     void setProjectionMatrix();
     void setUniformLights() const;
     void setUniformCamera() const;
+    void setUniformMaterial(Material* material) const;
 
     void setLights(std::vector<Light*> l);
 
@@ -80,8 +82,8 @@ class ShaderBuilder {
 private:
     Camera* camera = nullptr;
     glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
-    std::string vertexShaderPath = "../Shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "../Shaders/fragmentShader.frag";
+    std::string vertexShaderPath = "vertexShader.vert";
+    std::string fragmentShaderPath = "fragmentShader.frag";
 
 public:
     ShaderBuilder();

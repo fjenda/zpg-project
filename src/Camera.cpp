@@ -12,7 +12,7 @@ Camera::Camera(Shader* s) {
     this->shader = s;
     attach(this->shader);
 
-    this->position = glm::vec3(0.f, 0.f, 10.f);
+    this->position = glm::vec3(0.f, 0.f, 0.f);
 //    this->target = glm::vec3(0.f, 0.f, 0.f);
     this->cameraUp = glm::vec3(0.f, 1.f, 0.f);
     this->cameraFront = glm::vec3(0.f, 0.f, -1.f);
@@ -46,26 +46,30 @@ glm::mat4 Camera::getPerspective() {
 
 void Camera::moveForward(float speed) {
     this->position += this->cameraFront * speed;
+    this->position.y = 0.f;
     notify();
 }
 
 void Camera::moveBackward(float speed) {
     this->position -= this->cameraFront * speed;
+    this->position.y = 0.f;
     notify();
 }
 
 void Camera::moveLeft(float speed) {
     this->position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
+    this->position.y = 0.f;
     notify();
 }
 
 void Camera::moveRight(float speed) {
     this->position += glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
+    this->position.y = 0.f;
     notify();
 }
 
 void Camera::move(bool forward, bool backward, bool left, bool right) {
-    float speed = 2.5f * Application::get().getDeltaTime();
+    float speed = 10.f * Application::get().getDeltaTime();
     if (forward)
         moveForward(speed);
     if (backward)
@@ -122,6 +126,9 @@ void Camera::mouseAction(float x, float y) {
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     this->cameraFront = glm::normalize(direction);
+
+    // keep camera on the ground
+    this->position.y = 0.f;
 
     notify();
 }

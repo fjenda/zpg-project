@@ -4,7 +4,6 @@ in vec3 normal;
 in vec3 position;
 out vec4 frag_color;
 
-uniform vec3 cameraPosition;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform float lightIntensity;
@@ -18,10 +17,10 @@ void main(void) {
     vec3 lightDir = lightPos - position;
 
     // ambient
-    vec3 ambient = 0.1 * lightColor * lightIntensity;
+    vec3 ambient = 0.1 * lightColor;
 
     // diffuse
-    float diff = max(dot(normalize(lightDir), normalize(normal)), 0.0) * lightIntensity;
+    float diff = max(dot(normalize(lightDir), normalize(normal)), 0.0);
     vec3 diffuse = diff * objectColor;
 
     // result

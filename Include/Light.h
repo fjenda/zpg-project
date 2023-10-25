@@ -24,6 +24,10 @@ private:
     glm::vec3 color;
     float intensity = 1.f;
 
+    glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+    glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 specular = glm::vec3(1.f, 1.f, 1.f);
+
 public:
     Light(glm::vec3 position, float intensity, glm::vec3 color);
     glm::vec3 getPosition() const { return this->position; }

@@ -4,11 +4,6 @@ in vec3 normal;
 in vec3 position;
 out vec4 frag_color;
 
-uniform vec3 cameraPosition;
-uniform vec3 lightPos;
-uniform vec3 lightColor;
-uniform float lightIntensity;
-
 // shader for constant color
 void main(void) {
     // object color

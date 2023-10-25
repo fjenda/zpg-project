@@ -5,14 +5,16 @@
 
 RenderableModel::~RenderableModel() {
 	delete model;
-	delete shader;
+    delete shader;
+
 	//delete transformation;
 }
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
 	this->model = model;
 	this->shader = shader;
 	this->transformations = transformation;
+    this->material = material;
 }
 
 void RenderableModel::render() {
@@ -24,6 +26,7 @@ void RenderableModel::render() {
 	this->shader->setModelMatrix(modelMatrix);
     this->shader->setUniformLights();
     this->shader->setUniformCamera();
+    this->shader->setUniformMaterial(this->material);
 
     if (firstInit) {
         this->shader->setViewMatrix();
@@ -97,10 +100,15 @@ RenderableModelBuilder* RenderableModelBuilder::setTransformation(Transformation
 	return this;
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setMaterial(Material *material) {
+    this->material = material;
+    return this;
+}
+
 RenderableModel* RenderableModelBuilder::build() {
 	if (this->shader == nullptr) {
 		throw std::runtime_error("[ERROR] Shader is null");
 	}
 
-	return new RenderableModel(model, shader, transformation);
+	return new RenderableModel(model, shader, transformation, material);
 }

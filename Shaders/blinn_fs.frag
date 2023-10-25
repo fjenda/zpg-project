@@ -18,20 +18,19 @@ void main(void) {
     vec3 lightDir = lightPos - position;
 
     // ambient
-    vec3 ambient = 0.1 * lightColor * lightIntensity;
+    vec3 ambient = 0.1 * lightColor;
 
     // diffuse
-    float diff = max(dot(normalize(lightDir), normalize(normal)), 0.0) * lightIntensity;
+    float diff = max(dot(normalize(lightDir), normalize(normal)), 0.0);
     vec3 diffuse = diff * objectColor;
 
     // specular
     vec3 viewDir = normalize(cameraPosition - position);
     vec3 halfDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normalize(normal), halfDir), 0.0), 32.0) * lightIntensity;
+    float spec = pow(max(dot(normalize(normal), halfDir), 0.0), 32.0);
     vec3 specular = 1.0f * spec * lightColor;
 
     // result
     vec3 result = ambient + diffuse + specular;
     frag_color = vec4(result, 1.0);
-
 }

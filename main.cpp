@@ -12,6 +12,7 @@
 #include "Include/Colors.h"
 #include "Models/pyramid.h"
 #include "Scenes/BallScene.h"
+#include "Scenes/ForestScene.h"
 
 
 int main(void)
@@ -20,12 +21,13 @@ int main(void)
 	auto start = std::chrono::high_resolution_clock::now();
 
     Application& app = Application::get();
-    app.initialization(800, 800);
+    app.initialization(1280, 720);
 
     // Scene 1 automatically created
     app.addScene(new BallScene(2));  // Scene 2 - added from preset
     app.createScene();  // Scene 3
     app.createScene();  // Scene 4
+    app.addScene(new ForestScene(5));
     // Scene # = press number to switch to desired scene
 
     auto floorTransform = new Composite();
@@ -36,13 +38,16 @@ int main(void)
     sc1Transform->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
     sc1Transform->addChild(new Scale(glm::vec3(0.8f)));
     sc1Transform->addChild(new Translation(glm::vec3(2.f, 0.0f, 0.f)));
-    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
+//    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
 
     auto sc1Transform2 = new Composite();
     sc1Transform2->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
     sc1Transform2->addChild(new Scale(glm::vec3(1.8f)));
     sc1Transform2->addChild(new Translation(glm::vec3(1.f, -0.5f, 0.f)));
     sc1Transform2->addChild(sc1Transform);
+
+    auto centerTransform = new Composite();
+    centerTransform->addChild(new Translation(glm::vec3(0.f, 0.f, 0.f)));
 
     // Scene 1
     app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
