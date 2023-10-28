@@ -19,7 +19,7 @@
 #include "imgui/imgui.h"
 #include "Observer.h"
 
-class Light {
+class Light : public Subject {
 private:
     glm::vec3 position;
     glm::vec3 color;
@@ -34,6 +34,22 @@ public:
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getColor() const { return this->color; }
     float getIntensity() const { return this->intensity; }
+
+    void setPosition(glm::vec3 position) {
+        this->position = position;
+        notify();
+    }
+
+    void setColor(glm::vec3 color) {
+        this->color = color;
+        notify();
+
+    }
+
+    void setIntensity(float intensity) {
+        this->intensity = intensity;
+        notify();
+    }
 
     void enableDebugInterface();
 };

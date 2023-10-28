@@ -19,7 +19,7 @@ public:
     ~SolarSystemScene();
 
 private:
-    std::vector<Shader*> shaders;
+    std::vector<std::shared_ptr<Shader>> shaders;
     std::vector<Light*> lights;
     std::vector<Material*> materials;
     std::vector<Transformation*> transformations;

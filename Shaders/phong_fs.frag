@@ -10,6 +10,7 @@ uniform vec3 cameraPosition;
 // Light
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform float lightIntensity;
 
 // Material
 uniform vec3 r_ambient;
@@ -41,6 +42,6 @@ void main(void) {
     }
 
     // result
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+    vec3 result = (ambient + diffuse + specular) * objectColor * lightIntensity;
     frag_color = vec4(result, 1.0);
 }

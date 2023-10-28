@@ -24,7 +24,7 @@
 class ModelLoader {
 
 public:
-    static RenderableModelBuilder loadModel(const std::string& file);
+    static std::shared_ptr<Model> loadModel(const std::string& file);
 };
 
 

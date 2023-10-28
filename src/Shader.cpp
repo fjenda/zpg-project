@@ -2,12 +2,7 @@
 #include "../Include/Camera.h"
 
 Shader::~Shader() {
-    GLint* result = nullptr;
-    glGetProgramiv(this->shaderProgram, GL_DELETE_STATUS, result);
-
-    if (result == nullptr) {
-        glDeleteProgram(this->shaderProgram);
-    }
+    glDeleteProgram(this->shaderProgram);
 }
 
 Shader::Shader() : Shader("vertexShader.vert", "fragmentShader.frag") {}
@@ -95,8 +90,7 @@ void Shader::setProjectionMatrix() {
 }
 
 void Shader::setUniformLights() const {
-    if (this->vertexShaderPath == "vertexShader.vert" ||
-        this->fragmentShaderPath == "fragmentShader.frag" ||
+    if (this->fragmentShaderPath == "fragmentShader.frag" ||
         this->fragmentShaderPath == "constant_fs.frag") {
         return;
     }
@@ -104,11 +98,11 @@ void Shader::setUniformLights() const {
     // TODO: multiple lights
     setUniformVariable("lightPos", lights[0]->getPosition());
     setUniformVariable("lightColor", lights[0]->getColor());
+    setUniformVariable("lightIntensity", lights[0]->getIntensity());
 }
 
 void Shader::setUniformCamera() const {
-    if (this->vertexShaderPath == "vertexShader.vert" ||
-        this->fragmentShaderPath == "fragmentShader.frag" ||
+    if (this->fragmentShaderPath == "fragmentShader.frag" ||
         this->fragmentShaderPath == "constant_fs.frag" ||
         this->fragmentShaderPath == "lambert_fs.frag") {
         return;
@@ -158,6 +152,7 @@ void Shader::_setUniformVariable(const std::string &uniformName, const glm::mat4
 
 void Shader::setLights(std::vector<Light *> l) {
     this->lights = l;
+    this->lights[0]->attach(this);
 }
 
 void Shader::updateViewMatrix() {
@@ -175,9 +170,12 @@ void Shader::setCamera(Camera *camera) {
 }
 
 void Shader::update(Subject *subject) {
-    if (subject == this->camera) {
+    if (dynamic_cast<Camera*>(subject) != nullptr) {
         this->updateViewMatrix();
         this->updateProjectionMatrix();
+    } else if (dynamic_cast<Light*>(subject) != nullptr) {
+        this->setUniformLights();
+        fprintf(stdout, "[DEBUG] Light updated\n");
     }
 }
 

@@ -74,6 +74,7 @@ void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, 
                 Application::get().setCurrentScene(scene);
                 fprintf(stdout, "[DEBUG] Switched to scene %d\n", id);
                 Application::get().getCurrentScene()->getCamera()->setFirstMouse(true);
+                Application::get().getCurrentScene()->getCamera()->notify();
                 return;
             }
         }

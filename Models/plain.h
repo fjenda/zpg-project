@@ -12,7 +12,7 @@
  **/
 #pragma once
 
-const std::vector<float> plain = {
+const float plain[36] = {
     100.0f, 0.0f,  100.0f, 0.0f, 1.0f, 0.0f,
     100.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f,
    -100.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f,
@@ -20,5 +20,4 @@ const std::vector<float> plain = {
    -100.0f, 0.0f,  100.0f, 0.0f, 1.0f, 0.0f,
     100.0f, 0.0f,  100.0f, 0.0f, 1.0f, 0.0f,
    -100.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f
-
 };

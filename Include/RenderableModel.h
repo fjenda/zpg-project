@@ -41,7 +41,6 @@ private:
 
 public:
     RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
-	~RenderableModel();
 
 	void render();
 

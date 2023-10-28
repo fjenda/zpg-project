@@ -4,9 +4,12 @@ in vec3 normal;
 in vec3 position;
 out vec4 frag_color;
 
+// Lights
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform float lightIntensity;
 
+// Material
 uniform vec3 r_ambient;
 uniform vec3 r_diffuse;
 uniform vec3 objectColor;
@@ -24,6 +27,6 @@ void main(void) {
     vec3 diffuse = r_diffuse * diff * lightColor;
 
     // result
-    vec3 result = (ambient + diffuse) * objectColor;
+    vec3 result = (ambient + diffuse) * objectColor * lightIntensity;
     frag_color = vec4(result, 1.0);
 }

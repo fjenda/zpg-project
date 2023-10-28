@@ -1,6 +1,6 @@
 #include "../Include/RenderableModel.h"
-
 #include "../Models/Models.h"
+#include "../Include/ArrayConverter.h"
 #include "imgui/imgui.h"
 
 RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
@@ -54,16 +54,16 @@ void RenderableModel::enableDebugInterface(int id) {
 
 RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
 	switch (kind) {
-		case ModelKind::PLAIN: model = new Model(plain); break;
+        case ModelKind::PLAIN: model = new Model(ArrayConverter::convert(plain, sizeof(plain))); break;
 		case ModelKind::SQUARE: model = new Model(square); break;
-		case ModelKind::SPHERE: model = new Model(sphere); break;
+        case ModelKind::SPHERE: model = new Model(ArrayConverter::convert(sphere, sizeof(sphere))); break;
 		case ModelKind::TRIANGLE: model = new Model(triangle_rgb); break;
 		case ModelKind::PYRAMID: model = new Model(pyramid); break;
-		case ModelKind::SUZI: model = new Model(suziFlat); break;
-		case ModelKind::SUZI_SMOOTH: model = new Model(suziSmooth); break;
-        case ModelKind::TREE: model = new Model(tree); break;
-        case ModelKind::BUSHES: model = new Model(bushes); break;
-        case ModelKind::GIFT: model = new Model(gift); break;
+        case ModelKind::SUZI: model = new Model(ArrayConverter::convert(suziFlat, sizeof(suziFlat))); break;
+        case ModelKind::SUZI_SMOOTH: model = new Model(ArrayConverter::convert(suziSmooth, sizeof(suziSmooth))); break;
+        case ModelKind::TREE: model = new Model(ArrayConverter::convert(tree, sizeof(tree))); break;
+        case ModelKind::BUSHES: model = new Model(ArrayConverter::convert(bushes, sizeof(bushes))); break;
+        case ModelKind::GIFT: model = new Model(ArrayConverter::convert(gift, sizeof(gift))); break;
 	}
 }
 

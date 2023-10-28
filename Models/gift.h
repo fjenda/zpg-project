@@ -12,7 +12,7 @@
  **/
 #pragma once
 
-const std::vector<float> gift = {
+const float gift[] = {
    0.135f , 0.336f , -0.050f , 0.659f , 0.738f , 0.147f ,
    0.132f , 0.338f , -0.062f , 0.784f , 0.606f , -0.134f ,
    0.130f , 0.342f , -0.054f , 0.683f , 0.714f , 0.156f ,

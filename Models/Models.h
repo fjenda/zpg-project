@@ -12,7 +12,6 @@
 #include "tree.h"
 #include "gift.h"
 #include "skybox.h"
-#include "cube.h"
 #include "floor.h"
 
 #endif

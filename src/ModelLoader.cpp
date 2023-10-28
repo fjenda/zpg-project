@@ -1,6 +1,6 @@
 #include "../Include/ModelLoader.h"
 
-RenderableModelBuilder ModelLoader::loadModel(const std::string &file) {
+std::shared_ptr<Model> ModelLoader::loadModel(const std::string &file) {
     Assimp::Importer importer;
 
     fprintf(stdout, "[DEBUG] Loading file %s\n", file.c_str());
@@ -39,5 +39,5 @@ RenderableModelBuilder ModelLoader::loadModel(const std::string &file) {
         }
     }
 
-    return RenderableModelBuilder(points, indices);
+    return std::make_shared<Model>(points, indices);
 }

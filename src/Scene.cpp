@@ -35,12 +35,13 @@ void Scene::render(GLFWwindow* window) {
 }
 
 void Scene::addModel(RenderableModel* model) {
-    model->setShaderLight(lights);
+    if (!lights.empty())
+        model->setShaderLight(lights);
 	models.push_back(model);
 
     // Model info
-	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
-	model->infoLog();
+//	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
+//	model->infoLog();
 }
 
 std::vector<RenderableModel*> Scene::getModels() {

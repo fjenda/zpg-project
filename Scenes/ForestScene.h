@@ -20,7 +20,9 @@ public:
     ~ForestScene();
 
 private:
-    std::vector<Shader*> shaders;
+    std::vector<std::shared_ptr<Model>> sh_models;
+    std::vector<std::shared_ptr<Shader>> sh_shaders;
+    std::vector<Model*> models;
     std::vector<Light*> lights;
     std::vector<Material*> materials;
     std::vector<Transformation*> transformations;

@@ -7,11 +7,12 @@
 
 SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
     // Shaders
-    auto phongShader = std::make_shared<Shader*>(ShaderBuilder()
+    auto phongShader = std::shared_ptr<Shader>(ShaderBuilder()
         .setVertexShader("vertexShader_light.vert")
         ->setFragmentShader("phong_fs.frag")
         ->setCamera(getCamera())
     ->build());
+    this->shaders.push_back(phongShader);
 
     // Materials
     auto sunMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, YELLOW);

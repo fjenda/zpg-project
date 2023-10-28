@@ -4,10 +4,15 @@ in vec3 normal;
 in vec3 position;
 out vec4 frag_color;
 
+// Camera
 uniform vec3 cameraPosition;
+
+// Light
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform float lightIntensity;
 
+// Material
 uniform vec3 r_ambient;
 uniform vec3 r_diffuse;
 uniform vec3 r_specular;
@@ -33,6 +38,6 @@ void main(void) {
     vec3 specular = r_specular * spec * lightColor;
 
     // result
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+    vec3 result = (ambient + diffuse + specular) * objectColor * lightIntensity;
     frag_color = vec4(result, 1.0);
 }

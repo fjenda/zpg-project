@@ -20,7 +20,7 @@ Camera::Camera(Shader* s) {
     this->lastX = Application::get().getWidth() / 2.f;
     this->lastY = Application::get().getHeight() / 2.f;
 
-    notify();
+//    notify();
 }
 
 Camera::~Camera() {
@@ -137,12 +137,19 @@ void Camera::enableDebugInterface() {
     // Camera frame
     ImGui::BeginChildFrame(ImGui::GetID("Camera"), ImVec2(300, 120));
     ImGui::Text("Camera");
-    ImGui::DragFloat3("Position", glm::value_ptr(this->position), -1.f, 1.f);
-    ImGui::SliderFloat("Yaw", &this->yaw, -180.f, 180.f);
-    ImGui::SliderFloat("Pitch", &this->pitch, -180.f, 180.f);
-    ImGui::SliderFloat("Fov", &this->fov, 10.f, 90.f);
-    ImGui::EndChildFrame();
 
-    // notify after changing
-    notify();
+
+    if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), -1.f, 1.f))
+        notify();
+
+    if (ImGui::SliderFloat("Yaw", &this->yaw, -180.f, 180.f))
+        notify();
+
+    if (ImGui::SliderFloat("Pitch", &this->pitch, -180.f, 180.f))
+        notify();
+
+    if (ImGui::SliderFloat("Fov", &this->fov, 10.f, 90.f))
+        notify();
+
+    ImGui::EndChildFrame();
 }

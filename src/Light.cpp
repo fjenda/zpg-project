@@ -14,6 +14,15 @@ void Light::enableDebugInterface() {
     // Camera frame
     ImGui::BeginChildFrame(ImGui::GetID("Light"), ImVec2(300, 120));
     ImGui::Text("Light");
-    ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f);
+
+    if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))
+        notify();
+
+    if (ImGui::ColorPicker3("Color", glm::value_ptr(this->color)))
+        notify();
+
+    if (ImGui::DragFloat("Intensity", &this->intensity, 0.1f))
+        notify();
+
     ImGui::EndChildFrame();
 }

@@ -10,11 +10,9 @@
 
 #include "Include/Application.h"
 #include "Include/Colors.h"
-#include "Models/pyramid.h"
 #include "Scenes/BallScene.h"
 #include "Scenes/ForestScene.h"
 #include "Scenes/SolarSystemScene.h"
-
 
 int main(void)
 {	
@@ -52,6 +50,9 @@ int main(void)
     centerTransform->addChild(new Translation(glm::vec3(0.f, 0.f, 0.f)));
 
     // Scene 1
+    auto objsLoaded = std::vector<std::shared_ptr<Model>>();
+    objsLoaded.push_back(ModelLoader::loadModel("suzi_hq.obj"));
+    objsLoaded.push_back(ModelLoader::loadModel("rat.obj"));
     app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
         .setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
@@ -59,15 +60,17 @@ int main(void)
         ->setTransformation(floorTransform)
         ->build());
 
-    app.getSceneById(1)->addModel(ModelLoader::loadModel("suzi_hq.obj")
-        .setShader(ShaderBuilder()
+    app.getSceneById(1)->addModel(RenderableModelBuilder()
+        .setModel(objsLoaded[0])
+        ->setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(sc1Transform)
         ->build());
 
-    app.getSceneById(1)->addModel(ModelLoader::loadModel("rat.obj")
-        .setShader(ShaderBuilder()
+    app.getSceneById(1)->addModel(RenderableModelBuilder()
+        .setModel(objsLoaded[1])
+        ->setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(sc1Transform2)
@@ -141,7 +144,6 @@ int main(void)
         ->setTransformation(new Translation(glm::vec3(0.f, -3.f, 0.f)))
         ->setMaterial(material)
         ->build());
-
 
     app.run();
 
