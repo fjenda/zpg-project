@@ -1,3 +1,0 @@
-/Users/honza/Documents/Programování/ZPG/zpgProjekt/cmake-build-debug/CMakeFiles/ZPG.dir
-/Users/honza/Documents/Programování/ZPG/zpgProjekt/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/honza/Documents/Programování/ZPG/zpgProjekt/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -39,8 +39,8 @@ void Scene::addModel(RenderableModel* model) {
 	models.push_back(model);
 
     // Model info
-//	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
-//	model->infoLog();
+	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
+	model->infoLog();
 }
 
 std::vector<RenderableModel*> Scene::getModels() {

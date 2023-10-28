@@ -53,7 +53,7 @@ SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
     auto mercury = new Composite();
     mercury->addChild(sun_rot);
     mercury->addChild(new Translation(glm::vec3(5.f, 0.f, 0.f)));
-    mercury->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 20.f, glm::vec3(0.f, 0.f, 0.f)));
+    mercury->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 30.f, glm::vec3(0.f, 0.f, 0.f)));
     mercury->addChild(new Scale(glm::vec3(0.5f)));
     this->transformations.push_back(mercury);
 

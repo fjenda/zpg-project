@@ -3,14 +3,6 @@
 #include "../Models/Models.h"
 #include "imgui/imgui.h"
 
-RenderableModel::~RenderableModel() {
-	delete model;
-
-//    delete shader;
-
-	//delete transformation;
-}
-
 RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
 	this->model = model;
 	this->shader = shader;
@@ -83,14 +75,34 @@ RenderableModelBuilder::RenderableModelBuilder(std::vector<float> points, std::v
 	this->model = new Model(std::move(points), std::move(indices));
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setShader(std::shared_ptr<Shader> shader) {
+    this->shader = shader.get();
+    return this;
+}
+
+RenderableModelBuilder* RenderableModelBuilder::setTransformation(std::shared_ptr<Transformation> transformation) {
+    this->transformation = transformation.get();
+    return this;
+}
+
+RenderableModelBuilder* RenderableModelBuilder::setMaterial(std::shared_ptr<Material> material) {
+    this->material = material.get();
+    return this;
+}
+
+RenderableModelBuilder* RenderableModelBuilder::setModel(std::shared_ptr<Model> model) {
+    this->model = model.get();
+    return this;
+}
+
+RenderableModelBuilder *RenderableModelBuilder::setModel(Model *model) {
+    this->model = model;
+    return this;
+}
+
 RenderableModelBuilder* RenderableModelBuilder::setShader(Shader* shader) {
 	this->shader = shader;
 	return this;
-}
-
-RenderableModelBuilder* RenderableModelBuilder::setShader(std::shared_ptr<Shader *> shader) {
-    this->shader = *shader;
-    return this;
 }
 
 RenderableModelBuilder* RenderableModelBuilder::setTransformation(Transformation* transformation) {

@@ -4,6 +4,8 @@
 
 #include "ForestScene.h"
 #include "../Include/Colors.h"
+#include "../Models/tree.h"
+#include "../Models/bushes.h"
 #include <random>
 
 float getRandom(float min, float max) {
@@ -16,21 +18,28 @@ float getRandom(float min, float max) {
 
 ForestScene::ForestScene(int id) : Scene(id) {
 
+    // Shaders
     auto phongShader = std::make_shared<Shader*>(ShaderBuilder()
         .setVertexShader("vertexShader_light.vert")
         ->setFragmentShader("phong_fs.frag")
         ->setCamera(getCamera())
         ->build());
 
+    // Materials
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, GREEN);
     this->materials.push_back(basicMaterial);
 
+    // Lights
     auto lights = std::vector<Light*>();
     lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, glm::vec3(1.f)));
     setLights(lights);
     this->lights = lights;
 
-    for (int i = 0; i < 200; i++) {
+    // Models
+    auto treeModel = new Model(tree);
+    auto bushesModel = new Model(bushes);
+
+    for (int i = 0; i < 100; i++) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
@@ -40,17 +49,22 @@ ForestScene::ForestScene(int id) : Scene(id) {
         composite->addChild(scale);
         this->transformations.push_back(composite);
 
-        ModelKind modelKind = ModelKind::TREE;
-        if (i % 3 == 0)
-            modelKind = ModelKind::BUSHES;
-        else
-            modelKind = ModelKind::TREE;
-
-        addModel(RenderableModelBuilder(modelKind)
-            .setShader(phongShader)
-            ->setMaterial(basicMaterial)
-            ->setTransformation(composite)
-        ->build());
+        ModelKind modelKind;
+        if (i % 3 == 0) {
+            addModel(RenderableModelBuilder()
+                .setModel(bushesModel)
+                ->setShader(phongShader)
+                ->setMaterial(basicMaterial)
+                ->setTransformation(composite)
+            ->build());
+        } else {
+            addModel(RenderableModelBuilder()
+                .setModel(treeModel)
+                ->setShader(phongShader)
+                ->setMaterial(basicMaterial)
+                ->setTransformation(composite)
+            ->build());
+        }
     }
 
     addModel(RenderableModelBuilder(ModelKind::PLAIN)

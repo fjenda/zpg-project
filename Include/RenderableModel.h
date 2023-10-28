@@ -61,6 +61,8 @@ private:
 	std::vector<float> points;
 	
 public:
+    RenderableModelBuilder() = default;
+
     //loading through file
     explicit RenderableModelBuilder(const std::string& pFile);
 
@@ -73,8 +75,13 @@ public:
     //loading through points and indices (VBO + EBO)
 	RenderableModelBuilder(std::vector<float> points, std::vector<int> indices);
 
-	RenderableModelBuilder* setShader(Shader * shader);
-    RenderableModelBuilder* setShader(std::shared_ptr<Shader*> shader);
+    RenderableModelBuilder* setModel(std::shared_ptr<Model> model);
+    RenderableModelBuilder* setShader(std::shared_ptr<Shader> shader);
+    RenderableModelBuilder* setTransformation(std::shared_ptr<Transformation> transformation);
+    RenderableModelBuilder* setMaterial(std::shared_ptr<Material> material);
+
+    RenderableModelBuilder* setModel(Model* model);
+    RenderableModelBuilder* setShader(Shader* shader);
 	RenderableModelBuilder* setTransformation(Transformation * transformation);
     RenderableModelBuilder* setMaterial(Material* material);
 	RenderableModel* build();	

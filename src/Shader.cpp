@@ -78,6 +78,10 @@ void Shader::use() const {
 	glUseProgram(this->shaderProgram);
 }
 
+void Shader::unuse() const {
+    glUseProgram(0);
+}
+
 void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
     setUniformVariable("model", modelMatrix);
 }
@@ -132,28 +136,24 @@ void Shader::setUniformMaterial(Material *material) const {
     setUniformVariable("shininess", material->getShininess());
 }
 
-void Shader::setUniformVariable(const std::string &uniformName, const std::variant<float, glm::vec3, glm::vec4, glm::mat3, glm::mat4> &value) const {
-    GLuint uniformID = glGetUniformLocation(this->shaderProgram, uniformName.c_str());
+void Shader::_setUniformVariable(const std::string &uniformName, float value) const {
+    glProgramUniform1f(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), value);
+}
 
-    if (uniformID == -1u) {
-        fprintf(stderr, "[ERROR] Shader::setUniformVariable: %s not found \n", uniformName.c_str());
-        return;
-    }
+void Shader::_setUniformVariable(const std::string &uniformName, const glm::vec3 &value) const {
+    glProgramUniform3fv(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), 1, glm::value_ptr(value));
+}
 
-    // what type of uniform is it?
-    if (std::holds_alternative<float>(value)) {
-        glProgramUniform1f(this->shaderProgram, uniformID, std::get<float>(value));
-    } else if (std::holds_alternative<glm::vec3>(value)) {
-        glProgramUniform3fv(this->shaderProgram, uniformID, 1, glm::value_ptr(std::get<glm::vec3>(value)));
-    } else if (std::holds_alternative<glm::vec4>(value)) {
-        glProgramUniform4fv(this->shaderProgram, uniformID, 1, glm::value_ptr(std::get<glm::vec4>(value)));
-    } else if (std::holds_alternative<glm::mat3>(value)) {
-        glProgramUniformMatrix3fv(this->shaderProgram, uniformID, 1, GL_FALSE, glm::value_ptr(std::get<glm::mat3>(value)));
-    } else if (std::holds_alternative<glm::mat4>(value)) {
-        glProgramUniformMatrix4fv(this->shaderProgram, uniformID, 1, GL_FALSE, glm::value_ptr(std::get<glm::mat4>(value)));
-    } else {
-        fprintf(stderr, "[ERROR] Shader::setUniformVariable: unknown type \n");
-    }
+void Shader::_setUniformVariable(const std::string &uniformName, const glm::vec4 &value) const {
+    glProgramUniform4fv(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), 1, glm::value_ptr(value));
+}
+
+void Shader::_setUniformVariable(const std::string &uniformName, const glm::mat3 &value) const {
+    glProgramUniformMatrix3fv(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::_setUniformVariable(const std::string &uniformName, const glm::mat4 &value) const {
+    glProgramUniformMatrix4fv(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::setLights(std::vector<Light *> l) {

@@ -50,12 +50,20 @@ private:
     std::string vertexShaderPath;
     std::string fragmentShaderPath;
 
+    void _setUniformVariable(const std::string &uniformName, float value) const;
+    void _setUniformVariable(const std::string &uniformName, const glm::vec3 &value) const;
+    void _setUniformVariable(const std::string &uniformName, const glm::vec4 &value) const;
+    void _setUniformVariable(const std::string &uniformName, const glm::mat3 &value) const;
+    void _setUniformVariable(const std::string &uniformName, const glm::mat4 &value) const;
+
 public:
     Shader();
     Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
 	~Shader();
 
-	void use() const; 
+	void use() const;
+    void unuse() const;
+
     void setModelMatrix(glm::mat4 modelMatrix) const;
     void setViewMatrix();
     void setProjectionMatrix();
@@ -63,7 +71,17 @@ public:
     void setUniformCamera() const;
     void setUniformMaterial(Material* material) const;
 
-    void setUniformVariable(const std::string &uniformName, const std::variant<float, glm::vec3, glm::vec4, glm::mat3, glm::mat4> &value) const;
+    template<typename T>
+    void setUniformVariable(const std::string &uniformName, T value) const {
+        GLuint uniformID = glGetUniformLocation(this->shaderProgram, uniformName.c_str());
+
+        if (uniformID == -1u) {
+            fprintf(stderr, "[ERROR] Shader::setUniformVariable: %s not found \n", uniformName.c_str());
+            return;
+        }
+
+        _setUniformVariable(uniformName, value);
+    }
 
     void setLights(std::vector<Light*> l);
 
