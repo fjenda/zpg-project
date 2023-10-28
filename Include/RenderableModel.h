@@ -41,12 +41,9 @@ private:
 
 public:
     RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
-//    explicit RenderableModel(std::vector<float> points);
-//    explicit RenderableModel(ModelKind kind);
 	~RenderableModel();
 
 	void render();
-    void tick();
 
     void setShaderLight(std::vector<Light*> l);
 
@@ -77,6 +74,7 @@ public:
 	RenderableModelBuilder(std::vector<float> points, std::vector<int> indices);
 
 	RenderableModelBuilder* setShader(Shader * shader);
+    RenderableModelBuilder* setShader(std::shared_ptr<Shader*> shader);
 	RenderableModelBuilder* setTransformation(Transformation * transformation);
     RenderableModelBuilder* setMaterial(Material* material);
 	RenderableModel* build();	

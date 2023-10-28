@@ -18,6 +18,12 @@ class ForestScene : public Scene {
 public:
     explicit ForestScene(int id);
     ~ForestScene();
+
+private:
+    std::vector<Shader*> shaders;
+    std::vector<Light*> lights;
+    std::vector<Material*> materials;
+    std::vector<Transformation*> transformations;
 };
 
 

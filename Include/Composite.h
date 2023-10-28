@@ -20,10 +20,10 @@ private:
     std::vector<Transformation*> children;
 
 public:
+    ~Composite();
     glm::mat4 getMatrix() override;
-    void tick(float deltaTime) override;
     void addChild(Transformation* child);
-
+    void removeChild(Transformation* child);
 };
 
 

@@ -24,8 +24,8 @@ private:
 
 public:
     explicit Translation(glm::vec3 translation);
+    explicit Translation(bool stationary, glm::vec3 translation);
     glm::mat4 getMatrix() override;
-    void tick(float deltaTime) override;
 };
 
 

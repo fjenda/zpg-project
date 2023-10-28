@@ -17,6 +17,7 @@
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 #include "imgui/imgui.h"
+#include "Observer.h"
 
 class Light {
 private:

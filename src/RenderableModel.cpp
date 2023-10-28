@@ -5,7 +5,8 @@
 
 RenderableModel::~RenderableModel() {
 	delete model;
-    delete shader;
+
+//    delete shader;
 
 	//delete transformation;
 }
@@ -37,14 +38,6 @@ void RenderableModel::render() {
 	this->model->bindVertexArray();
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);
-}
-
-void RenderableModel::tick() {
-    float currentFrame = glfwGetTime();
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
-
-    transformations->tick(deltaTime);
 }
 
 void RenderableModel::setShaderLight(std::vector<Light *> l) {
@@ -93,6 +86,11 @@ RenderableModelBuilder::RenderableModelBuilder(std::vector<float> points, std::v
 RenderableModelBuilder* RenderableModelBuilder::setShader(Shader* shader) {
 	this->shader = shader;
 	return this;
+}
+
+RenderableModelBuilder* RenderableModelBuilder::setShader(std::shared_ptr<Shader *> shader) {
+    this->shader = *shader;
+    return this;
 }
 
 RenderableModelBuilder* RenderableModelBuilder::setTransformation(Transformation* transformation) {

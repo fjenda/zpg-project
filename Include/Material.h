@@ -23,13 +23,15 @@ private:
     glm::vec3 r_specular;
     float shininess = 32.f;
 
+    glm::vec3 color;
 public:
     Material();
-    Material(glm::vec3 r_ambient, glm::vec3 r_diffuse, glm::vec3 r_specular, float shininess);
+    Material(glm::vec3 r_ambient, glm::vec3 r_diffuse, glm::vec3 r_specular, float shininess, glm::vec3 color);
     glm::vec3 getAmbient() const { return this->r_ambient; }
     glm::vec3 getDiffuse() const { return this->r_diffuse; }
     glm::vec3 getSpecular() const { return this->r_specular; }
     float getShininess() const { return this->shininess; }
+    glm::vec3 getColor() const { return this->color; }
 
 //    void enableDebugInterface();
 };

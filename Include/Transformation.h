@@ -27,7 +27,6 @@
 class Transformation {
 public:
     virtual glm::mat4 getMatrix() = 0;
-    virtual void tick(float deltaTime) = 0;
 };
 
 #endif // !TRANSFORMATION_H

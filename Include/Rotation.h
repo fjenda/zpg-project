@@ -20,16 +20,15 @@
 
 class Rotation : public Transformation {
 private:
-    float angle;
+    bool stationary = true;
     glm::vec3 axis = glm::vec3(0.f);
     float speed = 0.f;
+    glm::vec3 position = glm::vec3(0.f);
 
 public:
-    explicit Rotation(float angle) : Rotation(angle, glm::vec3(1.f, 1.f, 1.f)) {};
-    Rotation(float angle, glm::vec3 axis);
-    Rotation(float angle, glm::vec3 axis, float speed) : angle(angle), axis(axis), speed(speed) {};
+    Rotation(glm::vec3 axis, float speed) : axis(axis), speed(speed) {};
+    Rotation(bool stationary, glm::vec3 axis, float speed, glm::vec3 position) : stationary(stationary), axis(axis), speed(speed), position(position) {};
     glm::mat4 getMatrix() override;
-    void tick(float deltaTime) override;
 };
 
 

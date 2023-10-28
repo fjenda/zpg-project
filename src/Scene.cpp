@@ -30,7 +30,6 @@ void Scene::render(GLFWwindow* window) {
 
 
 	for (auto model : models) {
-        model->tick();
 		model->render();
 	}
 }
@@ -39,8 +38,9 @@ void Scene::addModel(RenderableModel* model) {
     model->setShaderLight(lights);
 	models.push_back(model);
 
-	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
-	model->infoLog();
+    // Model info
+//	fprintf(stdout, "[DEBUG] Added model to scene #%d\n", id);
+//	model->infoLog();
 }
 
 std::vector<RenderableModel*> Scene::getModels() {

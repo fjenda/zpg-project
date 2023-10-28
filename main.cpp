@@ -13,6 +13,7 @@
 #include "Models/pyramid.h"
 #include "Scenes/BallScene.h"
 #include "Scenes/ForestScene.h"
+#include "Scenes/SolarSystemScene.h"
 
 
 int main(void)
@@ -24,10 +25,11 @@ int main(void)
     app.initialization(1280, 720);
 
     // Scene 1 automatically created
-    app.addScene(new BallScene(2));  // Scene 2 - added from preset
-    app.createScene();  // Scene 3
-    app.createScene();  // Scene 4
-    app.addScene(new ForestScene(5));
+    app.addScene(new BallScene(2));  // Scene 2 - Ball scene
+    app.createScene();  // Scene 3 - Phong shader scene
+    app.createScene();  // Scene 4 - Multiple shaders scene
+    app.addScene(new ForestScene(5)); // Scene 5 - Forest scene
+    app.addScene(new SolarSystemScene(6)); // Scene 6 - Solar system scene
     // Scene # = press number to switch to desired scene
 
     auto floorTransform = new Composite();
@@ -35,13 +37,13 @@ int main(void)
     floorTransform->addChild(new Scale(glm::vec3(3.f, 3.f, 3.f)));
 
     auto sc1Transform = new Composite();
-    sc1Transform->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
+    sc1Transform->addChild(new Rotation(glm::vec3(0.f, 0.f, 1.f), 180.f));
     sc1Transform->addChild(new Scale(glm::vec3(0.8f)));
     sc1Transform->addChild(new Translation(glm::vec3(2.f, 0.0f, 0.f)));
-//    sc1Transform->addChild(new Rotation(0.f, glm::vec3(0.f, 1.f, 0.f), 50.f));
+    sc1Transform->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 100.f, glm::vec3(0.f, 0.f, 0.f)));
 
     auto sc1Transform2 = new Composite();
-    sc1Transform2->addChild(new Rotation(180.f, glm::vec3(0.f, 0.f, 1.f)));
+    sc1Transform2->addChild(new Rotation(glm::vec3(0.f, 0.f, 1.f), 180.f));
     sc1Transform2->addChild(new Scale(glm::vec3(1.8f)));
     sc1Transform2->addChild(new Translation(glm::vec3(1.f, -0.5f, 0.f)));
     sc1Transform2->addChild(sc1Transform);
@@ -53,7 +55,6 @@ int main(void)
     app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
         .setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
-            ->setColor(NORMALS)
             ->build())
         ->setTransformation(floorTransform)
         ->build());
@@ -61,7 +62,6 @@ int main(void)
     app.getSceneById(1)->addModel(ModelLoader::loadModel("suzi_hq.obj")
         .setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
-            ->setColor(NORMALS)
             ->build())
         ->setTransformation(sc1Transform)
         ->build());
@@ -69,16 +69,18 @@ int main(void)
     app.getSceneById(1)->addModel(ModelLoader::loadModel("rat.obj")
         .setShader(ShaderBuilder()
             .setCamera(app.getSceneById(1)->getCamera())
-            ->setColor(NORMALS)
             ->build())
         ->setTransformation(sc1Transform2)
         ->build());
 
     // Scene 3
 
+    // Material
+    auto material = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 1.f, glm::vec3(0.385, 0.647, 0.812));
+
     // Lights
     auto backLight = std::vector<Light*>();
-    backLight.push_back(new Light(glm::vec3(0.f, 0.f, -3.f), 1, glm::vec3(0.4f)));
+    backLight.push_back(new Light(glm::vec3(0.f, 0.f, -3.f), 1, glm::vec3(1.f)));
     app.getSceneById(3)->setLights(backLight);
 
     // Objects
@@ -89,13 +91,14 @@ int main(void)
             ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, 0.f, 0.f)))
+        ->setMaterial(material)
         ->build());
 
     // Scene 4
 
     // Lights
     auto centerLight = std::vector<Light*>();
-    centerLight.push_back(new Light(glm::vec3(0.f, 0.f, 0.f), 1, glm::vec3(0.4f)));
+    centerLight.push_back(new Light(glm::vec3(0.f, 0.f, 0.f), 1, glm::vec3(1.f)));
     app.getSceneById(4)->setLights(centerLight);
 
     // Objects
@@ -106,15 +109,17 @@ int main(void)
             ->setFragmentShader("constant_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(-3.f, 0.f, 0.f)))
+        ->setMaterial(material)
         ->build());
 
-    app.getSceneById(4)->addModel(RenderableModelBuilder(ModelKind::SUZI_SMOOTH)
+    app.getSceneById(4)->addModel(RenderableModelBuilder(ModelKind::SPHERE)
         .setShader(ShaderBuilder()
             .setCamera(app.getSceneById(4)->getCamera())
             ->setVertexShader("vertexShader_light.vert")
             ->setFragmentShader("lambert_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(3.f, 0.f, 0.f)))
+        ->setMaterial(material)
         ->build());
 
     app.getSceneById(4)->addModel(RenderableModelBuilder(ModelKind::SPHERE)
@@ -124,6 +129,7 @@ int main(void)
             ->setFragmentShader("phong_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, 3.f, 0.f)))
+        ->setMaterial(material)
         ->build());
 
     app.getSceneById(4)->addModel(RenderableModelBuilder(ModelKind::SPHERE)
@@ -133,6 +139,7 @@ int main(void)
             ->setFragmentShader("blinn_fs.frag")
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, -3.f, 0.f)))
+        ->setMaterial(material)
         ->build());
 
 
