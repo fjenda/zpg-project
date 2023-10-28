@@ -8,7 +8,6 @@ Shader::~Shader() {
 Shader::Shader() : Shader("vertexShader.vert", "fragmentShader.frag") {}
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
-//    this->lights.push_back(new Light(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(0.4f)));
     this->vertexShaderPath = vertexShaderPath;
     this->fragmentShaderPath = fragmentShaderPath;
 
@@ -34,7 +33,6 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
     }
     vertexShaderFile.close();
     const char* vertex_shader = vertex_shader_str.c_str();
-
 
     // Create and compile vertex shader
     this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -115,7 +113,8 @@ void Shader::setUniformMaterial(Material *material) const {
     if (this->fragmentShaderPath == "fragmentShader.frag")
         return;
 
-    setUniformVariable("objectColor", material->getColor());
+    if (this->fragmentShaderPath != "phong_textured_fs.frag")
+        setUniformVariable("objectColor", material->getColor());
 
     if (this->fragmentShaderPath == "constant_fs.frag")
         return;

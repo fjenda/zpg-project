@@ -30,6 +30,8 @@ std::shared_ptr<Model> ModelLoader::loadModel(const std::string &file) {
             points.push_back(scene->mMeshes[j]->mNormals[i].x);
             points.push_back(scene->mMeshes[j]->mNormals[i].y);
             points.push_back(scene->mMeshes[j]->mNormals[i].z);
+            points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].x);
+            points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].y);
         }
 
         for (uint32_t i = 0; i < scene->mMeshes[j]->mNumFaces; i++) {

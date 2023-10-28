@@ -15,7 +15,7 @@
 #include "Scenes/SolarSystemScene.h"
 
 int main(void)
-{	
+{
 	// get start time
 	auto start = std::chrono::high_resolution_clock::now();
 
@@ -49,31 +49,51 @@ int main(void)
     auto centerTransform = new Composite();
     centerTransform->addChild(new Translation(glm::vec3(0.f, 0.f, 0.f)));
 
+    // Material
+    auto blueMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, glm::vec3(0.385, 0.647, 0.812));
+
+    // Light
+    auto sc1_lights = std::vector<Light*>();
+    sc1_lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, glm::vec3(1.f)));
+    app.getSceneById(1)->setLights(sc1_lights);
+
     // Scene 1
     auto objsLoaded = std::vector<std::shared_ptr<Model>>();
-    objsLoaded.push_back(ModelLoader::loadModel("suzi_hq.obj"));
     objsLoaded.push_back(ModelLoader::loadModel("rat.obj"));
+    objsLoaded.push_back(ModelLoader::loadModel("backpack.obj"));
+
     app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
         .setShader(ShaderBuilder()
-            .setCamera(app.getSceneById(1)->getCamera())
+            .setVertexShader("vertexShader_light.vert")
+            ->setFragmentShader("phong_fs.frag")
+            ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(floorTransform)
+        ->setMaterial(blueMaterial)
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[0])
         ->setShader(ShaderBuilder()
-            .setCamera(app.getSceneById(1)->getCamera())
+            .setVertexShader("vertexShader_light.vert")
+            ->setFragmentShader("phong_fs.frag")
+            ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(sc1Transform)
+        ->setMaterial(blueMaterial)
+        ->setTexture(new Texture("rat_diff.jpg"))
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[1])
         ->setShader(ShaderBuilder()
-            .setCamera(app.getSceneById(1)->getCamera())
+            .setVertexShader("textured_vs.vert")
+            ->setFragmentShader("phong_textured_fs.frag")
+            ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
-        ->setTransformation(sc1Transform2)
+        ->setTransformation(new Translation(glm::vec3(0.f, 5.f, 0.f)))
+        ->setMaterial(blueMaterial)
+        ->setTexture(new Texture("backpack_diff.jpg"))
         ->build());
 
     // Scene 3

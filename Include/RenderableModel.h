@@ -24,6 +24,7 @@
 #include "Scale.h"
 #include "Translation.h"
 #include "Material.h"
+#include "Texture.h"
 
 #include <vector>
 
@@ -34,6 +35,7 @@ private:
 	Shader* shader;
 	Transformation* transformations;
     Material* material;
+    Texture* texture;
 
     float deltaTime;
     float lastFrame = 0.0f;
@@ -41,6 +43,7 @@ private:
 
 public:
     RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture);
 
 	void render();
 
@@ -57,6 +60,7 @@ private:
 	Shader* shader;
 	Transformation* transformation;
     Material* material;
+    Texture* texture = nullptr;
 	std::vector<float> points;
 	
 public:
@@ -78,11 +82,13 @@ public:
     RenderableModelBuilder* setShader(std::shared_ptr<Shader> shader);
     RenderableModelBuilder* setTransformation(std::shared_ptr<Transformation> transformation);
     RenderableModelBuilder* setMaterial(std::shared_ptr<Material> material);
+    RenderableModelBuilder* setTexture(std::shared_ptr<Texture> texture);
 
     RenderableModelBuilder* setModel(Model* model);
     RenderableModelBuilder* setShader(Shader* shader);
 	RenderableModelBuilder* setTransformation(Transformation * transformation);
     RenderableModelBuilder* setMaterial(Material* material);
+    RenderableModelBuilder* setTexture(Texture* texture);
 	RenderableModel* build();	
 };
 	

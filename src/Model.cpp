@@ -21,9 +21,11 @@ Model::Model(std::vector<float> points, std::vector<int> indices) {
 
     glEnableVertexAttribArray(0); //enable vertex attributes
     glEnableVertexAttribArray(1); //enable vertex attributes
+    glEnableVertexAttribArray(2); //enable texture attributes
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 6), NULL);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 6), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 8), NULL);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 8), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, (sizeof(float) * 8), (void*)(6 * sizeof(float)));
 
     glGenBuffers(1, &this->EBO); // generate the EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);

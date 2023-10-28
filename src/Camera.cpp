@@ -13,7 +13,6 @@ Camera::Camera(Shader* s) {
     attach(this->shader);
 
     this->position = glm::vec3(0.f, 0.f, 0.f);
-//    this->target = glm::vec3(0.f, 0.f, 0.f);
     this->cameraUp = glm::vec3(0.f, 1.f, 0.f);
     this->cameraFront = glm::vec3(0.f, 0.f, -1.f);
 

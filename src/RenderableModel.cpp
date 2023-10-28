@@ -4,10 +4,19 @@
 #include "imgui/imgui.h"
 
 RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
+    this->model = model;
+    this->shader = shader;
+    this->transformations = transformation;
+    this->material = material;
+    this->texture = nullptr;
+}
+
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture) {
 	this->model = model;
 	this->shader = shader;
 	this->transformations = transformation;
     this->material = material;
+    this->texture = texture;
 }
 
 void RenderableModel::render() {
@@ -28,6 +37,10 @@ void RenderableModel::render() {
     }
 
 	this->model->bindVertexArray();
+
+    if (this->texture != nullptr) {
+        this->texture->bind();
+    }
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);
 }
@@ -95,6 +108,11 @@ RenderableModelBuilder* RenderableModelBuilder::setModel(std::shared_ptr<Model> 
     return this;
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setTexture(std::shared_ptr<Texture> texture) {
+    this->texture = texture.get();
+    return this;
+}
+
 RenderableModelBuilder *RenderableModelBuilder::setModel(Model *model) {
     this->model = model;
     return this;
@@ -115,10 +133,18 @@ RenderableModelBuilder* RenderableModelBuilder::setMaterial(Material *material) 
     return this;
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setTexture(Texture *texture) {
+    this->texture = texture;
+    return this;
+}
+
 RenderableModel* RenderableModelBuilder::build() {
 	if (this->shader == nullptr) {
 		throw std::runtime_error("[ERROR] Shader is null");
 	}
 
-	return new RenderableModel(model, shader, transformation, material);
+    if (this->texture == nullptr) {
+        return new RenderableModel(model, shader, transformation, material);
+    }
+	return new RenderableModel(model, shader, transformation, material, texture);
 }
