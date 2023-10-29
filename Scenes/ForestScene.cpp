@@ -28,7 +28,21 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setFragmentShader("phong_fs.frag")
         ->setCamera(getCamera())
     ->build());
+
+    auto lambertShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("vertexShader_light.vert")
+        ->setFragmentShader("lambert_fs.frag")
+        ->setCamera(getCamera())
+    ->build());
+
+    auto constantShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("vertexShader_light.vert")
+        ->setFragmentShader("constant_fs.frag")
+        ->setCamera(getCamera())
+    ->build());
     this->sh_shaders.push_back(phongShader);
+    this->sh_shaders.push_back(lambertShader);
+    this->sh_shaders.push_back(constantShader);
 
     // Materials
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
@@ -83,14 +97,14 @@ ForestScene::ForestScene(int id) : Scene(id) {
         } else if (i % 7 == 0) { // Suzi HQ
             addModel(RenderableModelBuilder()
                 .setModel(sh_models[1])
-                ->setShader(phongShader.get())
+                ->setShader(lambertShader.get())
                 ->setMaterial(blueMaterial)
                 ->setTransformation(composite)
             ->build());
         } else if (i % 4 == 0) { // Sphere
             addModel(RenderableModelBuilder()
                 .setModel(models[3])
-                ->setShader(phongShader.get())
+                ->setShader(constantShader.get())
                 ->setMaterial(yellowMaterial)
                 ->setTransformation(composite)
             ->build());

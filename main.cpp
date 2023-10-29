@@ -35,9 +35,9 @@ int main(void)
     floorTransform->addChild(new Scale(glm::vec3(3.f, 3.f, 3.f)));
 
     auto sc1Transform = new Composite();
-    sc1Transform->addChild(new Rotation(glm::vec3(0.f, 0.f, 1.f), 180.f));
+//    sc1Transform->addChild(new Rotation(glm::vec3(0.f, 0.f, 1.f), 180.f));
     sc1Transform->addChild(new Scale(glm::vec3(0.8f)));
-    sc1Transform->addChild(new Translation(glm::vec3(2.f, 0.0f, 0.f)));
+    sc1Transform->addChild(new Translation(glm::vec3(5.f, 5.0f, 0.f)));
     sc1Transform->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 100.f, glm::vec3(0.f, 0.f, 0.f)));
 
     auto sc1Transform2 = new Composite();
@@ -59,7 +59,7 @@ int main(void)
 
     // Scene 1
     auto objsLoaded = std::vector<std::shared_ptr<Model>>();
-    objsLoaded.push_back(ModelLoader::loadModel("rat.obj"));
+    objsLoaded.push_back(ModelLoader::loadModel("m4.obj"));
     objsLoaded.push_back(ModelLoader::loadModel("backpack.obj"));
 
     app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
@@ -75,13 +75,13 @@ int main(void)
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[0])
         ->setShader(ShaderBuilder()
-            .setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("phong_fs.frag")
+            .setVertexShader("textured_vs.vert")
+            ->setFragmentShader("phong_textured_fs.frag")
             ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(sc1Transform)
         ->setMaterial(blueMaterial)
-        ->setTexture(new Texture("rat_diff.jpg"))
+        ->setTexture(new Texture("m4_diff.png"))
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()

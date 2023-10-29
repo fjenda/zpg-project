@@ -24,6 +24,7 @@ private:
     glm::vec3 position;
     glm::vec3 color;
     float intensity = 1.f;
+    float attenuation = 0.1f;
 
     glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
     glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);

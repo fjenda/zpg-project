@@ -12,21 +12,21 @@ V několika větách popište kde máte ve zdrojovém kódu danou věc (třída,
      Popis: Soubor Shader.h, řádek 44, je zde výhoda enkapsulace, další třídy na toto ID nevidí a nemohou ho měnit.
 
   b) splněno
-     Popis: Třída Shader, řádky 58-59, zde je výhoda enkapsulace
+     Popis: Třída Shader, řádky 64-65, zde je výhoda enkapsulace
 
   c) splněno
-     Popis: Soubor Shader.cpp řádek 135, zde je výhoda toho, že můžeme přidat vlastní chování,
+     Popis: Soubor Shader.h řádky 53-57 a 74-84, zde je výhoda toho, že můžeme přidat vlastní chování,
      navíc je zbytěčné do každé setovací metody přidávat stejný kód na získání ID a následné kontroly.
 
   d) splněno
-     Popis: Soubor Shader.cpp, řádek 15, zde se posílá do konstruktory cesta k shaderu, který se načte a přeloží.
+     Popis: Soubor Shader.cpp, řádek 10, zde se posílá do konstruktoru cesta k shaderu, který se načte a přeloží.
      Výhoda je v tom, že můžeme mít více než jeden shader, stačí nám poze zadat cestu k němu.
 
 
 2. Třída DrawableModel
 ----------------------
   a) splněno
-     Popis: Soubor RenderableModel.h řádky 32-36, zde je výhoda toho, že stačí pouze přiřadit daný model, shader program,
+     Popis: Soubor RenderableModel.h řádky 34-38, zde je výhoda toho, že stačí pouze přiřadit daný model, shader program,
      materiál a transformace k RenderableModelu a pak už jen stačí volat metodu render();
 
 
@@ -36,7 +36,7 @@ V několika větách popište kde máte ve zdrojovém kódu danou věc (třída,
      Popis: Třídy Transformation, Translation, Scale, Rotation, Composite,
      v jednotlivých scénách je vidět jak se skládají transformace a následně používají
 
-  b) splněno / nesplněno
+  b) nesplněno
      Popis:
 
   c) splněno
@@ -61,11 +61,11 @@ V několika větách popište kde máte ve zdrojovém kódu danou věc (třída,
 
 5. Třída Light
 ----------------------
-  a) splněno / nesplněno
-     Popis:
+  a) splněno
+     Popis: Třída Light, řádky 24-27
 
-  b) splněno / nesplněno
-     Popis:
+  b) splněno
+     Popis: Pomocí get metod můžeme získat pozici světla, jeho barvu a intensitu, kterou pak v shaderu použijeme
 
 6. Třída Material
 ----------------------
@@ -83,20 +83,20 @@ Testovací scény
 
 2) Test na rotaci a jeji skládání.
 ----------------------
-  splněno / nesplněno
-  Popis:
+  splněno
+  Popis: Scéna SolarSystem,
 
 3) Test na ořezání světla, které nemůže dopadnou na plochu.
 ----------------------
-  splněno / nesplněno
-  Popis:
+  splněno
+  Popis: Díky kontrole v shaderu se světlo zobrazí/nezobrazí
 
 4) Test na změnu velikosti obrazovky.
 ----------------------
-  splněno / nesplněno
-  Popis:
+  splněno
+  Popis: Po změně velikosti se změní viewport a poměr stran
 
 5) Testování na více objektů a použití více shaderu ve scéně (procházení lesa).
 ----------------------
-  splněno / nesplněno
-  Popis:
+  splněno
+  Popis: Scéna ForestScene, ve scéně jsou objekty tree, sphere, suzi, bushes a plain, které jsou rozmístěny náhodně
