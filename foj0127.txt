@@ -34,7 +34,7 @@ V několika větách popište kde máte ve zdrojovém kódu danou věc (třída,
 ----------------------
   a) splněno
      Popis: Třídy Transformation, Translation, Scale, Rotation, Composite,
-     v mainu je vidět jak se skládají transformace a následně používají
+     v jednotlivých scénách je vidět jak se skládají transformace a následně používají
 
   b) splněno / nesplněno
      Popis:
