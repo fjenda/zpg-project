@@ -12,6 +12,7 @@ uniform vec3 cameraPosition;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform float lightIntensity;
+uniform float lightRadius;
 
 // Material
 uniform vec3 r_ambient;
@@ -25,6 +26,10 @@ uniform sampler2D texture0;
 void main(void) {
     // light direction
     vec3 lightDir = lightPos - position;
+
+    // attenuation
+    float dist = length(lightDir);
+    float attenuation = 1 - dist / lightRadius * 2;
 
     // ambient
     vec3 ambient = r_ambient * lightColor;
@@ -45,6 +50,6 @@ void main(void) {
     }
 
     // result
-    vec3 result = (ambient + diffuse + specular) * lightIntensity;
+    vec3 result = (ambient + diffuse + specular) * lightIntensity * attenuation;
     frag_color = texture(texture0, texCoord) * vec4(result, 1.0);
 }

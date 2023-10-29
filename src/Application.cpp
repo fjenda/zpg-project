@@ -1,5 +1,6 @@
 ﻿#include "../Include/Application.h"
 
+
 Application::~Application() {
     for (auto scene : this->scenes) {
         delete scene;
@@ -20,9 +21,6 @@ void Application::initialization(int w, int h)
     // start GLEW extension handler
     glewExperimental = GL_TRUE;
     glewInit();
-
-    //set callbacks
-//    setCallbacks();
 
     //hide the cursor
     glfwSetInputMode(this->window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -64,7 +62,7 @@ void Application::run()
 
         // clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
         this->currentScene->render(this->window->getWindow());
 
         ImGui::Render();

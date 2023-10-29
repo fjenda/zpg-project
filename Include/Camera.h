@@ -28,7 +28,6 @@ private:
     Shader* shader;
 
     glm::vec3 position;
-//    glm::vec3 target;
     glm::vec3 cameraUp;
     glm::vec3 cameraFront;
     float fov = 45.f;

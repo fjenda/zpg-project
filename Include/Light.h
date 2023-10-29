@@ -24,7 +24,11 @@ private:
     glm::vec3 position;
     glm::vec3 color;
     float intensity = 1.f;
-    float attenuation = 0.1f;
+    float lightRadius = 100.f;
+
+    float constant = 1.0f;
+    float linear = 0.09f;
+    float quadratic = 0.032f;
 
     glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
     glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -32,9 +36,11 @@ private:
 
 public:
     Light(glm::vec3 position, float intensity, glm::vec3 color);
+    Light(glm::vec3 position, float intensity, glm::vec3 color, float lightRadius);
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getColor() const { return this->color; }
     float getIntensity() const { return this->intensity; }
+    float getLightRadius() const { return this->lightRadius; }
 
     void setPosition(glm::vec3 position) {
         this->position = position;
@@ -49,6 +55,11 @@ public:
 
     void setIntensity(float intensity) {
         this->intensity = intensity;
+        notify();
+    }
+
+    void setLightRadius(float lightRadius) {
+        this->lightRadius = lightRadius;
         notify();
     }
 

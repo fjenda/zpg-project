@@ -28,10 +28,15 @@ void Scene::render(GLFWwindow* window) {
                        glfwGetKey(window, GLFW_KEY_A),
                        glfwGetKey(window, GLFW_KEY_D));
 
-
 	for (auto model : models) {
 		model->render();
 	}
+
+    if (this->skybox != nullptr) {
+        glDepthFunc(GL_LEQUAL);
+        this->skybox->render();
+        glDepthFunc(GL_LESS);
+    }
 }
 
 void Scene::addModel(RenderableModel* model) {
@@ -53,21 +58,29 @@ void Scene::setLights(const std::vector<Light *> l) {
     this->shader->setLights(l);
 }
 
+void Scene::setSkybox(RenderableModel* skybox) {
+    this->skybox = skybox;
+}
+
 void Scene::enableDebugInterface() {
     ImGui::Begin("Debug interface");
 
     this->camera->enableDebugInterface();
+    this->lights[0]->enableDebugInterface();
 
 
-    ImGui::BeginChildFrame(ImGui::GetID("Models"), ImVec2(300, 300));
-    ImGui::Text("Models - %zu", models.size());
-    int i = 1;
-    for (auto model : models) {
-        model->enableDebugInterface(i);
-        i++;
+    auto text = "Entities - " + std::to_string(models.size());
+    if (ImGui::TreeNode(text.c_str())) {
+        ImGui::TreePop();
+        ImGui::Indent(5.f);
+
+        int i = 1;
+        for (auto model : models) {
+            model->enableDebugInterface(i);
+            i++;
+        }
     }
 
-    ImGui::EndChild();
 
     ImGui::End();
 }

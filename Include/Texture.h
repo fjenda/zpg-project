@@ -30,8 +30,10 @@ private:
     int nrChannels;
     unsigned char *data;
 
+    bool skybox;
+
 public:
-    Texture(const char *path);
+    Texture(bool skybox, const char *path);
     ~Texture();
 
     void bind() const;
@@ -41,6 +43,7 @@ public:
     int getHeight() const { return height; };
     int getNrChannels() const { return nrChannels; };
     unsigned char *getData();
+    bool isSkybox() const { return skybox; };
 };
 
 #endif //ZPGPROJECT_TEXTURE_H

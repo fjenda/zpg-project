@@ -8,6 +8,7 @@ out vec4 frag_color;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform float lightIntensity;
+uniform float lightRadius;
 
 // Material
 uniform vec3 r_ambient;
@@ -19,6 +20,10 @@ void main(void) {
     // light direction
     vec3 lightDir = lightPos - position;
 
+    // attenuation
+    float dist = length(lightDir);
+    float attenuation = 1 - dist / lightRadius * 2;
+
     // ambient
     vec3 ambient = r_ambient * lightColor;
 
@@ -27,6 +32,6 @@ void main(void) {
     vec3 diffuse = r_diffuse * diff * lightColor;
 
     // result
-    vec3 result = (ambient + diffuse) * objectColor * lightIntensity;
+    vec3 result = (ambient + diffuse) * objectColor * lightIntensity * attenuation;
     frag_color = vec4(result, 1.0);
 }

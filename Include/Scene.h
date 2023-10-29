@@ -28,6 +28,7 @@ private:
 
     Camera* camera;
     Shader* shader;
+    RenderableModel* skybox = nullptr;
 
 public:
 	Scene(int id);
@@ -38,6 +39,7 @@ public:
     void addModel(const std::string& pFile);
 
     void setLights(const std::vector<Light*> l);
+    void setSkybox(RenderableModel* skybox);
 
     int getId() { return this->id; }
 

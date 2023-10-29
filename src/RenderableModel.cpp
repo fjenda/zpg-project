@@ -2,6 +2,7 @@
 #include "../Models/Models.h"
 #include "../Include/ArrayConverter.h"
 #include "imgui/imgui.h"
+#include "../Include/Application.h"
 
 RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
     this->model = model;
@@ -56,13 +57,9 @@ void RenderableModel::infoLog() {
 }
 
 void RenderableModel::enableDebugInterface(int id) {
-    ImGui::BeginChild("RenderableModel");
-    ImGui::Text("RenderableModel #%d", id);
-    ImGui::Indent();
-    ImGui::Text("Model:");
-    ImGui::Unindent();
-
-    ImGui::EndChildFrame();
+    if (ImGui::TreeNode("RenderableModel")) {
+        ImGui::TreePop();
+    }
 }
 
 RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {

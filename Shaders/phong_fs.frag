@@ -11,6 +11,7 @@ uniform vec3 cameraPosition;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform float lightIntensity;
+uniform float lightRadius;
 
 // Material
 uniform vec3 r_ambient;
@@ -22,6 +23,10 @@ uniform vec3 objectColor;
 void main(void) {
     // light direction
     vec3 lightDir = lightPos - position;
+
+    // attenuation
+    float dist = length(lightDir);
+    float attenuation = 1 - dist / lightRadius * 2;
 
     // ambient
     vec3 ambient = r_ambient * lightColor;
@@ -42,6 +47,6 @@ void main(void) {
     }
 
     // result
-    vec3 result = (ambient + diffuse + specular) * objectColor * lightIntensity;
+    vec3 result = (ambient + diffuse + specular) * objectColor * lightIntensity * attenuation;
     frag_color = vec4(result, 1.0);
 }

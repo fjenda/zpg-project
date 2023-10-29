@@ -13,6 +13,7 @@
 #include "Scenes/BallScene.h"
 #include "Scenes/ForestScene.h"
 #include "Scenes/SolarSystemScene.h"
+#include "Models/skybox.h"
 
 int main(void)
 {
@@ -57,20 +58,42 @@ int main(void)
     sc1_lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, glm::vec3(1.f)));
     app.getSceneById(1)->setLights(sc1_lights);
 
+    // Skybox
+    auto skyboxShader = ShaderBuilder()
+        .setVertexShader("skybox_vs.vert")
+        ->setFragmentShader("skybox_fs.frag")
+        ->setCamera(app.getSceneById(1)->getCamera())
+    ->build();
+
+    auto skyboxModel = new Model(skycube);
+    auto skyboxMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
+    auto skyboxTexture = new Texture(true, "NicerSkybox/");
+    auto skyboxTransformation = new Translation(glm::vec3(0.f, 0.f, 0.f));
+
+    auto skybox = RenderableModelBuilder()
+        .setModel(skyboxModel)
+        ->setShader(skyboxShader)
+        ->setMaterial(skyboxMaterial)
+        ->setTexture(skyboxTexture)
+        ->setTransformation(skyboxTransformation)
+    ->build();
+
     // Scene 1
+    app.getSceneById(1)->setSkybox(skybox);
+
     auto objsLoaded = std::vector<std::shared_ptr<Model>>();
     objsLoaded.push_back(ModelLoader::loadModel("m4.obj"));
     objsLoaded.push_back(ModelLoader::loadModel("backpack.obj"));
 
-    app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
-        .setShader(ShaderBuilder()
-            .setVertexShader("vertexShader_light.vert")
-            ->setFragmentShader("phong_fs.frag")
-            ->setCamera(app.getSceneById(1)->getCamera())
-            ->build())
-        ->setTransformation(floorTransform)
-        ->setMaterial(blueMaterial)
-        ->build());
+//    app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
+//        .setShader(ShaderBuilder()
+//            .setVertexShader("vertexShader_light.vert")
+//            ->setFragmentShader("phong_fs.frag")
+//            ->setCamera(app.getSceneById(1)->getCamera())
+//            ->build())
+//        ->setTransformation(floorTransform)
+//        ->setMaterial(blueMaterial)
+//        ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[0])
@@ -81,7 +104,7 @@ int main(void)
             ->build())
         ->setTransformation(sc1Transform)
         ->setMaterial(blueMaterial)
-        ->setTexture(new Texture("m4_diff.png"))
+        ->setTexture(new Texture(false, "m4_diff.png"))
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
@@ -93,7 +116,7 @@ int main(void)
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, 5.f, 0.f)))
         ->setMaterial(blueMaterial)
-        ->setTexture(new Texture("backpack_diff.jpg"))
+        ->setTexture(new Texture(false, "backpack_diff.jpg"))
         ->build());
 
     // Scene 3

@@ -76,11 +76,19 @@ void Shader::unuse() const {
 }
 
 void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
+    if (this->fragmentShaderPath == "skybox_fs.frag")
+        return;
+
     setUniformVariable("model", modelMatrix);
 }
 
 void Shader::setViewMatrix() {
-    setUniformVariable("view", viewMatrix);
+    if (this->fragmentShaderPath == "skybox_fs.frag") {
+        this->viewMatrix = glm::mat4(glm::mat3(camera->getCamera()));
+        setUniformVariable("view", viewMatrix);
+    } else {
+        setUniformVariable("view", viewMatrix);
+    }
 }
 
 void Shader::setProjectionMatrix() {
@@ -89,7 +97,8 @@ void Shader::setProjectionMatrix() {
 
 void Shader::setUniformLights() const {
     if (this->fragmentShaderPath == "fragmentShader.frag" ||
-        this->fragmentShaderPath == "constant_fs.frag") {
+        this->fragmentShaderPath == "constant_fs.frag" ||
+        this->fragmentShaderPath == "skybox_fs.frag") {
         return;
     }
 
@@ -97,12 +106,14 @@ void Shader::setUniformLights() const {
     setUniformVariable("lightPos", lights[0]->getPosition());
     setUniformVariable("lightColor", lights[0]->getColor());
     setUniformVariable("lightIntensity", lights[0]->getIntensity());
+    setUniformVariable("lightRadius", lights[0]->getLightRadius());
 }
 
 void Shader::setUniformCamera() const {
     if (this->fragmentShaderPath == "fragmentShader.frag" ||
         this->fragmentShaderPath == "constant_fs.frag" ||
-        this->fragmentShaderPath == "lambert_fs.frag") {
+        this->fragmentShaderPath == "lambert_fs.frag" ||
+        this->fragmentShaderPath == "skybox_fs.frag") {
         return;
     }
 
@@ -110,7 +121,8 @@ void Shader::setUniformCamera() const {
 }
 
 void Shader::setUniformMaterial(Material *material) const {
-    if (this->fragmentShaderPath == "fragmentShader.frag")
+    if (this->fragmentShaderPath == "fragmentShader.frag" ||
+        this->fragmentShaderPath == "skybox_fs.frag")
         return;
 
     if (this->fragmentShaderPath != "phong_textured_fs.frag")
