@@ -11,7 +11,11 @@ uniform vec3 cameraPosition;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform float lightIntensity;
-uniform float lightRadius;
+
+// Attenuation
+uniform float lightConstant;
+uniform float lightLinear;
+uniform float lightQuadratic;
 
 // Material
 uniform vec3 r_ambient;
@@ -27,7 +31,7 @@ void main(void) {
 
     // attenuation
     float dist = length(lightDir);
-    float attenuation = 1 - dist / lightRadius * 2;
+    float attenuation = 1.0 / (lightConstant + lightLinear * dist + lightQuadratic * (dist * dist));
 
     // ambient
     vec3 ambient = r_ambient * lightColor;

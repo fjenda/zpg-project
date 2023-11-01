@@ -29,7 +29,7 @@ SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
 
     // Lights
     auto lights = std::vector<Light*>();
-    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, WHITE));
+    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), WHITE));
     setLights(lights);
     this->lights = lights;
 
@@ -98,9 +98,7 @@ SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
     // Moon
     auto moon = new Composite();
 
-    moon->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 35.f, glm::vec3(0.f, 0.f, 0.f)));
-    moon->addChild(new Translation(glm::vec3(15.f, 0.f, 0.f)));
-    moon->addChild(earth_rot);
+    moon->addChild(earth);
     moon->addChild(new Translation(glm::vec3(2.f, 0.f, 0.f)));
     moon->addChild(new Scale(glm::vec3(0.5f)));
     this->transformations.push_back(moon);
@@ -133,9 +131,11 @@ SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
     // Mars moon 1
     auto mars_moon1 = new Composite();
 
-    mars_moon1->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 50.f, glm::vec3(0.f, 0.f, 0.f)));
-    mars_moon1->addChild(new Translation(glm::vec3(20.f, 0.f, 0.f)));
-    mars_moon1->addChild(mars_rot);
+//    mars_moon1->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 50.f, glm::vec3(0.f, 0.f, 0.f)));
+//    mars_moon1->addChild(new Translation(glm::vec3(20.f, 0.f, 0.f)));
+//    mars_moon1->addChild(mars_rot);
+    mars_moon1->addChild(mars);
+    mars_moon1->addChild(new Scale(glm::vec3(1.2f)));
     mars_moon1->addChild(new Translation(glm::vec3(2.f, 0.f, 0.f)));
     mars_moon1->addChild(new Scale(glm::vec3(0.5f)));
     this->transformations.push_back(mars_moon1);
@@ -149,9 +149,11 @@ SolarSystemScene::SolarSystemScene(int id) : Scene(id) {
     // Mars moon 2
     auto mars_moon2 = new Composite();
 
-    mars_moon2->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 50.f, glm::vec3(0.f, 0.f, 0.f)));
-    mars_moon2->addChild(new Translation(glm::vec3(20.f, 0.f, 0.f)));
-    mars_moon2->addChild(mars_rot);
+//    mars_moon2->addChild(new Rotation(false, glm::vec3(0.f, 1.f, 0.f), 50.f, glm::vec3(0.f, 0.f, 0.f)));
+//    mars_moon2->addChild(new Translation(glm::vec3(20.f, 0.f, 0.f)));
+//    mars_moon2->addChild(mars_rot);
+    mars_moon2->addChild(mars);
+    mars_moon2->addChild(new Scale(glm::vec3(1.2f)));
     mars_moon2->addChild(new Translation(glm::vec3(-2.f, 0.f, 0.f)));
     mars_moon2->addChild(new Scale(glm::vec3(0.5f)));
     this->transformations.push_back(mars_moon2);

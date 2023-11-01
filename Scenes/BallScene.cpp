@@ -7,7 +7,7 @@
 
 BallScene::BallScene(int id) : Scene(id) {
     std::vector<Light*> sceneLights;
-    sceneLights.push_back(new Light(glm::vec3(0.f), 1, glm::vec3(1.f)));
+    sceneLights.push_back(new Light(glm::vec3(0.f), glm::vec3(1.f)));
     setLights(sceneLights);
 
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, glm::vec3(0.385, 0.647, 0.812));

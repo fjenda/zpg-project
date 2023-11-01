@@ -19,51 +19,54 @@
 #include "imgui/imgui.h"
 #include "Observer.h"
 
+#include <string>
+
 class Light : public Subject {
-private:
+protected:
     glm::vec3 position;
+    glm::vec3 direction;
     glm::vec3 color;
+
     float intensity = 1.f;
-    float lightRadius = 100.f;
 
     float constant = 1.0f;
-    float linear = 0.09f;
-    float quadratic = 0.032f;
+    float linear = 0.007f;
+    float quadratic = 0.0002f;
 
-    glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-    glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-    glm::vec3 specular = glm::vec3(1.f, 1.f, 1.f);
+    float cutoff = 0.f; // for spot-light
+
+    int type = 0; // 0 - point, 1 - directional, 2 - spot
 
 public:
-    Light(glm::vec3 position, float intensity, glm::vec3 color);
-    Light(glm::vec3 position, float intensity, glm::vec3 color, float lightRadius);
+    Light(glm::vec3 position, glm::vec3 color);
+    Light(glm::vec3 position, glm::vec3 color, float intensity);
+
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getColor() const { return this->color; }
     float getIntensity() const { return this->intensity; }
-    float getLightRadius() const { return this->lightRadius; }
+    float getAttenuationConst() const { return this->constant; }
+    float getAttenuationLinear() const { return this->linear; }
+    float getAttenuationQuadratic() const { return this->quadratic; }
+    float getCutoff() const { return this->cutoff; }
+    int getType() const { return this->type; }
+    glm::vec3 getDirection() const { return this->direction; }
 
-    void setPosition(glm::vec3 position) {
-        this->position = position;
-        notify();
-    }
+    void enableDebugInterface(int id);
+};
 
-    void setColor(glm::vec3 color) {
-        this->color = color;
-        notify();
+class PointLight : public Light{
+public:
+    PointLight(glm::vec3 position, glm::vec3 color);
+};
 
-    }
+class DirLight : public Light{
+public:
+    DirLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction);
+};
 
-    void setIntensity(float intensity) {
-        this->intensity = intensity;
-        notify();
-    }
-
-    void setLightRadius(float lightRadius) {
-        this->lightRadius = lightRadius;
-        notify();
-    }
-
-    void enableDebugInterface();
+class SpotLight : public Light{
+public:
+    SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float cutoff);
 };
 
 #endif //ZPGPROJECT_LIGHT_H

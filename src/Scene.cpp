@@ -66,19 +66,29 @@ void Scene::enableDebugInterface() {
     ImGui::Begin("Debug interface");
 
     this->camera->enableDebugInterface();
-    this->lights[0]->enableDebugInterface();
+    ImGui::Separator();
 
-
-    auto text = "Entities - " + std::to_string(models.size());
-    if (ImGui::TreeNode(text.c_str())) {
-        ImGui::TreePop();
+    auto lightsT = "Lights - " + std::to_string(lights.size());
+    if (ImGui::TreeNode(lightsT.c_str())) {
         ImGui::Indent(5.f);
 
+        int i = 1;
+        for (auto light : lights) {
+            light->enableDebugInterface(i);
+            i++;
+        }
+        ImGui::TreePop();
+    }
+    ImGui::Separator();
+
+    auto modelsT = "Entities - " + std::to_string(models.size());
+    if (ImGui::TreeNode(modelsT.c_str())) {
         int i = 1;
         for (auto model : models) {
             model->enableDebugInterface(i);
             i++;
         }
+        ImGui::TreePop();
     }
 
 

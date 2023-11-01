@@ -52,11 +52,14 @@ int main(void)
 
     // Material
     auto blueMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, glm::vec3(0.385, 0.647, 0.812));
+    auto whiteMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
 
     // Light
     auto sc1_lights = std::vector<Light*>();
-    sc1_lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, glm::vec3(1.f)));
+    sc1_lights.push_back(new PointLight(glm::vec3(-10.f, 10.f, 0.f), BLUE));
+    sc1_lights.push_back(new PointLight(glm::vec3(10.f, 10.f, 0.f), RED));
     app.getSceneById(1)->setLights(sc1_lights);
+
 
     // Skybox
     auto skyboxShader = ShaderBuilder()
@@ -85,38 +88,42 @@ int main(void)
     objsLoaded.push_back(ModelLoader::loadModel("m4.obj"));
     objsLoaded.push_back(ModelLoader::loadModel("backpack.obj"));
 
-//    app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
-//        .setShader(ShaderBuilder()
-//            .setVertexShader("vertexShader_light.vert")
-//            ->setFragmentShader("phong_fs.frag")
-//            ->setCamera(app.getSceneById(1)->getCamera())
-//            ->build())
-//        ->setTransformation(floorTransform)
-//        ->setMaterial(blueMaterial)
-//        ->build());
+    app.getSceneById(1)->addModel(RenderableModelBuilder(ModelKind::PLAIN)
+        .setShader(ShaderBuilder()
+            .setVertexShader("vertexShader_light.vert")
+            ->setFragmentShader("multilight_fs.frag")
+            ->setCamera(app.getSceneById(1)->getCamera())
+            ->build())
+        ->setTransformation(floorTransform)
+        ->setMaterial(whiteMaterial)
+        ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[0])
         ->setShader(ShaderBuilder()
-            .setVertexShader("textured_vs.vert")
-            ->setFragmentShader("phong_textured_fs.frag")
+//            .setVertexShader("textured_vs.vert")
+//            ->setFragmentShader("phong_textured_fs.frag")
+            .setVertexShader("vertexShader_light.vert")
+            ->setFragmentShader("multilight_fs.frag")
             ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(sc1Transform)
-        ->setMaterial(blueMaterial)
-        ->setTexture(new Texture(false, "m4_diff.png"))
+        ->setMaterial(whiteMaterial)
+//        ->setTexture(new Texture(false, "m4_diff.png"))
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()
         .setModel(objsLoaded[1])
         ->setShader(ShaderBuilder()
-            .setVertexShader("textured_vs.vert")
-            ->setFragmentShader("phong_textured_fs.frag")
+//            .setVertexShader("textured_vs.vert")
+//            ->setFragmentShader("phong_textured_fs.frag")
+            .setVertexShader("vertexShader_light.vert")
+            ->setFragmentShader("multilight_fs.frag")
             ->setCamera(app.getSceneById(1)->getCamera())
             ->build())
         ->setTransformation(new Translation(glm::vec3(0.f, 5.f, 0.f)))
-        ->setMaterial(blueMaterial)
-        ->setTexture(new Texture(false, "backpack_diff.jpg"))
+        ->setMaterial(whiteMaterial)
+//        ->setTexture(new Texture(false, "backpack_diff.jpg"))
         ->build());
 
     // Scene 3
@@ -126,7 +133,7 @@ int main(void)
 
     // Lights
     auto backLight = std::vector<Light*>();
-    backLight.push_back(new Light(glm::vec3(0.f, 0.f, -3.f), 1, glm::vec3(1.f)));
+    backLight.push_back(new Light(glm::vec3(0.f, 0.f, -3.f), glm::vec3(1.f)));
     app.getSceneById(3)->setLights(backLight);
 
     // Objects
@@ -144,7 +151,7 @@ int main(void)
 
     // Lights
     auto centerLight = std::vector<Light*>();
-    centerLight.push_back(new Light(glm::vec3(0.f, 0.f, 0.f), 1, glm::vec3(1.f)));
+    centerLight.push_back(new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f)));
     app.getSceneById(4)->setLights(centerLight);
 
     // Objects

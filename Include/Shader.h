@@ -50,6 +50,7 @@ private:
     std::string vertexShaderPath;
     std::string fragmentShaderPath;
 
+    void _setUniformVariable(const std::string &uniformName, int value) const;
     void _setUniformVariable(const std::string &uniformName, float value) const;
     void _setUniformVariable(const std::string &uniformName, const glm::vec3 &value) const;
     void _setUniformVariable(const std::string &uniformName, const glm::vec4 &value) const;

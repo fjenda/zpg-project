@@ -4,18 +4,21 @@
 
 #include "../Include/Light.h"
 
-Light::Light(glm::vec3 position, float intensity, glm::vec3 color) :
+Light::Light(glm::vec3 position, glm::vec3 color) : position(position), color(color) { }
+
+Light::Light(glm::vec3 position, glm::vec3 color, float intensity) :
     position(position), color(color), intensity(intensity) { }
 
-Light::Light(glm::vec3 position, float intensity, glm::vec3 color, float lightRadius) :
-    position(position), color(color), intensity(intensity), lightRadius(lightRadius) { }
-
-void Light::enableDebugInterface() {
-    if (ImGui::TreeNode("Light")) {
-        ImGui::TreePop();
-
+void Light::enableDebugInterface(int id) {
+    auto label = std::string("Light - ") + std::to_string(id);
+    if (ImGui::TreeNode(label.c_str())) {
         if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))
             notify();
+
+        if (this->type != 0) {
+            if (ImGui::DragFloat3("Direction", glm::value_ptr(this->direction), 1.f, -1.f, 1.f))
+                notify();
+        }
 
         if (ImGui::ColorEdit3("Color", glm::value_ptr(this->color)))
             notify();
@@ -23,8 +26,21 @@ void Light::enableDebugInterface() {
         if (ImGui::DragFloat("Intensity", &this->intensity, 0.01f, 0.0f, 1.0f))
             notify();
 
-        if (ImGui::DragFloat("Light radius", &this->lightRadius, 0.5f, 0.0f, 100.0f)) {
-            notify();
-        }
+        ImGui::TreePop();
     }
+}
+
+PointLight::PointLight(glm::vec3 position, glm::vec3 color) : Light(position, color) {
+    this->type = 0;
+}
+
+DirLight::DirLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction) : Light(position, color) {
+    this->type = 1;
+    this->direction = direction;
+}
+
+SpotLight::SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float cutoff) : Light(position, color) {
+    this->type = 2;
+    this->cutoff = cutoff;
+    this->direction = direction;
 }

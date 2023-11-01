@@ -58,7 +58,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     // Lights
     auto lights = std::vector<Light*>();
-    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), 1, glm::vec3(1.f)));
+    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f)));
     setLights(lights);
     this->lights = lights;
 

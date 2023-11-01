@@ -96,6 +96,9 @@ void Shader::setProjectionMatrix() {
 }
 
 void Shader::setUniformLights() const {
+    if (lights.empty())
+        return;
+
     if (this->fragmentShaderPath == "fragmentShader.frag" ||
         this->fragmentShaderPath == "constant_fs.frag" ||
         this->fragmentShaderPath == "skybox_fs.frag") {
@@ -103,10 +106,57 @@ void Shader::setUniformLights() const {
     }
 
     // TODO: multiple lights
-    setUniformVariable("lightPos", lights[0]->getPosition());
-    setUniformVariable("lightColor", lights[0]->getColor());
-    setUniformVariable("lightIntensity", lights[0]->getIntensity());
-    setUniformVariable("lightRadius", lights[0]->getLightRadius());
+    // Single light
+    if (this->fragmentShaderPath != "multilight_fs.frag") {
+        if (lights.size() > 1) {
+            fprintf(stderr, "[WARNING] More than one light in shader\n");
+            return;
+        }
+
+        setUniformVariable("lightPos", lights[0]->getPosition());
+        setUniformVariable("lightColor", lights[0]->getColor());
+        setUniformVariable("lightIntensity", lights[0]->getIntensity());
+
+        // Attenuation
+        setUniformVariable("lightConstant", lights[0]->getAttenuationConst());
+        setUniformVariable("lightLinear", lights[0]->getAttenuationLinear());
+        setUniformVariable("lightQuadratic", lights[0]->getAttenuationQuadratic());
+
+        if (lights[0]->getType() == 1 || lights[0]->getType() == 2) { // Directional light
+            setUniformVariable("lightDir", lights[0]->getDirection());
+        }
+
+        if (lights[0]->getType() == 2) {
+            //TODO
+//            setUniformVariable("lightCutoff", lights[0]->getCutoff());
+        }
+    } else {
+        for (size_t i = 0; i < lights.size(); i++) {
+            // Lights count
+            setUniformVariable("lightCount", (int) lights.size());
+
+            setUniformVariable("lights[" + std::to_string(i) + "].position", lights[i]->getPosition());
+            setUniformVariable("lights[" + std::to_string(i) + "].color", lights[i]->getColor());
+            setUniformVariable("lights[" + std::to_string(i) + "].intensity", lights[i]->getIntensity());
+
+            // Attenuation
+            setUniformVariable("lights[" + std::to_string(i) + "].constant", lights[i]->getAttenuationConst());
+            setUniformVariable("lights[" + std::to_string(i) + "].linear", lights[i]->getAttenuationLinear());
+            setUniformVariable("lights[" + std::to_string(i) + "].quadratic", lights[i]->getAttenuationQuadratic());
+
+            // Light type
+            setUniformVariable("lights[" + std::to_string(i) + "].type", lights[i]->getType());
+
+            if (lights[i]->getType() == 1 || lights[i]->getType() == 2) { // Directional light
+                setUniformVariable("lights[" + std::to_string(i) + "].direction", lights[i]->getDirection());
+            }
+
+            if (lights[i]->getType() == 2) {
+                //TODO
+//            setUniformVariable("lightCutoff", lights[0]->getCutoff());
+            }
+        }
+    }
 }
 
 void Shader::setUniformCamera() const {
@@ -139,6 +189,10 @@ void Shader::setUniformMaterial(Material *material) const {
 
     setUniformVariable("r_specular", material->getSpecular());
     setUniformVariable("shininess", material->getShininess());
+}
+
+void Shader::_setUniformVariable(const std::string &uniformName, int value) const {
+    glProgramUniform1i(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), value);
 }
 
 void Shader::_setUniformVariable(const std::string &uniformName, float value) const {

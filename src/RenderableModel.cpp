@@ -57,7 +57,8 @@ void RenderableModel::infoLog() {
 }
 
 void RenderableModel::enableDebugInterface(int id) {
-    if (ImGui::TreeNode("RenderableModel")) {
+    auto text = std::string("RenderableModel - ") + std::to_string(id);
+    if (ImGui::TreeNode(text.c_str())) {
         ImGui::TreePop();
     }
 }
