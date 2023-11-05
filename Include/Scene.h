@@ -41,7 +41,7 @@ public:
     void setLights(const std::vector<Light*> l);
     void setSkybox(RenderableModel* skybox);
 
-    int getId() { return this->id; }
+    int getId() const { return this->id; }
 
     Camera* getCamera() { return this->camera; }
 

@@ -11,7 +11,7 @@ Scene::Scene(int id) {
     this->shader->setCamera(this->camera);
     CallbackController::setCamera(this->camera);
 
-    this->camera->notify();
+    this->camera->notify(VIEW_UPDATE);
     fprintf(stdout, "[DEBUG] Scene #%d created\n", id);
 }
 
@@ -33,13 +33,6 @@ void Scene::render(GLFWwindow* window) {
                        glfwGetKey(window, GLFW_KEY_S),
                        glfwGetKey(window, GLFW_KEY_A),
                        glfwGetKey(window, GLFW_KEY_D));
-
-    // get flashlight if any and move it with camera
-    auto flashlight = std::find_if(lights.begin(), lights.end(), [](Light* l) { return l->isFlashlight(); });
-    if (flashlight != lights.end()) {
-        (*flashlight)->setDirection(this->camera->getDirection());
-        (*flashlight)->setPosition(this->camera->getPosition());
-    }
 
 	for (auto model : models) {
 		model->render();

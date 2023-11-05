@@ -80,6 +80,10 @@ void Shader::setModelMatrix(glm::mat4 modelMatrix) const {
         return;
 
     setUniformVariable("model", modelMatrix);
+
+    if (this->vertexShaderPath == "vertexShader_light.vert" ||
+        this->vertexShaderPath == "textured_vs.vert")
+        setUniformVariable("normalMatrix", glm::transpose(glm::inverse(modelMatrix)));
 }
 
 void Shader::setViewMatrix() {
@@ -106,7 +110,7 @@ void Shader::setUniformLights() const {
     }
 
     // Single light
-    if (this->fragmentShaderPath != "multilight_fs.frag") {
+    if (this->fragmentShaderPath != "multilight_fs.frag" && this->fragmentShaderPath != "multilight_textured_fs.frag") {
         if (lights.size() > 1) {
             fprintf(stderr, "[WARNING] More than one light in shader\n");
             return;
@@ -174,7 +178,7 @@ void Shader::setUniformMaterial(Material *material) const {
         this->fragmentShaderPath == "skybox_fs.frag")
         return;
 
-    if (this->fragmentShaderPath != "phong_textured_fs.frag")
+    if (this->fragmentShaderPath != "phong_textured_fs.frag" && this->fragmentShaderPath != "multilight_textured_fs.frag")
         setUniformVariable("objectColor", material->getColor());
 
     if (this->fragmentShaderPath == "constant_fs.frag")
@@ -216,7 +220,10 @@ void Shader::_setUniformVariable(const std::string &uniformName, const glm::mat4
 
 void Shader::setLights(std::vector<Light *> l) {
     this->lights = l;
-    this->lights[0]->attach(this);
+
+    for (auto light : this->lights) {
+        light->attach(this);
+    }
 }
 
 void Shader::updateViewMatrix() {
@@ -233,12 +240,19 @@ void Shader::setCamera(Camera *camera) {
     this->camera = camera;
 }
 
-void Shader::update(Subject *subject) {
-    if (dynamic_cast<Camera*>(subject) != nullptr) {
-        this->updateViewMatrix();
-        this->updateProjectionMatrix();
-    } else if (dynamic_cast<Light*>(subject) != nullptr) {
-        this->setUniformLights();
+void Shader::update(Subject *subject, Event event) {
+    switch (event) {
+        case VIEW_UPDATE:
+            this->updateViewMatrix();
+            break;
+        case WINDOW_SIZE_CHANGE:
+            this->updateProjectionMatrix();
+            break;
+        case LIGHT_UPDATE:
+            this->setUniformLights();
+            break;
+        default:
+            break;
     }
 }
 

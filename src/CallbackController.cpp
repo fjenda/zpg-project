@@ -17,7 +17,7 @@ CallbackController::CallbackController(GLFWwindow* window) {
 void CallbackController::setCamera(Camera* c) {
     instance().camera = c;
     instance().attach(instance().camera);
-    instance().notify();
+    instance().notify(VIEW_UPDATE);
 }
 
 CallbackController& CallbackController::instance() {
@@ -74,7 +74,7 @@ void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, 
                 Application::get().setCurrentScene(scene);
                 fprintf(stdout, "[DEBUG] Switched to scene %d\n", id);
                 Application::get().getCurrentScene()->getCamera()->setFirstMouse(true);
-                Application::get().getCurrentScene()->getCamera()->notify();
+                Application::get().getCurrentScene()->getCamera()->notify(VIEW_UPDATE);
                 return;
             }
         }
@@ -97,7 +97,7 @@ void CallbackController::windowSizeCallback(GLFWwindow* window, int width, int h
     Application::get().setRatio(ratio);
 
     glViewport(0, 0, Application::get().getWidth(), Application::get().getHeight());
-    Application::get().getCurrentScene()->getCamera()->notify();
+    Application::get().getCurrentScene()->getCamera()->notify(WINDOW_SIZE_CHANGE);
 
 
     //fprintf(stdout, "[CALLBACK] window_sizeCallback [%d,%d] \n", width, height);

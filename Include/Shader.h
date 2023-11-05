@@ -91,7 +91,7 @@ public:
 
     void setCamera(Camera* camera);
 
-    void update(Subject* subject) override;
+    void update(Subject* subject, Event event) override;
 
 	void infoLog();
 };

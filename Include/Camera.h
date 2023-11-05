@@ -19,7 +19,7 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 #include "Observer.h"
-#include "Light.h"
+#include "Subject.h"
 
 class Shader;
 
@@ -45,7 +45,7 @@ public:
     ~Camera();
 
     void setShader(Shader* s);
-    void update(Subject* subject) override;
+    void update(Subject* subject, Event event) override;
 
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getDirection() const { return this->cameraFront; }

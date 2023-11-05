@@ -24,35 +24,42 @@ float getRandom(float min, float max) {
 ForestScene::ForestScene(int id) : Scene(id) {
 
     // Shaders
-    auto phongShader = std::shared_ptr<Shader>(ShaderBuilder()
-        .setVertexShader("vertexShader_light.vert")
+//    auto phongShader = std::shared_ptr<Shader>(ShaderBuilder()
+//        .setVertexShader("vertexShader_light.vert")
 //        ->setFragmentShader("phong_fs.frag")
-        ->setFragmentShader("multilight_fs.frag")
-        ->setCamera(getCamera())
-    ->build());
-
-    auto lambertShader = std::shared_ptr<Shader>(ShaderBuilder()
-        .setVertexShader("vertexShader_light.vert")
-        ->setFragmentShader("lambert_fs.frag")
-        ->setCamera(getCamera())
-    ->build());
-
-    auto constantShader = std::shared_ptr<Shader>(ShaderBuilder()
-        .setVertexShader("vertexShader_light.vert")
-        ->setFragmentShader("constant_fs.frag")
-        ->setCamera(getCamera())
-    ->build());
-
+//        ->setCamera(getCamera())
+//    ->build());
+//
+//    auto lambertShader = std::shared_ptr<Shader>(ShaderBuilder()
+//        .setVertexShader("vertexShader_light.vert")
+//        ->setFragmentShader("lambert_fs.frag")
+//        ->setCamera(getCamera())
+//    ->build());
+//
+//    auto constantShader = std::shared_ptr<Shader>(ShaderBuilder()
+//        .setVertexShader("vertexShader_light.vert")
+//        ->setFragmentShader("constant_fs.frag")
+//        ->setCamera(getCamera())
+//    ->build());
+//
     auto skyboxShader = std::shared_ptr<Shader>(ShaderBuilder()
         .setVertexShader("skybox_vs.vert")
         ->setFragmentShader("skybox_fs.frag")
         ->setCamera(getCamera())
         ->build());
 
-    this->sh_shaders.push_back(phongShader);
-    this->sh_shaders.push_back(lambertShader);
-    this->sh_shaders.push_back(constantShader);
+//    this->sh_shaders.push_back(phongShader);
+//    this->sh_shaders.push_back(lambertShader);
+//    this->sh_shaders.push_back(constantShader);
     this->sh_shaders.push_back(skyboxShader);
+
+    auto multiLightShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("vertexShader_light.vert")
+        ->setFragmentShader("multilight_fs.frag")
+        ->setCamera(getCamera())
+    ->build());
+
+    this->sh_shaders.push_back(multiLightShader);
 
     // Materials
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
@@ -68,14 +75,15 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     // Lights
     auto lights = std::vector<Light*>();
-//    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f)));
-    lights.push_back(new SpotLight(true, glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
+//    lights.push_back(new DirLight(glm::vec3(0.f, 10.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
+    lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
     setLights(lights);
     this->lights = lights;
 
     // Models
     this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("suzi_hq.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("rat.obj"));
     this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree))));
     this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes))));
     this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift))));
@@ -86,13 +94,13 @@ ForestScene::ForestScene(int id) : Scene(id) {
         .setModel(new Model(skycube))
         ->setShader(skyboxShader)
         ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
-        ->setTexture(new Texture(true, "NightSkybox/"))
+        ->setTexture(new Texture("NightSkybox/", {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}))
         ->setTransformation(new Translation(glm::vec3(0.f, 0.f, 0.f)))
         ->build();
 
     setSkybox(skybox);
 
-    for (int i = 0; i < 250; i++) {
+    for (int i = 0; i < 300; i++) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
@@ -147,16 +155,37 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
         addModel(RenderableModelBuilder()
             .setModel(models[0])
-            ->setShader(phongShader.get())
+            ->setShader(multiLightShader)
             ->setMaterial(greenMaterial)
             ->setTransformation(composite)
         ->build());
     }
 
     addModel(RenderableModelBuilder(ModelKind::PLAIN)
-        .setShader(phongShader)
+        .setShader(ShaderBuilder()
+                .setVertexShader("textured_vs.vert")
+                ->setFragmentShader("multilight_textured_fs.frag")
+                ->setCamera(getCamera())
+            ->build())
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(0.0f, -1.f, 0.0f)))
+        ->setTexture(new Texture("grass.png"))
+    ->build());
+
+    auto ratComp = new Composite();
+    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), -1.f, getRandom(-10., 10.))));
+    ratComp->addChild(new Scale(glm::vec3(5.f)));
+
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[2])
+        ->setShader(ShaderBuilder()
+            .setVertexShader("textured_vs.vert")
+            ->setFragmentShader("multilight_textured_fs.frag")
+            ->setCamera(getCamera())
+            ->build())
+        ->setTransformation(ratComp)
+        ->setMaterial(basicMaterial)
+        ->setTexture(new Texture("rat_diff.jpg"))
     ->build());
 }
 

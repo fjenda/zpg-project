@@ -15,23 +15,13 @@
 
 #include <vector>
 #include <algorithm>
+#include "Event.h"
 
 class Subject;
 class Observer {
 public:
-    virtual void update(Subject* subject) = 0;
+    virtual void update(Subject* subject, Event event) = 0;
     virtual ~Observer() = default;
 };
-
-class Subject {
-private:
-    std::vector<Observer*> observers;
-public:
-    virtual ~Subject() = default;
-    void attach(Observer* observer);
-    void detach(Observer* observer);
-    void notify();
-};
-
 
 #endif //ZPGPROJECT_OBSERVER_H

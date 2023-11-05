@@ -17,7 +17,8 @@
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 #include "imgui/imgui.h"
-#include "Observer.h"
+#include "Subject.h"
+#include "Camera.h"
 
 #include <string>
 
@@ -62,17 +63,17 @@ public:
 
     void setPosition(glm::vec3 position) {
         this->position = position;
-        notify();
+        notify(VIEW_UPDATE);
     }
 
     void setColor(glm::vec3 color) {
         this->color = color;
-        notify();
+        notify(VIEW_UPDATE);
     }
 
     void setDirection(glm::vec3 direction) {
         this->direction = direction;
-        notify();
+        notify(VIEW_UPDATE);
     }
 
     void enableDebugInterface(int id);
@@ -88,10 +89,19 @@ public:
     DirLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction);
 };
 
-class SpotLight : public Light {
+class SpotLight : public Light, public Observer {
+private:
+    Camera* camera;
 public:
     SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff);
-    SpotLight(bool flashlight, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCUtoff, float outerCutoff);
+    SpotLight(Camera* cam, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCUtoff, float outerCutoff);
+
+    void update(Subject* subject, Event event) override {
+        if (event == VIEW_UPDATE) {
+            this->position = this->camera->getPosition();
+            this->direction = this->camera->getDirection();
+        }
+    }
 };
 
 #endif //ZPGPROJECT_LIGHT_H

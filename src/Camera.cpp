@@ -31,8 +31,8 @@ void Camera::setShader(Shader* s) {
     this->shader = s;
 }
 
-void Camera::update(Subject* subject) {
-    // TOOD
+void Camera::update(Subject* subject, Event event) {
+    // TODO
 }
 
 glm::mat4 Camera::getCamera() {
@@ -46,29 +46,30 @@ glm::mat4 Camera::getPerspective() {
 void Camera::moveForward(float speed) {
     this->position += this->cameraFront * speed;
 //    this->position.y = 0.f;
-    notify();
+    notify(VIEW_UPDATE);
 }
 
 void Camera::moveBackward(float speed) {
     this->position -= this->cameraFront * speed;
 //    this->position.y = 0.f;
-    notify();
+    notify(VIEW_UPDATE);
 }
 
 void Camera::moveLeft(float speed) {
     this->position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
 //    this->position.y = 0.f;
-    notify();
+    notify(VIEW_UPDATE);
 }
 
 void Camera::moveRight(float speed) {
     this->position += glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
 //    this->position.y = 0.f;
-    notify();
+    notify(VIEW_UPDATE);
 }
 
 void Camera::move(bool forward, bool backward, bool left, bool right) {
     float speed = 10.f * Application::get().getDeltaTime();
+
     if (forward)
         moveForward(speed);
     if (backward)
@@ -87,7 +88,7 @@ void Camera::scrollAction(float yoffset) {
     if (this->fov > 90.f)
         this->fov = 90.f;
 
-    notify();
+    notify(WINDOW_SIZE_CHANGE);
 }
 
 void Camera::mouseAction(float x, float y) {
@@ -129,7 +130,7 @@ void Camera::mouseAction(float x, float y) {
     // keep camera on the ground
 //    this->position.y = 0.f;
 
-    notify();
+    notify(VIEW_UPDATE);
 }
 
 void Camera::enableDebugInterface() {
@@ -137,15 +138,15 @@ void Camera::enableDebugInterface() {
         ImGui::TreePop();
 
         if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), -1.f, 1.f))
-            notify();
+            notify(VIEW_UPDATE);
 
         if (ImGui::SliderFloat("Yaw", &this->yaw, -180.f, 180.f))
-            notify();
+            notify(VIEW_UPDATE);
 
         if (ImGui::SliderFloat("Pitch", &this->pitch, -180.f, 180.f))
-            notify();
+            notify(VIEW_UPDATE);
 
         if (ImGui::SliderFloat("Fov", &this->fov, 10.f, 90.f))
-            notify();
+            notify(WINDOW_SIZE_CHANGE);
     }
 }

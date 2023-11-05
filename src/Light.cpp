@@ -13,26 +13,26 @@ void Light::enableDebugInterface(int id) {
     auto label = std::string("Light - ") + std::to_string(id);
     if (ImGui::TreeNode(label.c_str())) {
         if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))
-            notify();
+            notify(LIGHT_UPDATE);
 
         if (this->type != 0) {
             if (ImGui::DragFloat3("Direction", glm::value_ptr(this->direction), 1.f, -1.f, 1.f))
-                notify();
+                notify(LIGHT_UPDATE);
         }
 
         if (this->type == 2) {
             if (ImGui::DragFloat("Inner cutoff", &this->innerCutoff, 1.f, 0.f, 180.f))
-                notify();
+                notify(LIGHT_UPDATE);
 
             if (ImGui::DragFloat("Outer cutoff", &this->outerCutoff, 1.f, 0.f, 180.f))
-                notify();
+                notify(LIGHT_UPDATE);
         }
 
         if (ImGui::ColorEdit3("Color", glm::value_ptr(this->color)))
-            notify();
+            notify(LIGHT_UPDATE);
 
         if (ImGui::DragFloat("Intensity", &this->intensity, 0.01f, 0.0f, 1.0f))
-            notify();
+            notify(LIGHT_UPDATE);
 
         ImGui::TreePop();
     }
@@ -54,10 +54,13 @@ SpotLight::SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, f
     this->direction = direction;
 }
 
-SpotLight::SpotLight(bool flashlight, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff) : Light(position, color) {
+SpotLight::SpotLight(Camera* cam, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff) : Light(position, color) {
     this->type = 2;
     this->innerCutoff = innerCutoff;
     this->outerCutoff = outerCutoff;
     this->direction = direction;
     this->flashlight = flashlight;
+
+    this->camera = cam;
+    cam->attach(this);
 }

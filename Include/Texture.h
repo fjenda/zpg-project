@@ -21,28 +21,34 @@
 
 #include <cstdio>
 #include <string>
+#include <map>
 
 class Texture {
 private:
-    unsigned int textureId;
-    int width;
-    int height;
-    int nrChannels;
-    unsigned char *data;
+    inline static std::map<std::string, GLuint> textures;
 
-    bool skybox;
+    unsigned int textureId;
+//    int width;
+//    int height;
+//    int nrChannels;
+//    unsigned char *data;
+
+    bool skybox = false;
 
 public:
-    Texture(bool skybox, const char *path);
+    Texture(const char *path);
+    Texture(const char *path, std::vector<std::string> faces);
     ~Texture();
 
     void bind() const;
     void unbind() const;
 
-    int getWidth() const { return width; };
-    int getHeight() const { return height; };
-    int getNrChannels() const { return nrChannels; };
-    unsigned char *getData();
+    bool checkIfLoaded(const char *path);
+
+//    int getWidth() const { return width; };
+//    int getHeight() const { return height; };
+//    int getNrChannels() const { return nrChannels; };
+//    unsigned char *getData();
     bool isSkybox() const { return skybox; };
 };
 
