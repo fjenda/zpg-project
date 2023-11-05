@@ -18,7 +18,7 @@ Texture::Texture(bool skybox, const char *path) {
         };
 
         glGenTextures(1, &textureId);
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
 
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -26,7 +26,7 @@ Texture::Texture(bool skybox, const char *path) {
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-        stbi_set_flip_vertically_on_load(false);
+//        stbi_set_flip_vertically_on_load(false);
 
         for (unsigned int i = 0; i < faces.size(); i++) {
             std::string actualPath = "../Textures/Skybox/" + std::string(path) + faces[i];
@@ -41,13 +41,10 @@ Texture::Texture(bool skybox, const char *path) {
                              GL_UNSIGNED_BYTE,
                              data
                 );
-                glGenerateMipmap(GL_TEXTURE_2D);
-
-                stbi_image_free(data);
             } else {
                 fprintf(stderr, "Failed to load texture: %s\n", actualPath.c_str());
-                stbi_image_free(data);
             }
+            stbi_image_free(data);
         }
     } else {
         glGenTextures(1, &textureId);
@@ -96,6 +93,9 @@ void Texture::bind() const {
 }
 
 void Texture::unbind() const {
-    glBindTexture(GL_TEXTURE_2D, 0);
+    if (skybox)
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    else
+        glBindTexture(GL_TEXTURE_2D, 0);
 }
 

@@ -20,6 +20,14 @@ void Light::enableDebugInterface(int id) {
                 notify();
         }
 
+        if (this->type == 2) {
+            if (ImGui::DragFloat("Inner cutoff", &this->innerCutoff, 1.f, 0.f, 180.f))
+                notify();
+
+            if (ImGui::DragFloat("Outer cutoff", &this->outerCutoff, 1.f, 0.f, 180.f))
+                notify();
+        }
+
         if (ImGui::ColorEdit3("Color", glm::value_ptr(this->color)))
             notify();
 
@@ -39,8 +47,17 @@ DirLight::DirLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction) : L
     this->direction = direction;
 }
 
-SpotLight::SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float cutoff) : Light(position, color) {
+SpotLight::SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff) : Light(position, color) {
     this->type = 2;
-    this->cutoff = cutoff;
+    this->innerCutoff = innerCutoff;
+    this->outerCutoff = outerCutoff;
     this->direction = direction;
+}
+
+SpotLight::SpotLight(bool flashlight, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff) : Light(position, color) {
+    this->type = 2;
+    this->innerCutoff = innerCutoff;
+    this->outerCutoff = outerCutoff;
+    this->direction = direction;
+    this->flashlight = flashlight;
 }

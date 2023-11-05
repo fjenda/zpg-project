@@ -19,6 +19,12 @@ Scene::~Scene() {
 	for (auto model : models) {
 		delete model;
 	}
+
+    delete this->camera;
+
+    if (this->skybox != nullptr)
+        delete this->skybox;
+
 	fprintf(stdout, "[DEBUG] Scene #%d & models destroyed\n", id);
 }
 
@@ -27,6 +33,13 @@ void Scene::render(GLFWwindow* window) {
                        glfwGetKey(window, GLFW_KEY_S),
                        glfwGetKey(window, GLFW_KEY_A),
                        glfwGetKey(window, GLFW_KEY_D));
+
+    // get flashlight if any and move it with camera
+    auto flashlight = std::find_if(lights.begin(), lights.end(), [](Light* l) { return l->isFlashlight(); });
+    if (flashlight != lights.end()) {
+        (*flashlight)->setDirection(this->camera->getDirection());
+        (*flashlight)->setPosition(this->camera->getPosition());
+    }
 
 	for (auto model : models) {
 		model->render();
@@ -90,7 +103,6 @@ void Scene::enableDebugInterface() {
         }
         ImGui::TreePop();
     }
-
 
     ImGui::End();
 }

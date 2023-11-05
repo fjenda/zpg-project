@@ -29,11 +29,16 @@ protected:
 
     float intensity = 1.f;
 
+    // attenuation
     float constant = 1.0f;
     float linear = 0.007f;
     float quadratic = 0.0002f;
 
-    float cutoff = 0.f; // for spot-light
+    // for spot-light
+    float innerCutoff = 0.f;
+    float outerCutoff = 0.f;
+    bool flashlight = false;
+
 
     int type = 0; // 0 - point, 1 - directional, 2 - spot
 
@@ -47,26 +52,46 @@ public:
     float getAttenuationConst() const { return this->constant; }
     float getAttenuationLinear() const { return this->linear; }
     float getAttenuationQuadratic() const { return this->quadratic; }
-    float getCutoff() const { return this->cutoff; }
     int getType() const { return this->type; }
     glm::vec3 getDirection() const { return this->direction; }
+
+    // spot-light
+    float getInnerCutoff() const { return this->innerCutoff; }
+    float getOuterCutoff() const { return this->outerCutoff; }
+    bool isFlashlight() const { return this->flashlight; }
+
+    void setPosition(glm::vec3 position) {
+        this->position = position;
+        notify();
+    }
+
+    void setColor(glm::vec3 color) {
+        this->color = color;
+        notify();
+    }
+
+    void setDirection(glm::vec3 direction) {
+        this->direction = direction;
+        notify();
+    }
 
     void enableDebugInterface(int id);
 };
 
-class PointLight : public Light{
+class PointLight : public Light {
 public:
     PointLight(glm::vec3 position, glm::vec3 color);
 };
 
-class DirLight : public Light{
+class DirLight : public Light {
 public:
     DirLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction);
 };
 
-class SpotLight : public Light{
+class SpotLight : public Light {
 public:
-    SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float cutoff);
+    SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff);
+    SpotLight(bool flashlight, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCUtoff, float outerCutoff);
 };
 
 #endif //ZPGPROJECT_LIGHT_H

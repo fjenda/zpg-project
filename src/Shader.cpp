@@ -105,7 +105,6 @@ void Shader::setUniformLights() const {
         return;
     }
 
-    // TODO: multiple lights
     // Single light
     if (this->fragmentShaderPath != "multilight_fs.frag") {
         if (lights.size() > 1) {
@@ -152,8 +151,8 @@ void Shader::setUniformLights() const {
             }
 
             if (lights[i]->getType() == 2) {
-                //TODO
-//            setUniformVariable("lightCutoff", lights[0]->getCutoff());
+                setUniformVariable("lights[" + std::to_string(i) + "].innerCutoff", cos(glm::radians(lights[i]->getInnerCutoff())));
+                setUniformVariable("lights[" + std::to_string(i) + "].outerCutoff", cos(glm::radians(lights[i]->getOuterCutoff())));
             }
         }
     }
@@ -240,7 +239,6 @@ void Shader::update(Subject *subject) {
         this->updateProjectionMatrix();
     } else if (dynamic_cast<Light*>(subject) != nullptr) {
         this->setUniformLights();
-        fprintf(stdout, "[DEBUG] Light updated\n");
     }
 }
 

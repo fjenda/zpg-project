@@ -10,6 +10,7 @@
 #include "../Models/sphere.h"
 #include "../Include/ModelLoader.h"
 #include "../Include/ArrayConverter.h"
+#include "../Models/skybox.h"
 #include <random>
 
 float getRandom(float min, float max) {
@@ -25,7 +26,8 @@ ForestScene::ForestScene(int id) : Scene(id) {
     // Shaders
     auto phongShader = std::shared_ptr<Shader>(ShaderBuilder()
         .setVertexShader("vertexShader_light.vert")
-        ->setFragmentShader("phong_fs.frag")
+//        ->setFragmentShader("phong_fs.frag")
+        ->setFragmentShader("multilight_fs.frag")
         ->setCamera(getCamera())
     ->build());
 
@@ -40,9 +42,17 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setFragmentShader("constant_fs.frag")
         ->setCamera(getCamera())
     ->build());
+
+    auto skyboxShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("skybox_vs.vert")
+        ->setFragmentShader("skybox_fs.frag")
+        ->setCamera(getCamera())
+        ->build());
+
     this->sh_shaders.push_back(phongShader);
     this->sh_shaders.push_back(lambertShader);
     this->sh_shaders.push_back(constantShader);
+    this->sh_shaders.push_back(skyboxShader);
 
     // Materials
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
@@ -58,7 +68,8 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     // Lights
     auto lights = std::vector<Light*>();
-    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f)));
+//    lights.push_back(new Light(glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f)));
+    lights.push_back(new SpotLight(true, glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
     setLights(lights);
     this->lights = lights;
 
@@ -70,7 +81,18 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift))));
     this->models.push_back(new Model(ArrayConverter::convert(sphere, sizeof(sphere))));
 
-    for (int i = 0; i < 700; i++) {
+    // Skybox
+    auto skybox = RenderableModelBuilder()
+        .setModel(new Model(skycube))
+        ->setShader(skyboxShader)
+        ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
+        ->setTexture(new Texture(true, "NightSkybox/"))
+        ->setTransformation(new Translation(glm::vec3(0.f, 0.f, 0.f)))
+        ->build();
+
+    setSkybox(skybox);
+
+    for (int i = 0; i < 250; i++) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
@@ -80,42 +102,55 @@ ForestScene::ForestScene(int id) : Scene(id) {
         composite->addChild(scale);
         this->transformations.push_back(composite);
 
-        if (i % 3 == 0) { // Bushes
-            addModel(RenderableModelBuilder()
-                .setModel(models[1])
-                ->setShader(phongShader.get())
-                ->setMaterial(greenMaterial)
-                ->setTransformation(composite)
-            ->build());
-        } else if (i % 10 == 0) { // Gift
-            addModel(RenderableModelBuilder()
-                .setModel(models[2])
-                ->setShader(phongShader.get())
-                ->setMaterial(redMaterial)
-                ->setTransformation(composite)
-            ->build());
-        } else if (i % 7 == 0) { // Suzi HQ
-            addModel(RenderableModelBuilder()
-                .setModel(sh_models[1])
-                ->setShader(lambertShader.get())
-                ->setMaterial(blueMaterial)
-                ->setTransformation(composite)
-            ->build());
-        } else if (i % 4 == 0) { // Sphere
-            addModel(RenderableModelBuilder()
-                .setModel(models[3])
-                ->setShader(constantShader.get())
-                ->setMaterial(yellowMaterial)
-                ->setTransformation(composite)
-            ->build());
-        } else { // Tree
-            addModel(RenderableModelBuilder()
-                .setModel(models[0])
-                ->setShader(phongShader.get())
-                ->setMaterial(greenMaterial)
-                ->setTransformation(composite)
-            ->build());
-        }
+//        if (i % 3 == 0) { // Bushes
+//            addModel(RenderableModelBuilder()
+//                .setModel(models[1])
+//                ->setShader(phongShader.get())
+//                ->setMaterial(greenMaterial)
+//                ->setTransformation(composite)
+//            ->build());
+//        } else if (i % 10 == 0) { // Gift
+//            addModel(RenderableModelBuilder()
+//                .setModel(models[2])
+//                ->setShader(phongShader.get())
+//                ->setMaterial(redMaterial)
+//                ->setTransformation(composite)
+//            ->build());
+//        } else if (i % 7 == 0) { // Suzi HQ
+//            auto position = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, 2.f, getRandom(-10., 5.) * 10.f));
+//
+//            auto composite2 = new Composite();
+//            composite2->addChild(position);
+//            composite2->addChild(rotation);
+//            composite2->addChild(scale);
+//            addModel(RenderableModelBuilder()
+//                .setModel(sh_models[1])
+//                ->setShader(lambertShader.get())
+//                ->setMaterial(blueMaterial)
+//                ->setTransformation(composite2)
+//            ->build());
+//        } else if (i % 4 == 0) { // Sphere
+//            addModel(RenderableModelBuilder()
+//                .setModel(models[3])
+//                ->setShader(constantShader.get())
+//                ->setMaterial(yellowMaterial)
+//                ->setTransformation(composite)
+//            ->build());
+//        } else { // Tree
+//            addModel(RenderableModelBuilder()
+//                .setModel(models[0])
+//                ->setShader(phongShader.get())
+//                ->setMaterial(greenMaterial)
+//                ->setTransformation(composite)
+//            ->build());
+//        }
+
+        addModel(RenderableModelBuilder()
+            .setModel(models[0])
+            ->setShader(phongShader.get())
+            ->setMaterial(greenMaterial)
+            ->setTransformation(composite)
+        ->build());
     }
 
     addModel(RenderableModelBuilder(ModelKind::PLAIN)
