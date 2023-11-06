@@ -14,6 +14,7 @@ uniform mat4 normalMatrix;
 void main(void){
 //    normal = normalize(transpose(inverse(mat3(model))) * vn);
     normal = normalize(mat3(normalMatrix) * vn);
-    position = vec3(model * vp);
+    vec4 pos = model * vp;
+    position = pos.xyz / pos.w;
     gl_Position = projection * view * model * vp;
 }

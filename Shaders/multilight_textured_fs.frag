@@ -9,7 +9,7 @@ out vec4 frag_color;
 uniform vec3 cameraPosition;
 
 // Lights
-#define MAX_LIGHTS 16
+#define MAX_LIGHTS 100
 uniform int lightCount;
 
 struct Light {
