@@ -36,6 +36,7 @@ private:
 	Transformation* transformations;
     Material* material;
     Texture* texture;
+    std::vector<Texture*> textures;
 
     float deltaTime;
     float lastFrame = 0.0f;
@@ -44,6 +45,7 @@ private:
 public:
     RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
     RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures);
 
 	void render();
 
@@ -61,6 +63,7 @@ private:
 	Transformation* transformation;
     Material* material;
     Texture* texture = nullptr;
+    std::vector<Texture*> textures;
 	std::vector<float> points;
 	
 public:
@@ -89,6 +92,8 @@ public:
 	RenderableModelBuilder* setTransformation(Transformation * transformation);
     RenderableModelBuilder* setMaterial(Material* material);
     RenderableModelBuilder* setTexture(Texture* texture);
+    RenderableModelBuilder* setTextures(std::vector<Texture*> textures);
+
 	RenderableModel* build();	
 };
 	

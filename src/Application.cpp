@@ -33,7 +33,6 @@ void Application::initialization(int w, int h)
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(this->window->getWindow(), true);
     ImGui_ImplOpenGL3_Init();
-
 }
 
 void Application::run()

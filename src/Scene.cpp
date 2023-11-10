@@ -22,8 +22,7 @@ Scene::~Scene() {
 
     delete this->camera;
 
-    if (this->skybox != nullptr)
-        delete this->skybox;
+    delete this->skybox;
 
 	fprintf(stdout, "[DEBUG] Scene #%d & models destroyed\n", id);
 }

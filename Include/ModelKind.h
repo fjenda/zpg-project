@@ -22,6 +22,7 @@ enum class ModelKind {
     TREE,
     BUSHES,
     GIFT,
+    PLAIN_TEXTURED,
 };
 
 #endif

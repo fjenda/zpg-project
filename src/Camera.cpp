@@ -18,8 +18,6 @@ Camera::Camera(Shader* s) {
 
     this->lastX = Application::get().getWidth() / 2.f;
     this->lastY = Application::get().getHeight() / 2.f;
-
-//    notify();
 }
 
 Camera::~Camera() {

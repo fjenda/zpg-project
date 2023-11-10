@@ -194,6 +194,17 @@ void Shader::setUniformMaterial(Material *material) const {
     setUniformVariable("shininess", material->getShininess());
 }
 
+void Shader::setTexture(unsigned int textureId, int index) const {
+    if (this->fragmentShaderPath != "phong_textured_fs.frag" &&
+        this->fragmentShaderPath != "multilight_textured_fs.frag")
+        return;
+
+    glActiveTexture(GL_TEXTURE0 + index);
+
+    std::string name = "texture" + std::to_string(index);
+    setUniformVariable(name, 0);
+}
+
 void Shader::_setUniformVariable(const std::string &uniformName, int value) const {
     glProgramUniform1i(this->shaderProgram, glGetUniformLocation(this->shaderProgram, uniformName.c_str()), value);
 }

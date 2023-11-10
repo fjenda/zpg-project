@@ -66,7 +66,7 @@ vec3 pointLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) {
     }
 
     // result
-    return (ambient + diffuse + specular) * attenuation * light_.intensity;
+    return (diffuse + specular) * attenuation * light_.intensity;
 }
 
 // Directional-light
@@ -92,7 +92,7 @@ vec3 directionalLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) 
     }
 
     // result
-    return (ambient + diffuse + specular) * light_.intensity;
+    return (diffuse + specular) * light_.intensity;
 }
 
 // Spot-light
@@ -125,7 +125,7 @@ vec3 spotLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) {
         specular = vec3(0.0f, 0.0f, 0.0f);
     }
 
-    return (ambient + diffuse + specular) * attenuation * intensity * light_.intensity;
+    return (diffuse + specular) * attenuation * intensity * light_.intensity;
 }
 
 void main(void) {

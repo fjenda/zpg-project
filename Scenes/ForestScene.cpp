@@ -173,7 +173,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
     ->build());
 
     auto ratComp = new Composite();
-    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), 10.f, getRandom(-10., 10.))));
+    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), -1.f, getRandom(-10., 10.))));
     ratComp->addChild(new Scale(glm::vec3(5.f)));
 
     addModel(RenderableModelBuilder()

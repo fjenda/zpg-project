@@ -20,6 +20,15 @@ RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* t
     this->texture = texture;
 }
 
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures) {
+    this->model = model;
+    this->shader = shader;
+    this->transformations = transformation;
+    this->material = material;
+    this->textures = textures;
+    this->texture = nullptr;
+}
+
 void RenderableModel::render() {
 	// model matrix
 	glm::mat4 modelMatrix = transformations->getMatrix();
@@ -37,11 +46,14 @@ void RenderableModel::render() {
         firstInit = false;
     }
 
-	this->model->bindVertexArray();
-
     if (this->texture != nullptr) {
         this->texture->bind();
+        this->shader->setTexture(this->texture->getTextureId(), 0);
     }
+
+	this->model->bindVertexArray();
+
+
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);
 }
@@ -75,6 +87,7 @@ RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
         case ModelKind::TREE: model = new Model(ArrayConverter::convert(tree, sizeof(tree))); break;
         case ModelKind::BUSHES: model = new Model(ArrayConverter::convert(bushes, sizeof(bushes))); break;
         case ModelKind::GIFT: model = new Model(ArrayConverter::convert(gift, sizeof(gift))); break;
+        case ModelKind::PLAIN_TEXTURED: model = new Model(ArrayConverter::convert(plain_textured, sizeof(plain_textured)), ArrayConverter::convert(plain_textured_indices, sizeof(plain_textured_indices))); break;
 	}
 }
 
@@ -143,6 +156,8 @@ RenderableModel* RenderableModelBuilder::build() {
 
     if (this->texture == nullptr) {
         return new RenderableModel(model, shader, transformation, material);
+    } else if (this->textures.empty()) {
+        return new RenderableModel(model, shader, transformation, material, texture);
     }
-	return new RenderableModel(model, shader, transformation, material, texture);
+	return new RenderableModel(model, shader, transformation, material, textures);
 }

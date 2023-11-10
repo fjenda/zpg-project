@@ -71,6 +71,7 @@ public:
     void setUniformLights() const;
     void setUniformCamera() const;
     void setUniformMaterial(Material* material) const;
+    void setTexture(unsigned int textureId, int index) const;
 
     template<typename T>
     void setUniformVariable(const std::string &uniformName, T value) const {

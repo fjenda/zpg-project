@@ -18,6 +18,7 @@
 class ArrayConverter {
 public:
     static std::vector<float> convert(const float* array, int size);
+    static std::vector<int> convert(const int* array, int size);
 };
 
 

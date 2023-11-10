@@ -12,8 +12,10 @@ Light::Light(glm::vec3 position, glm::vec3 color, float intensity) :
 void Light::enableDebugInterface(int id) {
     auto label = std::string("Light - ") + std::to_string(id);
     if (ImGui::TreeNode(label.c_str())) {
-        if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))
-            notify(LIGHT_UPDATE);
+        if (this->type != 1) {
+            if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))
+                notify(LIGHT_UPDATE);
+        }
 
         if (this->type != 0) {
             if (ImGui::DragFloat3("Direction", glm::value_ptr(this->direction), 1.f, -1.f, 1.f))
@@ -59,7 +61,6 @@ SpotLight::SpotLight(Camera* cam, glm::vec3 position, glm::vec3 color, glm::vec3
     this->innerCutoff = innerCutoff;
     this->outerCutoff = outerCutoff;
     this->direction = direction;
-    this->flashlight = flashlight;
 
     this->camera = cam;
     cam->attach(this);

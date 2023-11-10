@@ -12,3 +12,12 @@ std::vector<float> ArrayConverter::convert(const float* array, int size) {
     }
     return result;
 }
+
+std::vector<int> ArrayConverter::convert(const int* array, int size) {
+    std::vector<int> result;
+    int actualSize = size / sizeof(int);
+    for (int i = 0; i < actualSize; i++) {
+        result.push_back(array[i]);
+    }
+    return result;
+}

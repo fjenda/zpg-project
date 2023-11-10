@@ -28,10 +28,6 @@ private:
     inline static std::map<std::string, GLuint> textures;
 
     unsigned int textureId;
-//    int width;
-//    int height;
-//    int nrChannels;
-//    unsigned char *data;
 
     bool skybox = false;
 
@@ -43,12 +39,8 @@ public:
     void bind() const;
     void unbind() const;
 
+    unsigned int getTextureId() const { return textureId; };
     bool checkIfLoaded(const char *path);
-
-//    int getWidth() const { return width; };
-//    int getHeight() const { return height; };
-//    int getNrChannels() const { return nrChannels; };
-//    unsigned char *getData();
     bool isSkybox() const { return skybox; };
 };
 
