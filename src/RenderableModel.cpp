@@ -52,8 +52,6 @@ void RenderableModel::render() {
     }
 
 	this->model->bindVertexArray();
-
-
 	
 	glDrawElements(GL_TRIANGLES, this->model->getIndexCount(), GL_UNSIGNED_INT, 0);
 }
@@ -77,17 +75,17 @@ void RenderableModel::enableDebugInterface(int id) {
 
 RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
 	switch (kind) {
-        case ModelKind::PLAIN: model = new Model(ArrayConverter::convert(plain, sizeof(plain))); break;
-		case ModelKind::SQUARE: model = new Model(square); break;
-        case ModelKind::SPHERE: model = new Model(ArrayConverter::convert(sphere, sizeof(sphere))); break;
-		case ModelKind::TRIANGLE: model = new Model(triangle_rgb); break;
-		case ModelKind::PYRAMID: model = new Model(pyramid); break;
-        case ModelKind::SUZI: model = new Model(ArrayConverter::convert(suziFlat, sizeof(suziFlat))); break;
-        case ModelKind::SUZI_SMOOTH: model = new Model(ArrayConverter::convert(suziSmooth, sizeof(suziSmooth))); break;
-        case ModelKind::TREE: model = new Model(ArrayConverter::convert(tree, sizeof(tree))); break;
-        case ModelKind::BUSHES: model = new Model(ArrayConverter::convert(bushes, sizeof(bushes))); break;
-        case ModelKind::GIFT: model = new Model(ArrayConverter::convert(gift, sizeof(gift))); break;
-        case ModelKind::PLAIN_TEXTURED: model = new Model(ArrayConverter::convert(plain_textured, sizeof(plain_textured)), ArrayConverter::convert(plain_textured_indices, sizeof(plain_textured_indices))); break;
+        case ModelKind::PLAIN: model = new Model(ArrayConverter::convert(plain, sizeof(plain)), 3, 3, 0); break;
+		case ModelKind::SQUARE: model = new Model(square, 3, 3, 0); break;
+        case ModelKind::SPHERE: model = new Model(ArrayConverter::convert(sphere, sizeof(sphere)), 3, 3, 0); break;
+		case ModelKind::TRIANGLE: model = new Model(triangle_rgb, 3, 3, 0); break;
+		case ModelKind::PYRAMID: model = new Model(pyramid, 3, 3, 0); break;
+        case ModelKind::SUZI: model = new Model(ArrayConverter::convert(suziFlat, sizeof(suziFlat)), 3, 3, 0); break;
+        case ModelKind::SUZI_SMOOTH: model = new Model(ArrayConverter::convert(suziSmooth, sizeof(suziSmooth)), 3, 3, 0); break;
+        case ModelKind::TREE: model = new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0); break;
+        case ModelKind::BUSHES: model = new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0); break;
+        case ModelKind::GIFT: model = new Model(ArrayConverter::convert(gift, sizeof(gift)), 3, 3, 0); break;
+        case ModelKind::PLAIN_TEXTURED: model = new Model(ArrayConverter::convert(plain_textured, sizeof(plain_textured)), 3, 3, 2); break;
 	}
 }
 

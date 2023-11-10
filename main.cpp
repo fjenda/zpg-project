@@ -56,9 +56,9 @@ int main(void)
 
     // Light
     auto sc1_lights = std::vector<Light*>();
-    sc1_lights.push_back(new PointLight(glm::vec3(-10.f, 10.f, 0.f), BLUE));
-    sc1_lights.push_back(new PointLight(glm::vec3(10.f, 10.f, 0.f), RED));
-    sc1_lights.push_back(new DirLight(glm::vec3(10.f, 10.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
+//    sc1_lights.push_back(new PointLight(glm::vec3(-10.f, 10.f, 0.f), BLUE));
+//    sc1_lights.push_back(new PointLight(glm::vec3(10.f, 10.f, 0.f), RED));
+//    sc1_lights.push_back(new DirLight(glm::vec3(10.f, 10.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
     sc1_lights.push_back(new SpotLight(glm::vec3(0.f, 15.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f), 22.f, 30.f));
     app.getSceneById(1)->setLights(sc1_lights);
 
@@ -71,7 +71,7 @@ int main(void)
     ->build();
 
     auto skybox = RenderableModelBuilder()
-        .setModel(new Model(skycube))
+        .setModel(new Model(skycube, 3, 0, 0))
         ->setShader(skyboxShader)
         ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
         ->setTexture(new Texture("space/", {"right.png", "left.png", "top.png", "bottom.png", "front.png", "back.png"}))

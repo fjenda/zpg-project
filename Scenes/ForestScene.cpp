@@ -84,14 +84,14 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("suzi_hq.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("rat.obj"));
-    this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree))));
-    this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes))));
-    this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift))));
-    this->models.push_back(new Model(ArrayConverter::convert(sphere, sizeof(sphere))));
+    this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0));
+    this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0));
+    this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift)), 3, 3, 0));
+    this->models.push_back(new Model(ArrayConverter::convert(sphere, sizeof(sphere)), 3, 3, 0));
 
     // Skybox
     auto skybox = RenderableModelBuilder()
-        .setModel(new Model(skycube))
+        .setModel(new Model(skycube, 3, 0, 0))
         ->setShader(skyboxShader)
         ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
         ->setTexture(new Texture("NightSkybox/", {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}))
@@ -104,7 +104,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
-        auto translation = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, -1.f, getRandom(-10., 5.) * 10.f));
+        auto translation = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, 0.f, getRandom(-10., 5.) * 10.f));
         composite->addChild(translation);
         composite->addChild(rotation);
         composite->addChild(scale);
@@ -161,7 +161,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->build());
     }
 
-    addModel(RenderableModelBuilder(ModelKind::PLAIN)
+    addModel(RenderableModelBuilder(ModelKind::PLAIN_TEXTURED)
         .setShader(ShaderBuilder()
                 .setVertexShader("textured_vs.vert")
                 ->setFragmentShader("multilight_textured_fs.frag")
@@ -170,10 +170,11 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(0.0f, -1.f, 0.0f)))
         ->setTexture(new Texture("grass.png"))
+        ->setTransformation(new Scale(glm::vec3(100.f)))
     ->build());
 
     auto ratComp = new Composite();
-    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), -1.f, getRandom(-10., 10.))));
+    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), 0.f, getRandom(-10., 10.))));
     ratComp->addChild(new Scale(glm::vec3(5.f)));
 
     addModel(RenderableModelBuilder()

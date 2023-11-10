@@ -45,6 +45,9 @@ public:
 	Model(std::vector<float> points);
 	~Model();
 
+    Model(std::vector<float> points, std::vector<int> indices, int pointSize, int normalSize, int textureSize);
+    Model(std::vector<float> points, int pointSize, int normalSize, int textureSize);
+
 	void bindVertexArray();
 	
 	size_t getVertexCount();
