@@ -100,7 +100,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     setSkybox(skybox);
 
-    for (int i = 0; i < 300; i++) {
+    for (int i = 0; i < 100; i++) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));

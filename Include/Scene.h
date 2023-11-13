@@ -18,8 +18,9 @@
 #include <vector>
 #include "RenderableModel.h"
 #include "Camera.h"
+#include "CallbackController.h"
 
-class Scene {
+class Scene : public Observer {
 	
 private:
     int id;
@@ -29,6 +30,7 @@ private:
     Camera* camera;
     Shader* shader;
     RenderableModel* skybox = nullptr;
+    CallbackController* callbackController;
 
 public:
 	Scene(int id);
@@ -36,10 +38,14 @@ public:
 
 	void render(GLFWwindow* window);
 	void addModel(RenderableModel* model);
-    void addModel(const std::string& pFile);
 
     void setLights(const std::vector<Light*> l);
     void setSkybox(RenderableModel* skybox);
+    void setCallbackController(CallbackController* callbackController);
+
+    bool canDelete(int i);
+
+    void update(Subject* subject, Event event) override;
 
     int getId() const { return this->id; }
 

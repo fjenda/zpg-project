@@ -22,7 +22,10 @@ private:
     static CallbackController& instance();
     static CallbackController* controller;
     static Camera* camera;
+
     GLFWwindow* window;
+    double* data = new double[4];
+
 public:
     CallbackController(GLFWwindow* window);
 
@@ -36,6 +39,8 @@ public:
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
     static void setCamera(Camera* c);
+
+    const double* getLastData();
 
     void initialization();
 };

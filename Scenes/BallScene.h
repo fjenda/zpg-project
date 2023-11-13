@@ -19,7 +19,7 @@
 class BallScene : public Scene {
 public:
     explicit BallScene(int id);
-    ~BallScene();
+//    ~BallScene();
 };
 
 

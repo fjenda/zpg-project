@@ -5,6 +5,9 @@
 #include "../Include/Window.h"
 
 Window::Window(int w, int h) {
+    this->width = w;
+    this->height = h;
+
     if (!glfwInit())
         exit(EXIT_FAILURE);
 
@@ -13,7 +16,7 @@ Window::Window(int w, int h) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GL_FALSE);
 
     this->window = glfwCreateWindow(w, h, "ZPG", NULL, NULL);
     if (!this->window) {
@@ -28,11 +31,11 @@ Window::Window(int w, int h) {
     getVersionInfo();
 
     //set the viewport
-    glfwGetFramebufferSize(this->window, &this->width, &this->height);
+//    glfwGetFramebufferSize(this->window, &this->width, &this->height);
     glViewport(0, 0, this->width, this->height);
 
     //hide the cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 Window::~Window() {

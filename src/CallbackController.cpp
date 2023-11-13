@@ -52,7 +52,43 @@ void CallbackController::scrollCallback(GLFWwindow* window, double xoffset, doub
 }
 
 void CallbackController::buttonCallback(GLFWwindow* window, int button, int action, int mode) {
-    //if (action == GLFW_PRESS) fprintf(stdout, "[CALLBACK] buttonCallback [%d,%d,%d]\n", button, action, mode);
+//    if (action == GLFW_PRESS) fprintf(stdout, "[CALLBACK] buttonCallback [%d,%d,%d]\n", button, action, mode);
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        GLbyte color[4];
+        GLfloat depth;
+        GLuint index = 0;
+
+        glm::vec<4, float> viewPort = Application::get().getViewport();
+
+        double x, y;
+//        glfwGetCursorPos(window, &x, &y);
+
+        x = Application::get().getWidth() / 2;
+        y = Application::get().getHeight() / 2;
+
+//        y = viewPort[3] - y;
+        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+        glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+        glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+        printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
+               (int) x, (int) y, color[0], color[1], color[2], color[3], depth, index);
+
+        glm::vec3 screen_pos = glm::vec3(x, y, depth);
+        glm::mat4 view = camera->getCamera();
+        glm::mat4 projection = camera->getPerspective();
+
+        // screen position into object position
+        glm::vec3 pos = glm::unProject(screen_pos, view, projection, viewPort);
+
+        printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
+        instance().data[0] = pos.x;
+        instance().data[1] = pos.y;
+        instance().data[2] = pos.z;
+        instance().data[3] = index;
+        instance().notify(CLICK);
+    }
 }
 
 void CallbackController::errorCallback(int error, const char* description) { fputs(description, stderr); }
@@ -71,7 +107,15 @@ void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, 
         //if scene with this id exists
         for (auto scene : Application::get().getScenes()) {
             if (scene->getId() == id && Application::get().getCurrentScene() != scene) {
+
+                // detach current scene
+                instance().detach(Application::get().getCurrentScene());
+
                 Application::get().setCurrentScene(scene);
+
+                // attach new scene
+                instance().attach(Application::get().getCurrentScene());
+
                 fprintf(stdout, "[DEBUG] Switched to scene %d\n", id);
                 Application::get().getCurrentScene()->getCamera()->setFirstMouse(true);
                 Application::get().getCurrentScene()->getCamera()->notify(VIEW_UPDATE);
@@ -99,7 +143,6 @@ void CallbackController::windowSizeCallback(GLFWwindow* window, int width, int h
     glViewport(0, 0, Application::get().getWidth(), Application::get().getHeight());
     Application::get().getCurrentScene()->getCamera()->notify(WINDOW_SIZE_CHANGE);
 
-
     //fprintf(stdout, "[CALLBACK] window_sizeCallback [%d,%d] \n", width, height);
 }
 
@@ -109,4 +152,8 @@ void CallbackController::windowIconifyCallback(GLFWwindow* window, int iconified
 
 void CallbackController::windowFocusCallback(GLFWwindow* window, int focused) {
     //fprintf(stdout, "[CALLBACK] window_focusCallback \n");
+}
+
+const double* CallbackController::getLastData() {
+    return data;
 }

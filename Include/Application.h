@@ -54,6 +54,7 @@ public:
     void setCurrentScene(Scene* scene) { this->currentScene = scene; }
     void addScene(Scene* scene);
 
+    glm::vec4 getViewport() { return glm::vec4(0, 0, this->width, this->height); }
     int getWidth() { return this->width; }
     int getHeight() { return this->height; }
     float getRatio() { return this->ratio; }
