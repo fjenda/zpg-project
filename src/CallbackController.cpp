@@ -68,7 +68,7 @@ void CallbackController::buttonCallback(GLFWwindow* window, int button, int acti
         y = Application::get().getHeight() / 2;
 
 //        y = viewPort[3] - y;
-        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &color);
         glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
         glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 

@@ -96,7 +96,7 @@ public:
     SpotLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCutoff, float outerCutoff);
     SpotLight(Camera* cam, glm::vec3 position, glm::vec3 color, glm::vec3 direction, float innerCUtoff, float outerCutoff);
 
-    void update(Subject* subject, Event event) override {
+    void update(Event event) override {
         if (event == VIEW_UPDATE) {
             this->position = this->camera->getPosition();
             this->direction = this->camera->getDirection();

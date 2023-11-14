@@ -84,6 +84,10 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("suzi_hq.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("rat.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("building.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("zombie.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("plane.obj"));
+
     this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0));
     this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0));
     this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift)), 3, 3, 0));
@@ -161,8 +165,9 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->build());
     }
 
-    addModel(RenderableModelBuilder(ModelKind::PLAIN_TEXTURED)
-        .setShader(ShaderBuilder()
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[5])
+        ->setShader(ShaderBuilder()
                 .setVertexShader("textured_vs.vert")
                 ->setFragmentShader("multilight_textured_fs.frag")
                 ->setCamera(getCamera())
@@ -187,6 +192,30 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setTransformation(ratComp)
         ->setMaterial(basicMaterial)
         ->setTexture(new Texture("rat_diff.jpg"))
+    ->build());
+
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[3])
+        ->setShader(ShaderBuilder()
+            .setVertexShader("textured_vs.vert")
+            ->setFragmentShader("multilight_textured_fs.frag")
+            ->setCamera(getCamera())
+        ->build())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(new Translation(glm::vec3(30.f, 0.f, 30.f)))
+        ->setTexture(new Texture("building.png"))
+    ->build());
+
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[4])
+        ->setShader(ShaderBuilder()
+            .setVertexShader("textured_vs.vert")
+            ->setFragmentShader("multilight_textured_fs.frag")
+            ->setCamera(getCamera())
+        ->build())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(new Translation(glm::vec3(0.f)))
+        ->setTexture(new Texture("zombie.png"))
     ->build());
 }
 

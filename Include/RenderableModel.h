@@ -38,14 +38,16 @@ private:
     Texture* texture;
     std::vector<Texture*> textures;
 
+    std::string name;
+
     float deltaTime;
     float lastFrame = 0.0f;
     bool firstInit = true;
 
 public:
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material);
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture);
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name);
 
 	void render();
 
@@ -65,12 +67,10 @@ private:
     Texture* texture = nullptr;
     std::vector<Texture*> textures;
 	std::vector<float> points;
+    std::string name = "";
 	
 public:
     RenderableModelBuilder() = default;
-
-    //loading through file
-    explicit RenderableModelBuilder(const std::string& pFile);
 
     //loading through kind
 	explicit RenderableModelBuilder(ModelKind kind);
@@ -93,6 +93,7 @@ public:
     RenderableModelBuilder* setMaterial(Material* material);
     RenderableModelBuilder* setTexture(Texture* texture);
     RenderableModelBuilder* setTextures(std::vector<Texture*> textures);
+    RenderableModelBuilder* setName(std::string name);
 
 	RenderableModel* build();	
 };

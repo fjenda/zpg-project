@@ -251,7 +251,7 @@ void Shader::setCamera(Camera *camera) {
     this->camera = camera;
 }
 
-void Shader::update(Subject *subject, Event event) {
+void Shader::update(Event event) {
     switch (event) {
         case VIEW_UPDATE:
             this->updateViewMatrix();

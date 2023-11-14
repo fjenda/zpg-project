@@ -29,7 +29,7 @@ void Camera::setShader(Shader* s) {
     this->shader = s;
 }
 
-void Camera::update(Subject* subject, Event event) {
+void Camera::update(Event event) {
     // TODO
 }
 

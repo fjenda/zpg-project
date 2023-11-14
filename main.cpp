@@ -87,6 +87,12 @@ int main(void)
         ->setCamera(app.getSceneById(1)->getCamera())
     ->build();
 
+    auto mulitlight = ShaderBuilder()
+        .setVertexShader("vertexShader_light.vert")
+        ->setFragmentShader("multilight_fs.frag")
+        ->setCamera(app.getSceneById(1)->getCamera())
+    ->build();
+
     auto objsLoaded = std::vector<std::shared_ptr<Model>>();
     objsLoaded.push_back(ModelLoader::loadModel("m4.obj"));
     objsLoaded.push_back(ModelLoader::loadModel("backpack.obj"));
@@ -101,6 +107,7 @@ int main(void)
         ->setTransformation(floorTransform)
         ->setMaterial(whiteMaterial)
         ->setTexture(new Texture("grass.png"))
+        ->setName("floor")
         ->build());
 
     app.getSceneById(1)->addModel(RenderableModelBuilder()

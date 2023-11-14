@@ -64,23 +64,24 @@ void Application::run()
 
         this->currentScene->render(this->window->getWindow());
 
-        // get mouse position
+        // center of screen
         double x, y;
-//        glfwGetCursorPos(this->window->getWindow(), &x, &y);
-
-        // imgui getter for width and height
-        ImGui::GetIO().DisplaySize = ImVec2(this->width, this->height);
         x = this->width / 2;
         y = this->height / 2;
 
         GLuint index;
-//        double new_y = this->height - y;
         glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 
-        ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
-        ImGui::SetWindowPos(ImVec2(x, y));
+        // Cross-hair
+        ImGui::Begin("#CH", nullptr, ImGuiWindowFlags_NoMove | ImGuiInputTextFlags_ReadOnly | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar);
+        auto draw = ImGui::GetBackgroundDrawList();
+        draw->AddCircle(ImVec2(x, y), 6 , IM_COL32(255, 192, 203, 255), 100, 2.0f);
+//        draw->AddLine(ImVec2(x - 10, y), ImVec2(x + 10, y), IM_COL32(255, 192, 203, 255), 2.0f);
+//        draw->AddLine(ImVec2(x, y - 10), ImVec2(x, y + 10), IM_COL32(255, 192, 203, 255), 2.0f);
+        ImGui::End();
+
+        ImGui::Begin("Stencil buffer");
         ImGui::Text("Index - %d", index);
-        ImGui::Text("[%fl, %fl]", x, y);
         ImGui::End();
 
         ImGui::Render();

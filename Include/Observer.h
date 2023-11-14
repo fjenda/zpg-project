@@ -20,7 +20,7 @@
 class Subject;
 class Observer {
 public:
-    virtual void update(Subject* subject, Event event) = 0;
+    virtual void update(Event event) = 0;
     virtual ~Observer() = default;
 };
 

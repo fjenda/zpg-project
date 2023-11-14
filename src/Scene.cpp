@@ -3,6 +3,7 @@
 #include "../Include/Scene.h"
 #include "../Include/CallbackController.h"
 #include "imgui/imgui.h"
+#include "../Include/Colors.h"
 
 Scene::Scene(int id) {
     this->id = id;
@@ -78,7 +79,7 @@ void Scene::setCallbackController(CallbackController* callbackController) {
     this->callbackController = callbackController;
 }
 
-void Scene::update(Subject* subject, Event event) {
+void Scene::update(Event event) {
     if (event == CLICK) {
         // get click data
         auto data = this->callbackController->getLastData();
@@ -97,7 +98,15 @@ void Scene::update(Subject* subject, Event event) {
         // TODO: Add models to scene on click
 //        else {
 //            // add model
-//            this->addModel(new RenderableModel(this->shader, this->camera, this->models.size() + 1, glm::vec3(x, y, z)));
+//            addModel(RenderableModelBuilder(ModelKind::TREE)
+//                .setShader(ShaderBuilder()
+//                    .setCamera(this->camera)
+//                    ->setVertexShader("vertexShader_light.vert")
+//                    ->setFragmentShader("multilight_fs.frag")
+//                ->build())
+//                ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
+//                ->setTransformation(new Translation(glm::vec3(x, y, z)))
+//            ->build());
 //        }
     }
 }

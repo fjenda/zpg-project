@@ -13,5 +13,6 @@
 #include "gift.h"
 #include "skybox.h"
 #include "floor.h"
+#include "building.h"
 
 #endif

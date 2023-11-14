@@ -45,7 +45,7 @@ public:
     ~Camera();
 
     void setShader(Shader* s);
-    void update(Subject* subject, Event event) override;
+    void update(Event event) override;
 
     glm::vec3 getPosition() const { return this->position; }
     glm::vec3 getDirection() const { return this->cameraFront; }

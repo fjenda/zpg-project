@@ -4,29 +4,32 @@
 #include "imgui/imgui.h"
 #include "../Include/Application.h"
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name) {
     this->model = model;
     this->shader = shader;
     this->transformations = transformation;
     this->material = material;
     this->texture = nullptr;
+    this->name = name;
 }
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name) {
 	this->model = model;
 	this->shader = shader;
 	this->transformations = transformation;
     this->material = material;
     this->texture = texture;
+    this->name = name;
 }
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name) {
     this->model = model;
     this->shader = shader;
     this->transformations = transformation;
     this->material = material;
     this->textures = textures;
     this->texture = nullptr;
+    this->name = name;
 }
 
 void RenderableModel::render() {
@@ -86,6 +89,7 @@ RenderableModelBuilder::RenderableModelBuilder(ModelKind kind) {
         case ModelKind::BUSHES: model = new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0); break;
         case ModelKind::GIFT: model = new Model(ArrayConverter::convert(gift, sizeof(gift)), 3, 3, 0); break;
         case ModelKind::PLAIN_TEXTURED: model = new Model(ArrayConverter::convert(plain_textured, sizeof(plain_textured)), 3, 3, 2); break;
+        case ModelKind::BUILDING: model = new Model(ArrayConverter::convert(building, sizeof(building)), 3, 3, 2); break;
 	}
 }
 
@@ -147,15 +151,25 @@ RenderableModelBuilder* RenderableModelBuilder::setTexture(Texture *texture) {
     return this;
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setTextures(std::vector<Texture*> textures) {
+    this->textures = textures;
+    return this;
+}
+
+RenderableModelBuilder* RenderableModelBuilder::setName(std::string name) {
+    this->name = name;
+    return this;
+}
+
 RenderableModel* RenderableModelBuilder::build() {
 	if (this->shader == nullptr) {
 		throw std::runtime_error("[ERROR] Shader is null");
 	}
 
     if (this->texture == nullptr) {
-        return new RenderableModel(model, shader, transformation, material);
+        return new RenderableModel(model, shader, transformation, material, name);
     } else if (this->textures.empty()) {
-        return new RenderableModel(model, shader, transformation, material, texture);
+        return new RenderableModel(model, shader, transformation, material, texture, name);
     }
-	return new RenderableModel(model, shader, transformation, material, textures);
+	return new RenderableModel(model, shader, transformation, material, textures, name);
 }

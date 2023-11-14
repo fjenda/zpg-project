@@ -45,7 +45,7 @@ public:
 
     bool canDelete(int i);
 
-    void update(Subject* subject, Event event) override;
+    void update(Event event) override;
 
     int getId() const { return this->id; }
 

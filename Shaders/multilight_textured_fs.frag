@@ -71,7 +71,7 @@ vec3 pointLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) {
     // texture sampling
     vec3 texColor = texture(texture0, texCoord).rgb;
 
-    return (diffuse + specular) * attenuation * light_.intensity * texColor;
+    return (diffuse + specular) * attenuation * light_.intensity;
 }
 
 // Directional-light
@@ -100,7 +100,7 @@ vec3 directionalLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) 
     vec3 texColor = texture(texture0, texCoord).rgb;
 
     // result
-    return (diffuse + specular) * light_.intensity * texColor;
+    return (diffuse + specular) * light_.intensity;
 }
 
 // Spot-light
@@ -136,13 +136,12 @@ vec3 spotLight(Light light_, vec3 norm, vec3 fragPosition, vec3 viewDir) {
     // Texture sampling
     vec3 texColor = texture(texture0, texCoord).rgb;
 
-    return (diffuse + specular) * texColor;
+    return diffuse + specular;
 }
 
 void main(void) {
     vec3 norm = normalize(normal);
     vec3 viewDir = normalize(cameraPosition - position);
-
 
     vec3 result = vec3(0.0f);
     for (int i = 0; i < lightCount; i++) {
@@ -150,6 +149,10 @@ void main(void) {
         lights[i].type == 1 ? (result += directionalLight(lights[i], norm, position, viewDir)) : result;
         lights[i].type == 2 ? (result += spotLight(lights[i], norm, position, viewDir)) : result;
     }
+
+    // tex color
+    vec3 texColor = texture(texture0, texCoord).rgb;
+    result *= texColor;
 
     frag_color = vec4(result, 1.0f);
 }
