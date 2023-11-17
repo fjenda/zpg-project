@@ -23,6 +23,7 @@
 #include "Rotation.h"
 #include "Scale.h"
 #include "Translation.h"
+#include "BezierTranslation.h"
 #include "Material.h"
 #include "Texture.h"
 

@@ -10,7 +10,15 @@ Light::Light(glm::vec3 position, glm::vec3 color, float intensity) :
     position(position), color(color), intensity(intensity) { }
 
 void Light::enableDebugInterface(int id) {
-    auto label = std::string("Light - ") + std::to_string(id);
+    std::string name;
+    if (this->type == 0)
+        name = "Point-light - ";
+    else if (this->type == 1)
+        name = "Directional-light - ";
+    else
+        name = "Spot-light - ";
+
+    auto label = name + std::to_string(id);
     if (ImGui::TreeNode(label.c_str())) {
         if (this->type != 1) {
             if (ImGui::DragFloat3("Position", glm::value_ptr(this->position), 0.1f))

@@ -27,6 +27,7 @@
 class Transformation {
 public:
     virtual glm::mat4 getMatrix() = 0;
+    virtual ~Transformation() = default;
 };
 
 #endif // !TRANSFORMATION_H

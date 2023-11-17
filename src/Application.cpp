@@ -1,5 +1,5 @@
 ﻿#include "../Include/Application.h"
-
+#include "../Scenes/ForestScene.h"
 
 Application::~Application() {
     for (auto scene : this->scenes) {
@@ -23,7 +23,7 @@ void Application::initialization(int w, int h)
     glewInit();
 
     //init scenes
-    this->currentScene = new Scene(1);
+    this->currentScene = new ForestScene(1);
     this->currentScene->setCallbackController(this->callbackController);
     this->callbackController->attach(this->currentScene);
     this->scenes.push_back(this->currentScene);
@@ -64,12 +64,19 @@ void Application::run()
 
         this->currentScene->render(this->window->getWindow());
 
+        // STENCIL BUFFER
         // center of screen
         double x, y;
         x = this->width / 2;
         y = this->height / 2;
 
-        GLuint index;
+        GLbyte color[4];
+        GLfloat depth;
+        GLuint index = 0;
+        glm::vec<4, float> viewPort = Application::get().getViewport();
+
+        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &color);
+        glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
         glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 
         // Cross-hair
@@ -80,8 +87,17 @@ void Application::run()
 //        draw->AddLine(ImVec2(x, y - 10), ImVec2(x, y + 10), IM_COL32(255, 192, 203, 255), 2.0f);
         ImGui::End();
 
+        glm::vec3 screen_pos = glm::vec3(x, y, depth);
+        glm::mat4 view = this->currentScene->getCamera()->getCamera();
+        glm::mat4 projection = this->currentScene->getCamera()->getPerspective();
+
+        // screen position into object position
+        glm::vec3 pos = glm::unProject(screen_pos, view, projection, viewPort);
+
         ImGui::Begin("Stencil buffer");
         ImGui::Text("Index - %d", index);
+        ImGui::Text("Color - %d, %d, %d", color[0], color[1], color[2]);
+        ImGui::Text("Position - %.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
         ImGui::End();
 
         ImGui::Render();

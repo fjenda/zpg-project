@@ -24,14 +24,22 @@ std::shared_ptr<Model> ModelLoader::loadModel(const std::string &file) {
     //get points from file.obj
     for (uint32_t j = 0; j < scene->mNumMeshes; j++) {
         for (uint32_t i = 0; i < scene->mMeshes[j]->mNumVertices; i++) {
-            points.push_back(scene->mMeshes[j]->mVertices[i].x);
-            points.push_back(scene->mMeshes[j]->mVertices[i].y);
-            points.push_back(scene->mMeshes[j]->mVertices[i].z);
-            points.push_back(scene->mMeshes[j]->mNormals[i].x);
-            points.push_back(scene->mMeshes[j]->mNormals[i].y);
-            points.push_back(scene->mMeshes[j]->mNormals[i].z);
-            points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].x);
-            points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].y);
+            if (scene->mMeshes[j]->HasPositions()) {
+                points.push_back(scene->mMeshes[j]->mVertices[i].x);
+                points.push_back(scene->mMeshes[j]->mVertices[i].y);
+                points.push_back(scene->mMeshes[j]->mVertices[i].z);
+            }
+
+            if (scene->mMeshes[j]->HasNormals()) {
+                points.push_back(scene->mMeshes[j]->mNormals[i].x);
+                points.push_back(scene->mMeshes[j]->mNormals[i].y);
+                points.push_back(scene->mMeshes[j]->mNormals[i].z);
+            }
+
+            if (scene->mMeshes[j]->HasTextureCoords(0)) {
+                points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].x);
+                points.push_back(scene->mMeshes[j]->mTextureCoords[0][i].y);
+            }
         }
 
         for (uint32_t i = 0; i < scene->mMeshes[j]->mNumFaces; i++) {

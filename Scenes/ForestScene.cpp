@@ -7,10 +7,9 @@
 #include "../Models/tree.h"
 #include "../Models/bushes.h"
 #include "../Models/gift.h"
-#include "../Models/sphere.h"
+#include "../Models/skybox.h"
 #include "../Include/ModelLoader.h"
 #include "../Include/ArrayConverter.h"
-#include "../Models/skybox.h"
 #include <random>
 
 float getRandom(float min, float max) {
@@ -24,87 +23,66 @@ float getRandom(float min, float max) {
 ForestScene::ForestScene(int id) : Scene(id) {
 
     // Shaders
-//    auto phongShader = std::shared_ptr<Shader>(ShaderBuilder()
-//        .setVertexShader("vertexShader_light.vert")
-//        ->setFragmentShader("phong_fs.frag")
-//        ->setCamera(getCamera())
-//    ->build());
-//
-//    auto lambertShader = std::shared_ptr<Shader>(ShaderBuilder()
-//        .setVertexShader("vertexShader_light.vert")
-//        ->setFragmentShader("lambert_fs.frag")
-//        ->setCamera(getCamera())
-//    ->build());
-//
-//    auto constantShader = std::shared_ptr<Shader>(ShaderBuilder()
-//        .setVertexShader("vertexShader_light.vert")
-//        ->setFragmentShader("constant_fs.frag")
-//        ->setCamera(getCamera())
-//    ->build());
-//
+    auto multilightTexturedShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("textured_vs.vert")
+        ->setFragmentShader("multilight_textured_fs.frag")
+        ->setCamera(getCamera())
+    ->build());
+
+    auto multilightShader = std::shared_ptr<Shader>(ShaderBuilder()
+        .setVertexShader("vertexShader_light.vert")
+        ->setFragmentShader("multilight_fs.frag")
+        ->setCamera(getCamera())
+    ->build());
+
     auto skyboxShader = std::shared_ptr<Shader>(ShaderBuilder()
         .setVertexShader("skybox_vs.vert")
         ->setFragmentShader("skybox_fs.frag")
         ->setCamera(getCamera())
         ->build());
 
-//    this->sh_shaders.push_back(phongShader);
-//    this->sh_shaders.push_back(lambertShader);
-//    this->sh_shaders.push_back(constantShader);
+    this->sh_shaders.push_back(multilightTexturedShader);
+    this->sh_shaders.push_back(multilightShader);
     this->sh_shaders.push_back(skyboxShader);
-
-    auto multiLightShader = std::shared_ptr<Shader>(ShaderBuilder()
-        .setVertexShader("vertexShader_light.vert")
-        ->setFragmentShader("multilight_fs.frag")
-        ->setCamera(getCamera())
-    ->build());
-
-    this->sh_shaders.push_back(multiLightShader);
 
     // Materials
     auto basicMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE);
-    auto redMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, RED);
-    auto greenMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, GREEN);
-    auto blueMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, BLUE);
-    auto yellowMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, YELLOW);
+    auto greenMaterial = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, LIGHTGREEN);
     this->materials.push_back(basicMaterial);
-    this->materials.push_back(redMaterial);
-    this->materials.push_back(greenMaterial);
-    this->materials.push_back(blueMaterial);
-    this->materials.push_back(yellowMaterial);
 
     // Lights
     auto lights = std::vector<Light*>();
-//    lights.push_back(new DirLight(glm::vec3(0.f, 10.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
+//    lights.push_back(new DirLight(glm::vec3(0.f, 0.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
     lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
     setLights(lights);
     this->lights = lights;
 
     // Models
-    this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
-    this->sh_models.push_back(ModelLoader::loadModel("suzi_hq.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("rat.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("building.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("zombie.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("plane.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("fish.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("cat.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("ferrari.obj"));
 
     this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0));
     this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0));
     this->models.push_back(new Model(ArrayConverter::convert(gift, sizeof(gift)), 3, 3, 0));
-    this->models.push_back(new Model(ArrayConverter::convert(sphere, sizeof(sphere)), 3, 3, 0));
+    this->models.push_back(new Model(skycube, 3, 0, 0));
 
     // Skybox
     auto skybox = RenderableModelBuilder()
-        .setModel(new Model(skycube, 3, 0, 0))
+        .setModel(models[3])
         ->setShader(skyboxShader)
         ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
         ->setTexture(new Texture("NightSkybox/", {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}))
         ->setTransformation(new Translation(glm::vec3(0.f, 0.f, 0.f)))
-        ->build();
+    ->build();
 
     setSkybox(skybox);
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 200; i++) {
         auto composite = new Composite();
         auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
         auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
@@ -114,64 +92,27 @@ ForestScene::ForestScene(int id) : Scene(id) {
         composite->addChild(scale);
         this->transformations.push_back(composite);
 
-//        if (i % 3 == 0) { // Bushes
-//            addModel(RenderableModelBuilder()
-//                .setModel(models[1])
-//                ->setShader(phongShader.get())
-//                ->setMaterial(greenMaterial)
-//                ->setTransformation(composite)
-//            ->build());
-//        } else if (i % 10 == 0) { // Gift
-//            addModel(RenderableModelBuilder()
-//                .setModel(models[2])
-//                ->setShader(phongShader.get())
-//                ->setMaterial(redMaterial)
-//                ->setTransformation(composite)
-//            ->build());
-//        } else if (i % 7 == 0) { // Suzi HQ
-//            auto position = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, 2.f, getRandom(-10., 5.) * 10.f));
-//
-//            auto composite2 = new Composite();
-//            composite2->addChild(position);
-//            composite2->addChild(rotation);
-//            composite2->addChild(scale);
-//            addModel(RenderableModelBuilder()
-//                .setModel(sh_models[1])
-//                ->setShader(lambertShader.get())
-//                ->setMaterial(blueMaterial)
-//                ->setTransformation(composite2)
-//            ->build());
-//        } else if (i % 4 == 0) { // Sphere
-//            addModel(RenderableModelBuilder()
-//                .setModel(models[3])
-//                ->setShader(constantShader.get())
-//                ->setMaterial(yellowMaterial)
-//                ->setTransformation(composite)
-//            ->build());
-//        } else { // Tree
-//            addModel(RenderableModelBuilder()
-//                .setModel(models[0])
-//                ->setShader(phongShader.get())
-//                ->setMaterial(greenMaterial)
-//                ->setTransformation(composite)
-//            ->build());
-//        }
-
-        addModel(RenderableModelBuilder()
-            .setModel(models[0])
-            ->setShader(multiLightShader)
-            ->setMaterial(greenMaterial)
-            ->setTransformation(composite)
-        ->build());
+        if (i % 3 == 0) { // Bushes
+            addModel(RenderableModelBuilder()
+                .setModel(models[1])
+                ->setShader(multilightShader.get())
+                ->setMaterial(greenMaterial)
+                ->setTransformation(composite)
+            ->build());
+        } else { // Tree
+            addModel(RenderableModelBuilder()
+                .setModel(models[0])
+                ->setShader(multilightShader.get())
+                ->setMaterial(greenMaterial)
+                ->setTransformation(composite)
+            ->build());
+        }
     }
 
+    // Floor
     addModel(RenderableModelBuilder()
-        .setModel(sh_models[5])
-        ->setShader(ShaderBuilder()
-                .setVertexShader("textured_vs.vert")
-                ->setFragmentShader("multilight_textured_fs.frag")
-                ->setCamera(getCamera())
-            ->build())
+        .setModel(sh_models[3])
+        ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(0.0f, -1.f, 0.0f)))
         ->setTexture(new Texture("grass.png"))
@@ -182,32 +123,32 @@ ForestScene::ForestScene(int id) : Scene(id) {
     ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), 0.f, getRandom(-10., 10.))));
     ratComp->addChild(new Scale(glm::vec3(5.f)));
 
+    // Rat
     addModel(RenderableModelBuilder()
-        .setModel(sh_models[2])
-        ->setShader(ShaderBuilder()
-            .setVertexShader("textured_vs.vert")
-            ->setFragmentShader("multilight_textured_fs.frag")
-            ->setCamera(getCamera())
-            ->build())
-        ->setTransformation(ratComp)
+        .setModel(sh_models[0])
+        ->setShader(multilightTexturedShader.get())
+        ->setTransformation(new BezierTranslation(glm::mat4x3(
+                                                      glm::vec3(-5, 0, 0),
+                                                      glm::vec3(-5, 0, 0),
+                                                      glm::vec3(5, 0, 0),
+                                                      glm::vec3(5, 0, 0)),
+                                                  0.5f))
         ->setMaterial(basicMaterial)
         ->setTexture(new Texture("rat_diff.jpg"))
     ->build());
 
+    // Building
     addModel(RenderableModelBuilder()
-        .setModel(sh_models[3])
-        ->setShader(ShaderBuilder()
-            .setVertexShader("textured_vs.vert")
-            ->setFragmentShader("multilight_textured_fs.frag")
-            ->setCamera(getCamera())
-        ->build())
+        .setModel(sh_models[1])
+        ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(30.f, 0.f, 30.f)))
         ->setTexture(new Texture("building.png"))
     ->build());
 
+    // Zombie
     addModel(RenderableModelBuilder()
-        .setModel(sh_models[4])
+        .setModel(sh_models[2])
         ->setShader(ShaderBuilder()
             .setVertexShader("textured_vs.vert")
             ->setFragmentShader("multilight_textured_fs.frag")
@@ -217,15 +158,39 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setTransformation(new Translation(glm::vec3(0.f)))
         ->setTexture(new Texture("zombie.png"))
     ->build());
+
+    // Fish
+    auto fishComp = new Composite();
+    fishComp->addChild(new Translation(glm::vec3(30.f, 0.f, 18.f)));
+    fishComp->addChild(new Rotation(true, glm::vec3(0.f, 1.f, 0.f), 180.f, glm::vec3(0.f)));
+    fishComp->addChild(new Scale(glm::vec3(0.05f)));
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[5])
+        ->setShader(multilightTexturedShader.get())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(fishComp)
+        ->setTexture(new Texture("cat.jpg"))
+    ->build());
+
+    // Random
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[6])
+        ->setShader(multilightShader.get())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(new Translation(glm::vec3(0.f)))
+//        ->setTexture(new Texture("cat.jpg"))
+    ->build());
 }
 
 ForestScene::~ForestScene() {
     for (auto transformation : this->transformations) {
         delete transformation;
     }
+
     for (auto material : this->materials) {
         delete material;
     }
+
     for (auto light : this->lights) {
         delete light;
     }

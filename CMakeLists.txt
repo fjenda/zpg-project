@@ -27,7 +27,7 @@ file(GLOB MODELS "models/*.h")
 file(GLOB LIB_H "lib/*.h")
 file(GLOB_RECURSE LIB_CPP "lib/*.cpp")
 
-add_executable(ZPG main.cpp ${SOURCES} ${HEADERS} ${MODELS} ${LIB_H} ${LIB_CPP})
+add_executable(ZPG main.cpp ${SOURCES} ${HEADERS} ${MODELS} ${LIB_H} ${LIB_CPP} ../src/BezierTranslation.cpp)
 
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
