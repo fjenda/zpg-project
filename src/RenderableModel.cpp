@@ -4,25 +4,27 @@
 #include "imgui/imgui.h"
 #include "../Include/Application.h"
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name, bool removable) {
     this->model = model;
     this->shader = shader;
     this->transformations = transformation;
     this->material = material;
     this->texture = nullptr;
     this->name = name;
+    this->removable = removable;
 }
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name, bool removable) {
 	this->model = model;
 	this->shader = shader;
 	this->transformations = transformation;
     this->material = material;
     this->texture = texture;
     this->name = name;
+    this->removable = removable;
 }
 
-RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name) {
+RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name, bool removable) {
     this->model = model;
     this->shader = shader;
     this->transformations = transformation;
@@ -30,6 +32,7 @@ RenderableModel::RenderableModel(Model* model, Shader* shader, Transformation* t
     this->textures = textures;
     this->texture = nullptr;
     this->name = name;
+    this->removable = removable;
 }
 
 void RenderableModel::render() {
@@ -161,15 +164,20 @@ RenderableModelBuilder* RenderableModelBuilder::setName(std::string name) {
     return this;
 }
 
+RenderableModelBuilder* RenderableModelBuilder::setRemovable(bool removable) {
+    this->removable = removable;
+    return this;
+}
+
 RenderableModel* RenderableModelBuilder::build() {
 	if (this->shader == nullptr) {
 		throw std::runtime_error("[ERROR] Shader is null");
 	}
 
     if (this->texture == nullptr) {
-        return new RenderableModel(model, shader, transformation, material, name);
+        return new RenderableModel(model, shader, transformation, material, name, removable);
     } else if (this->textures.empty()) {
-        return new RenderableModel(model, shader, transformation, material, texture, name);
+        return new RenderableModel(model, shader, transformation, material, texture, name, removable);
     }
-	return new RenderableModel(model, shader, transformation, material, textures, name);
+	return new RenderableModel(model, shader, transformation, material, textures, name, removable);
 }

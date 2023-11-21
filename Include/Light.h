@@ -61,18 +61,23 @@ public:
     float getOuterCutoff() const { return this->outerCutoff; }
     bool isFlashlight() const { return this->flashlight; }
 
-    void setPosition(glm::vec3 position) {
-        this->position = position;
+    void setPosition(glm::vec3 pos) {
+        this->position = pos;
         notify(VIEW_UPDATE);
     }
 
-    void setColor(glm::vec3 color) {
-        this->color = color;
+    void setColor(glm::vec3 col) {
+        this->color = col;
         notify(VIEW_UPDATE);
     }
 
-    void setDirection(glm::vec3 direction) {
-        this->direction = direction;
+    void setDirection(glm::vec3 dir) {
+        this->direction = dir;
+        notify(VIEW_UPDATE);
+    }
+
+    void setIntensity(float inten) {
+        this->intensity = inten;
         notify(VIEW_UPDATE);
     }
 

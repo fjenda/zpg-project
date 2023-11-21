@@ -4,6 +4,7 @@
 #include "../Include/CallbackController.h"
 #include "imgui/imgui.h"
 #include "../Include/Colors.h"
+#include "../Include/Application.h"
 
 Scene::Scene(int id) {
     this->id = id;
@@ -80,7 +81,21 @@ void Scene::setCallbackController(CallbackController* callbackController) {
 }
 
 void Scene::update(Event event) {
-    if (event == CLICK) {
+    if (!Application::get().isLockedCursor())
+        return;
+
+    if (event == CLICK_LEFT) {
+        // get click data
+        auto data = this->callbackController->getLastData();
+
+        // get index
+        int index = data[3];
+
+        // delete on index
+        if (this->canDelete(index))
+            return;
+
+    } else if (event == CLICK_RIGHT) {
         // get click data
         auto data = this->callbackController->getLastData();
 
@@ -88,26 +103,20 @@ void Scene::update(Event event) {
         double x = data[0];
         double y = data[1];
         double z = data[2];
-        int index = data[3];
 
-        // delete on index
-        if (this->canDelete(index)) {
-            return;
-        }
+        // add model
+        addModel(RenderableModelBuilder(ModelKind::TREE)
+            .setShader(ShaderBuilder()
+                .setCamera(this->camera)
+                ->setVertexShader("vertexShader_light.vert")
+                ->setFragmentShader("multilight_fs.frag")
+            ->build())
+            ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
+            ->setTransformation(new Translation(glm::vec3(x, y, z)))
+            ->setRemovable(true)
+        ->build());
 
-        // TODO: Add models to scene on click
-//        else {
-//            // add model
-//            addModel(RenderableModelBuilder(ModelKind::TREE)
-//                .setShader(ShaderBuilder()
-//                    .setCamera(this->camera)
-//                    ->setVertexShader("vertexShader_light.vert")
-//                    ->setFragmentShader("multilight_fs.frag")
-//                ->build())
-//                ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
-//                ->setTransformation(new Translation(glm::vec3(x, y, z)))
-//            ->build());
-//        }
+        this->camera->notify(VIEW_UPDATE);
     }
 }
 
@@ -117,6 +126,9 @@ bool Scene::canDelete(int i) {
     if (i < 0) return false;
 
     if (i >= models.size()) return false;
+
+    // if model is removable
+    if (!models[i]->isRemovable()) return false;
 
     models.erase(models.begin() + i);
     return true;

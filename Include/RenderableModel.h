@@ -40,19 +40,21 @@ private:
     std::vector<Texture*> textures;
 
     std::string name;
+    bool removable;
 
     float deltaTime;
     float lastFrame = 0.0f;
     bool firstInit = true;
 
 public:
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name);
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name);
-    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::string name, bool removable);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, Texture* texture, std::string name, bool removable);
+    RenderableModel(Model* model, Shader* shader, Transformation* transformation, Material* material, std::vector<Texture*> textures, std::string name, bool removable);
 
 	void render();
 
     void setShaderLight(std::vector<Light*> l);
+    bool isRemovable() { return this->removable; };
 
 	void infoLog();
     void enableDebugInterface(int id);
@@ -69,6 +71,7 @@ private:
     std::vector<Texture*> textures;
 	std::vector<float> points;
     std::string name = "";
+    bool removable = false;
 	
 public:
     RenderableModelBuilder() = default;
@@ -95,6 +98,7 @@ public:
     RenderableModelBuilder* setTexture(Texture* texture);
     RenderableModelBuilder* setTextures(std::vector<Texture*> textures);
     RenderableModelBuilder* setName(std::string name);
+    RenderableModelBuilder* setRemovable(bool removable);
 
 	RenderableModel* build();	
 };

@@ -54,6 +54,8 @@ ForestScene::ForestScene(int id) : Scene(id) {
     auto lights = std::vector<Light*>();
 //    lights.push_back(new DirLight(glm::vec3(0.f, 0.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
     lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
+    lights.push_back(new PointLight(glm::vec3(30.f, 3.f, 15.f), WHITE));
+
     setLights(lights);
     this->lights = lights;
 
@@ -98,6 +100,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
                 ->setShader(multilightShader.get())
                 ->setMaterial(greenMaterial)
                 ->setTransformation(composite)
+                ->setRemovable(true)
             ->build());
         } else { // Tree
             addModel(RenderableModelBuilder()
@@ -105,6 +108,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
                 ->setShader(multilightShader.get())
                 ->setMaterial(greenMaterial)
                 ->setTransformation(composite)
+                ->setRemovable(true)
             ->build());
         }
     }
@@ -127,14 +131,10 @@ ForestScene::ForestScene(int id) : Scene(id) {
     addModel(RenderableModelBuilder()
         .setModel(sh_models[0])
         ->setShader(multilightTexturedShader.get())
-        ->setTransformation(new BezierTranslation(glm::mat4x3(
-                                                      glm::vec3(-5, 0, 0),
-                                                      glm::vec3(-5, 0, 0),
-                                                      glm::vec3(5, 0, 0),
-                                                      glm::vec3(5, 0, 0)),
-                                                  0.5f))
+        ->setTransformation(ratComp)
         ->setMaterial(basicMaterial)
         ->setTexture(new Texture("rat_diff.jpg"))
+        ->setRemovable(true)
     ->build());
 
     // Building
@@ -157,28 +157,40 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(0.f)))
         ->setTexture(new Texture("zombie.png"))
+        ->setRemovable(true)
     ->build());
 
-    // Fish
-    auto fishComp = new Composite();
-    fishComp->addChild(new Translation(glm::vec3(30.f, 0.f, 18.f)));
-    fishComp->addChild(new Rotation(true, glm::vec3(0.f, 1.f, 0.f), 180.f, glm::vec3(0.f)));
-    fishComp->addChild(new Scale(glm::vec3(0.05f)));
+    // Cat
+    auto catComp = new Composite();
+    catComp->addChild(new Translation(glm::vec3(30.f, 0.f, 18.f)));
+    catComp->addChild(new Rotation(true, glm::vec3(0.f, 1.f, 0.f), 180.f, glm::vec3(0.f)));
+    catComp->addChild(new Scale(glm::vec3(0.05f)));
     addModel(RenderableModelBuilder()
         .setModel(sh_models[5])
         ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
-        ->setTransformation(fishComp)
+        ->setTransformation(catComp)
         ->setTexture(new Texture("cat.jpg"))
+        ->setRemovable(true)
     ->build());
 
     // Random
+    auto rndComp = new Composite();
+//    rndComp->addChild(new Translation(glm::vec3(0.f, 3.f, 0.f)));
+    rndComp->addChild(new BezierTranslation(glm::mat4x3(
+        glm::vec3(0, 5, 5),
+        glm::vec3(0, 10, 0),
+        glm::vec3(0, 0, 0),
+        glm::vec3(0, 5, -5)),
+    2.f));
+
     addModel(RenderableModelBuilder()
         .setModel(sh_models[6])
-        ->setShader(multilightShader.get())
+        ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
-        ->setTransformation(new Translation(glm::vec3(0.f)))
-//        ->setTexture(new Texture("cat.jpg"))
+        ->setTransformation(rndComp)
+        ->setTexture(new Texture("ferrari.png"))
+        ->setRemovable(true)
     ->build());
 }
 

@@ -9,7 +9,8 @@ enum Event {
     VIEW_UPDATE,
     WINDOW_SIZE_CHANGE,
     LIGHT_UPDATE,
-    CLICK,
+    CLICK_LEFT,
+    CLICK_RIGHT,
 };
 
 #endif //ZPGPROJECT_EVENT_H

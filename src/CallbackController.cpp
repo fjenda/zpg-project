@@ -54,12 +54,10 @@ void CallbackController::scrollCallback(GLFWwindow* window, double xoffset, doub
 void CallbackController::buttonCallback(GLFWwindow* window, int button, int action, int mode) {
 //    if (action == GLFW_PRESS) fprintf(stdout, "[CALLBACK] buttonCallback [%d,%d,%d]\n", button, action, mode);
 
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+    if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT) && action == GLFW_PRESS) {
         GLbyte color[4];
         GLfloat depth;
         GLuint index = 0;
-
-        glm::vec<4, float> viewPort = Application::get().getViewport();
 
         double x, y;
 //        glfwGetCursorPos(window, &x, &y);
@@ -75,19 +73,24 @@ void CallbackController::buttonCallback(GLFWwindow* window, int button, int acti
         printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
                (int) x, (int) y, color[0], color[1], color[2], color[3], depth, index);
 
-        glm::vec3 screen_pos = glm::vec3(x, y, depth);
+        glm::vec3 screenPos = glm::vec3(x, y, depth);
         glm::mat4 view = camera->getCamera();
         glm::mat4 projection = camera->getPerspective();
+        glm::vec4 viewPort = Application::get().getViewport();
 
         // screen position into object position
-        glm::vec3 pos = glm::unProject(screen_pos, view, projection, viewPort);
+        glm::vec3 pos = glm::unProject(screenPos, view, projection, viewPort);
 
         printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
         instance().data[0] = pos.x;
         instance().data[1] = pos.y;
         instance().data[2] = pos.z;
         instance().data[3] = index;
-        instance().notify(CLICK);
+
+        if (button == GLFW_MOUSE_BUTTON_RIGHT)
+            instance().notify(CLICK_RIGHT);
+        else if (button == GLFW_MOUSE_BUTTON_LEFT)
+            instance().notify(CLICK_LEFT);
     }
 }
 
