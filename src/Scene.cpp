@@ -13,6 +13,8 @@ Scene::Scene(int id) {
     this->shader->setCamera(this->camera);
     CallbackController::setCamera(this->camera);
 
+    this->model = ModelLoader::loadModel("tree.obj");
+
     this->camera->notify(VIEW_UPDATE);
     fprintf(stdout, "[DEBUG] Scene #%d created\n", id);
 }
@@ -46,7 +48,7 @@ void Scene::render(GLFWwindow* window) {
     int i = 1;
 	for (auto model : models) {
         glStencilFunc(GL_ALWAYS, i, 0xFF);
-		model->render();
+        model->render();
         i++;
 	}
 }
@@ -104,15 +106,26 @@ void Scene::update(Event event) {
         double y = data[1];
         double z = data[2];
 
+        // transformations
+        auto composite = new Composite();
+        auto scale = new Scale(glm::vec3((0.5 + (rand() % 1000) / 1000.0)));
+        auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), (rand() % 360));
+        auto translation = new Translation(glm::vec3(x, y, z));
+        composite->addChild(translation);
+        composite->addChild(rotation);
+        composite->addChild(scale);
+
         // add model
-        addModel(RenderableModelBuilder(ModelKind::TREE)
-            .setShader(ShaderBuilder()
+        addModel(RenderableModelBuilder()
+            .setModel(this->model)
+            ->setShader(ShaderBuilder()
                 .setCamera(this->camera)
-                ->setVertexShader("vertexShader_light.vert")
-                ->setFragmentShader("multilight_fs.frag")
+                ->setVertexShader("textured_vs.vert")
+                ->setFragmentShader("multilight_textured_fs.frag")
             ->build())
             ->setMaterial(new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 32.f, WHITE))
-            ->setTransformation(new Translation(glm::vec3(x, y, z)))
+            ->setTransformation(composite)
+            ->setTexture(new Texture("tree.png"))
             ->setRemovable(true)
         ->build());
 

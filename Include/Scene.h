@@ -32,6 +32,9 @@ private:
     RenderableModel* skybox = nullptr;
     CallbackController* callbackController;
 
+    // model that will be added after r-click
+    std::shared_ptr<Model> model = nullptr;
+
 public:
 	Scene(int id);
 	~Scene();

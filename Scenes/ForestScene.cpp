@@ -51,13 +51,11 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->materials.push_back(basicMaterial);
 
     // Lights
-    auto lights = std::vector<Light*>();
-//    lights.push_back(new DirLight(glm::vec3(0.f, 0.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
-    lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
-    lights.push_back(new PointLight(glm::vec3(30.f, 3.f, 15.f), WHITE));
+//    this->lights.push_back(new DirLight(glm::vec3(0.f, 0.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
+    this->lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
+    this->lights.push_back(new PointLight(glm::vec3(10.f, 5.f, 0.f), WHITE));
 
-    setLights(lights);
-    this->lights = lights;
+    setLights(this->lights);
 
     // Models
     this->sh_models.push_back(ModelLoader::loadModel("rat.obj"));
@@ -67,6 +65,9 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->sh_models.push_back(ModelLoader::loadModel("fish.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("cat.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("ferrari.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("terrain.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("circle_wall.obj"));
 
     this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0));
     this->models.push_back(new Model(ArrayConverter::convert(bushes, sizeof(bushes)), 3, 3, 0));
@@ -84,17 +85,17 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     setSkybox(skybox);
 
-    for (int i = 0; i < 200; i++) {
-        auto composite = new Composite();
-        auto scale = new Scale(glm::vec3(getRandom(0.5, 2.0)));
-        auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
-        auto translation = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, 0.f, getRandom(-10., 5.) * 10.f));
-        composite->addChild(translation);
-        composite->addChild(rotation);
-        composite->addChild(scale);
-        this->transformations.push_back(composite);
-
+    for (int i = 0; i < 100; i++) {
         if (i % 3 == 0) { // Bushes
+            auto composite = new Composite();
+            auto translation = new Translation(glm::vec3(getRandom(-10., 10.) * 7.0f, 0.f, getRandom(-10., 5.) * 10.f));
+            auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
+            auto scale = new Scale(glm::vec3(getRandom(1., 2.5)));
+            composite->addChild(translation);
+            composite->addChild(rotation);
+            composite->addChild(scale);
+            this->transformations.push_back(composite);
+
             addModel(RenderableModelBuilder()
                 .setModel(models[1])
                 ->setShader(multilightShader.get())
@@ -103,10 +104,20 @@ ForestScene::ForestScene(int id) : Scene(id) {
                 ->setRemovable(true)
             ->build());
         } else { // Tree
+            auto composite = new Composite();
+            auto translation = new Translation(glm::vec3(getRandom(5., 10.) * 7.0f, 0.f, getRandom(-10., 5.) * 10.f));
+            auto rotation = new Rotation(glm::vec3(0.f, 1.f, 0.f), getRandom(0.f, 360.f));
+            auto scale = new Scale(glm::vec3(getRandom(0.5, 1.)));
+            composite->addChild(translation);
+            composite->addChild(rotation);
+            composite->addChild(scale);
+            this->transformations.push_back(composite);
+
             addModel(RenderableModelBuilder()
-                .setModel(models[0])
-                ->setShader(multilightShader.get())
+                .setModel(sh_models[7])
+                ->setShader(multilightTexturedShader.get())
                 ->setMaterial(greenMaterial)
+                ->setTexture(new Texture("tree.png"))
                 ->setTransformation(composite)
                 ->setRemovable(true)
             ->build());
@@ -115,17 +126,17 @@ ForestScene::ForestScene(int id) : Scene(id) {
 
     // Floor
     addModel(RenderableModelBuilder()
-        .setModel(sh_models[3])
+        .setModel(sh_models[8])
         ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
         ->setTransformation(new Translation(glm::vec3(0.0f, -1.f, 0.0f)))
         ->setTexture(new Texture("grass.png"))
-        ->setTransformation(new Scale(glm::vec3(100.f)))
+        ->setTransformation(new Scale(glm::vec3(0.7f)))
     ->build());
 
     auto ratComp = new Composite();
-    ratComp->addChild(new Translation(glm::vec3(getRandom(-10., 10.), 0.f, getRandom(-10., 10.))));
-    ratComp->addChild(new Scale(glm::vec3(5.f)));
+    ratComp->addChild(new Translation(glm::vec3(9.f, 0.f, 10.f)));
+    ratComp->addChild(new Scale(glm::vec3(1.f)));
 
     // Rat
     addModel(RenderableModelBuilder()
@@ -138,15 +149,21 @@ ForestScene::ForestScene(int id) : Scene(id) {
     ->build());
 
     // Building
+    auto buildComp = new Composite();
+    buildComp->addChild(new Translation(glm::vec3(10.f, 0.f, 0.f)));
+    buildComp->addChild(new Scale(glm::vec3(0.5f)));
     addModel(RenderableModelBuilder()
         .setModel(sh_models[1])
         ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
-        ->setTransformation(new Translation(glm::vec3(30.f, 0.f, 30.f)))
+        ->setTransformation(buildComp)
         ->setTexture(new Texture("building.png"))
     ->build());
 
     // Zombie
+    auto zombieComp = new Composite();
+    zombieComp->addChild(new Translation(glm::vec3(8.f, 0.f, 10.f)));
+    zombieComp->addChild(new Scale(glm::vec3(0.5f)));
     addModel(RenderableModelBuilder()
         .setModel(sh_models[2])
         ->setShader(ShaderBuilder()
@@ -155,15 +172,14 @@ ForestScene::ForestScene(int id) : Scene(id) {
             ->setCamera(getCamera())
         ->build())
         ->setMaterial(basicMaterial)
-        ->setTransformation(new Translation(glm::vec3(0.f)))
+        ->setTransformation(zombieComp)
         ->setTexture(new Texture("zombie.png"))
         ->setRemovable(true)
     ->build());
 
     // Cat
     auto catComp = new Composite();
-    catComp->addChild(new Translation(glm::vec3(30.f, 0.f, 18.f)));
-    catComp->addChild(new Rotation(true, glm::vec3(0.f, 1.f, 0.f), 180.f, glm::vec3(0.f)));
+    catComp->addChild(new Translation(glm::vec3(10.f, 0.f, 10.f)));
     catComp->addChild(new Scale(glm::vec3(0.05f)));
     addModel(RenderableModelBuilder()
         .setModel(sh_models[5])
@@ -174,23 +190,38 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setRemovable(true)
     ->build());
 
-    // Random
-    auto rndComp = new Composite();
-//    rndComp->addChild(new Translation(glm::vec3(0.f, 3.f, 0.f)));
-    rndComp->addChild(new BezierTranslation(glm::mat4x3(
-        glm::vec3(0, 5, 5),
-        glm::vec3(0, 10, 0),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 5, -5)),
-    2.f));
+    // Car
+    auto carComp = new Composite();
+    carComp->addChild(new Translation(glm::vec3(9.f, 0.f, 10.f)));
+//    carComp->addChild(new BezierTranslation(glm::mat4x3(
+//        glm::vec3(-3, 1, 0),
+//        glm::vec3(-3, 4, 0),
+//        glm::vec3(3, 4, 0),
+//        glm::vec3(3, 1, 0)),
+//    2.f));
+//    carComp->addChild(new Rotation(false, glm::vec3(1.f, 1.f, 1.f), 360.f, glm::vec3(0.f)));
+    carComp->addChild(new LineTranslation(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.f, 10.f, 10.f), 2.f));
+    carComp->addChild(new Scale(glm::vec3(0.5f)));
 
     addModel(RenderableModelBuilder()
         .setModel(sh_models[6])
         ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
-        ->setTransformation(rndComp)
+        ->setTransformation(carComp)
         ->setTexture(new Texture("ferrari.png"))
         ->setRemovable(true)
+    ->build());
+
+    // Circle wall
+    auto wallComp = new Composite();
+    wallComp->addChild(new Translation(glm::vec3(10.f, 0.f, 0.f)));
+    wallComp->addChild(new Rotation(glm::vec3(0.f, 1.f, 0.f), -15.f));
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[9])
+        ->setShader(multilightTexturedShader.get())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(wallComp)
+        ->setTexture(new Texture("bake.png"))
     ->build());
 }
 

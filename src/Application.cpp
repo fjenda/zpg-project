@@ -73,9 +73,9 @@ void Application::run()
         GLbyte color[4];
         GLfloat depth;
         GLuint index = 0;
-        glm::vec<4, float> viewPort = Application::get().getViewport();
+        glm::vec<4, float> viewPort = getViewport();
 
-        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &color);
+        glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
         glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
         glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 
@@ -96,7 +96,7 @@ void Application::run()
 
         ImGui::Begin("Stencil buffer");
         ImGui::Text("Index - %d", index);
-        ImGui::Text("Color - %d, %d, %d", color[0], color[1], color[2]);
+        ImGui::Text("Color - %d, %d, %d", (int) (color[0] & 0xff), (int) (color[1] & 0xff), (int) (color[2] & 0xff));
         ImGui::Text("Position - %.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
         ImGui::End();
 

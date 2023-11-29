@@ -24,6 +24,7 @@
 #include "Scale.h"
 #include "Translation.h"
 #include "BezierTranslation.h"
+#include "LineTranslation.h"
 #include "Material.h"
 #include "Texture.h"
 
@@ -55,6 +56,7 @@ public:
 
     void setShaderLight(std::vector<Light*> l);
     bool isRemovable() { return this->removable; };
+    std::string getName() { return this->name; };
 
 	void infoLog();
     void enableDebugInterface(int id);

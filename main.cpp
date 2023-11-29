@@ -1,8 +1,6 @@
 ﻿// Jan Fojtík
 // FOJ0127
 
-//Include the standard C++ headers
-#include <cstdlib>
 #include <cstdio>
 
 // Include chrono for time measurement
