@@ -200,7 +200,20 @@ ForestScene::ForestScene(int id) : Scene(id) {
 //        glm::vec3(3, 1, 0)),
 //    2.f));
 //    carComp->addChild(new Rotation(false, glm::vec3(1.f, 1.f, 1.f), 360.f, glm::vec3(0.f)));
-    carComp->addChild(new LineTranslation(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.f, 10.f, 10.f), 2.f));
+//    carComp->addChild(new LineTranslation(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.f, 10.f, 10.f), 1.f));
+    auto startPoints = std::vector<glm::vec3>();
+    auto endPoints = std::vector<glm::vec3>();
+
+    startPoints.emplace_back(-10.f, 5.f, 0.f);
+    startPoints.emplace_back(10.f, 5.f, 0.f);
+    startPoints.emplace_back(10.f, 15.f, 0.f);
+    startPoints.emplace_back(-10.f, 15.f, 0.f);
+    endPoints.emplace_back(10.f, 5.f, 0.f);
+    endPoints.emplace_back(10.f, 15.f, 0.f);
+    endPoints.emplace_back(-10.f, 15.f, 0.f);
+    endPoints.emplace_back(-10.f, 5.f, 0.f);
+
+    carComp->addChild(new LineTranslation(startPoints, endPoints, 0.5f));
     carComp->addChild(new Scale(glm::vec3(0.5f)));
 
     addModel(RenderableModelBuilder()
