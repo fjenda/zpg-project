@@ -130,6 +130,39 @@ void Scene::update(Event event) {
         ->build());
 
         this->camera->notify(VIEW_UPDATE);
+    } else if (event == ADD_POINT) {
+        fprintf(stdout, "[DEBUG] Adding bezier point\n");
+        // adding a new bezier control point to the vector
+        auto data = this->callbackController->getLastData();
+
+        // get click position
+        double x = data[0];
+        double y = data[1];
+        double z = data[2];
+
+        this->bezierPointsVec.push_back(glm::vec3(x, y, z));
+
+        // if we have 4 points we can create a bezier curve
+        if (this->bezierPointsVec.size() == 4) {
+            fprintf(stdout, "[DEBUG] Creating bezier curve\n");
+            // create mat4 from vector
+            glm::mat4 bezierCurve = glm::mat4x3(
+                glm::vec3(this->bezierPointsVec[0]),
+                glm::vec3(this->bezierPointsVec[1]),
+                glm::vec3(this->bezierPointsVec[2]),
+                glm::vec3(this->bezierPointsVec[3])
+            );
+
+            // add it to the vector
+            this->bezierPoints.push_back(bezierCurve);
+
+            // clear the vector but keep the last point
+            this->bezierPointsVec.erase(this->bezierPointsVec.begin(), this->bezierPointsVec.begin() + 3);
+
+            // get model from the scene by id
+            auto model = this->models[this->models.size() - 1];
+            model->setTransformation(new BezierTranslation(this->bezierPoints, 1.f));
+        }
     }
 }
 

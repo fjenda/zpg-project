@@ -201,19 +201,36 @@ ForestScene::ForestScene(int id) : Scene(id) {
 //    2.f));
 //    carComp->addChild(new Rotation(false, glm::vec3(1.f, 1.f, 1.f), 360.f, glm::vec3(0.f)));
 //    carComp->addChild(new LineTranslation(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.f, 10.f, 10.f), 1.f));
-    auto startPoints = std::vector<glm::vec3>();
-    auto endPoints = std::vector<glm::vec3>();
 
-    startPoints.emplace_back(-10.f, 5.f, 0.f);
-    startPoints.emplace_back(10.f, 5.f, 0.f);
-    startPoints.emplace_back(10.f, 15.f, 0.f);
-    startPoints.emplace_back(-10.f, 15.f, 0.f);
-    endPoints.emplace_back(10.f, 5.f, 0.f);
-    endPoints.emplace_back(10.f, 15.f, 0.f);
-    endPoints.emplace_back(-10.f, 15.f, 0.f);
-    endPoints.emplace_back(-10.f, 5.f, 0.f);
+//    auto linePoints = std::vector<glm::vec3>();
+//    linePoints.push_back(glm::vec3(-5.f, 5.f, 0.f));
+//    linePoints.push_back(glm::vec3(5.f, 5.f, 0.f));
+//    linePoints.push_back(glm::vec3(5.f, 10.f, 0.f));
+//    linePoints.push_back(glm::vec3(-5.f, 10.f, 0.f));
+//
+//    carComp->addChild(new LineTranslation(linePoints, 0.5f));
 
-    carComp->addChild(new LineTranslation(startPoints, endPoints, 0.5f));
+    auto bezierPoints = std::vector<glm::mat4>();
+    bezierPoints.push_back(glm::mat4x3(
+        glm::vec3(-5, 20, 0),
+        glm::vec3(0, 25, 0),
+        glm::vec3(5, 25, 0),
+        glm::vec3(10, 20, 0)));
+
+    bezierPoints.push_back(glm::mat4x3(
+        glm::vec3(10, 20, 0),
+        glm::vec3(5, 15, 0),
+        glm::vec3(5, 10, 0),
+        glm::vec3(10, 5, 0)));
+
+    bezierPoints.push_back(glm::mat4x3(
+        glm::vec3(10, 5, 0),
+        glm::vec3(5, 0, 0),
+        glm::vec3(0, 0, 0),
+        glm::vec3(-5, 5, 0)));
+
+    carComp->addChild(new BezierTranslation(bezierPoints, 0.5f));
+    carComp->addChild(new Translation(glm::vec3(0.f, 5.f, 0.f)));
     carComp->addChild(new Scale(glm::vec3(0.5f)));
 
     addModel(RenderableModelBuilder()
@@ -235,6 +252,15 @@ ForestScene::ForestScene(int id) : Scene(id) {
         ->setMaterial(basicMaterial)
         ->setTransformation(wallComp)
         ->setTexture(new Texture("bake.png"))
+    ->build());
+
+    // Model for bezier testing
+    addModel(RenderableModelBuilder()
+        .setModel(sh_models[4])
+        ->setShader(multilightTexturedShader.get())
+        ->setMaterial(basicMaterial)
+        ->setTransformation(new Translation(glm::vec3(0.f, 2.f, 0.f)))
+        ->setTexture(new Texture("fish_texture.png"))
     ->build());
 }
 

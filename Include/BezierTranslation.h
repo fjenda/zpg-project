@@ -10,16 +10,19 @@
 class BezierTranslation : public Transformation {
 private:
     glm::mat4 A;
-    glm::mat4 B;
+    glm::mat4 B = glm::mat4(0.0f);
+    std::vector<glm::mat4> points;
     float t = 0.5f;
     float delta = 0.01f;
+    int index = 0;
+    bool increasing = false;
     float speed;
 
 public:
     BezierTranslation(glm::mat4 B, float speed);
+    BezierTranslation(std::vector<glm::mat4> points, float speed);
     glm::mat4 getMatrix() override;
-
-
+    void setPoints(std::vector<glm::mat4> p) { this->points = p; };
 };
 
 

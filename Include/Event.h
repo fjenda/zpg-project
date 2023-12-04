@@ -11,6 +11,7 @@ enum Event {
     LIGHT_UPDATE,
     CLICK_LEFT,
     CLICK_RIGHT,
+    ADD_POINT,
 };
 
 #endif //ZPGPROJECT_EVENT_H

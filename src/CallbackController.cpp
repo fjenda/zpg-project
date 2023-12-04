@@ -52,9 +52,9 @@ void CallbackController::scrollCallback(GLFWwindow* window, double xoffset, doub
 }
 
 void CallbackController::buttonCallback(GLFWwindow* window, int button, int action, int mode) {
-//    if (action == GLFW_PRESS) fprintf(stdout, "[CALLBACK] buttonCallback [%d,%d,%d]\n", button, action, mode);
+//   if (action == GLFW_PRESS) fprintf(stdout, "[CALLBACK] buttonCallback [%d,%d,%d]\n", button, action, mode);
 
-    if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT) && action == GLFW_PRESS) {
+    if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT || button == GLFW_KEY_B) && action == GLFW_PRESS) {
         GLbyte color[4];
         GLfloat depth;
         GLuint index = 0;
@@ -91,6 +91,8 @@ void CallbackController::buttonCallback(GLFWwindow* window, int button, int acti
             instance().notify(CLICK_RIGHT);
         else if (button == GLFW_MOUSE_BUTTON_LEFT)
             instance().notify(CLICK_LEFT);
+        else if (button == GLFW_KEY_B)
+            instance().notify(ADD_POINT);
     }
 }
 
@@ -102,6 +104,10 @@ void CallbackController::keyCallback(GLFWwindow* window, int key, int scancode, 
     // ending application
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+
+    // adding bezier control point
+    if (key == GLFW_KEY_B && action == GLFW_PRESS)
+        buttonCallback(window, GLFW_KEY_B, GLFW_PRESS, 0);
 
     // changing scenes
     if ((key >= 49 && key <= 57) && action == GLFW_PRESS) {

@@ -7,6 +7,7 @@
 #include <chrono>
 
 #include "Include/Application.h"
+#include "Include/Colors.h"
 
 int main()
 {

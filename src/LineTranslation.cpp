@@ -5,37 +5,49 @@
 #include "../Include/LineTranslation.h"
 
 LineTranslation::LineTranslation(glm::vec3 start, glm::vec3 end, float speed) {
-    this->startPoints.push_back(start);
-    this->endPoints.push_back(end);
+    this->start = start;
+    this->end = end;
+    this->speed = speed;
+}
+
+LineTranslation::LineTranslation(std::vector<glm::vec3> points, float speed) {
+    this->points = points;
+    this->increasing = true;
     this->speed = speed;
 }
 
 glm::mat4 LineTranslation::getMatrix() {
-    if (startPoints.size() == 1 && endPoints.size() == 1) {
+    if (start != glm::vec3(0) && end != glm::vec3(0)) {
         if (t >= 1.0f || t <= 0.0f)
             delta *= -1;
         t += delta * speed;
 
-        glm::vec3 start = startPoints[0];
-        glm::vec3 end = endPoints[0];
         glm::vec3 moveDirection = end - start;
         glm::mat4 mod{1.0f};
         mod = glm::translate(mod, start + moveDirection * t);
         return mod;
     } else {
         if (t >= 1.0f || t <= 0.0f) {
-            index++;
-            delta *= -1;
+            index += increasing ? 1 : -1;
+            t = 0.0f;
+
+            if (index == points.size() - 1 || index == 0)
+                increasing = !increasing;
         }
         t += delta * speed;
 
-        glm::vec3 start = startPoints.at(index);
-        glm::vec3 end = endPoints.at(index);
+        // get current segment
+        glm::vec3 start = points[index];
+        glm::vec3 end;
+
+        if (increasing)
+            end = points[index + 1];
+        else
+            end = points[index - 1];
         glm::vec3 moveDirection = end - start;
         glm::mat4 mod{1.0f};
         mod = glm::translate(mod, start + moveDirection * t);
         return mod;
-
     }
 
 }

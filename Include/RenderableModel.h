@@ -57,6 +57,7 @@ public:
     void setShaderLight(std::vector<Light*> l);
     bool isRemovable() { return this->removable; };
     std::string getName() { return this->name; };
+    void setTransformation(Transformation* transformation) { this->transformations = transformation; };
 
 	void infoLog();
     void enableDebugInterface(int id);

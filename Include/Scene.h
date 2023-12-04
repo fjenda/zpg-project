@@ -35,6 +35,11 @@ private:
     // model that will be added after r-click
     std::shared_ptr<Model> model = nullptr;
 
+    // 4 points = 1 curve
+    // last point of every curve will be the starting point for the next one
+    std::vector<glm::vec3> bezierPointsVec;
+    std::vector<glm::mat4> bezierPoints;
+
 public:
 	Scene(int id);
 	~Scene();
