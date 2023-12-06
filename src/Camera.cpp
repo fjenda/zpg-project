@@ -38,7 +38,7 @@ glm::mat4 Camera::getCamera() {
 }
 
 glm::mat4 Camera::getPerspective() {
-    return glm::perspective(glm::radians(this->fov), (float)Application::get().getRatio(), 0.1f, 300.f);
+    return glm::perspective(glm::radians(this->fov), (float)Application::get().getRatio(), 0.1f, 500.f);
 }
 
 void Camera::moveForward(float speed) {
@@ -66,7 +66,7 @@ void Camera::moveRight(float speed) {
 }
 
 void Camera::move(bool forward, bool backward, bool left, bool right) {
-    float speed = 10.f * Application::get().getDeltaTime();
+    float speed = 50.f * Application::get().getDeltaTime();
 
     if (forward)
         moveForward(speed);

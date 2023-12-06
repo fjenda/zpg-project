@@ -53,7 +53,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
     // Lights
 //    this->lights.push_back(new DirLight(glm::vec3(0.f, 0.f, 0.f), WHITE, glm::vec3(0.f, -1.f, 0.f)));
     this->lights.push_back(new SpotLight(getCamera(), glm::vec3(0.f, 10.f, 0.f), glm::vec3(1.f), glm::vec3(0.f, 0.f, -1.f), 12.5f, 17.5f));
-    this->lights.push_back(new PointLight(glm::vec3(10.f, 5.f, 0.f), WHITE));
+    this->lights.push_back(new PointLight(glm::vec3(12.f, 6.5f, 14.f), WHITE));
 
     setLights(this->lights);
 
@@ -66,7 +66,7 @@ ForestScene::ForestScene(int id) : Scene(id) {
     this->sh_models.push_back(ModelLoader::loadModel("cat.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("ferrari.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("tree.obj"));
-    this->sh_models.push_back(ModelLoader::loadModel("terrain.obj"));
+    this->sh_models.push_back(ModelLoader::loadModel("my_terrain.obj"));
     this->sh_models.push_back(ModelLoader::loadModel("circle_wall.obj"));
 
     this->models.push_back(new Model(ArrayConverter::convert(tree, sizeof(tree)), 3, 3, 0));
@@ -129,9 +129,8 @@ ForestScene::ForestScene(int id) : Scene(id) {
         .setModel(sh_models[8])
         ->setShader(multilightTexturedShader.get())
         ->setMaterial(basicMaterial)
-        ->setTransformation(new Translation(glm::vec3(0.0f, -1.f, 0.0f)))
+        ->setTransformation(new Translation(glm::vec3(-15.0f, 0.f, 0.0f)))
         ->setTexture(new Texture("grass.png"))
-        ->setTransformation(new Scale(glm::vec3(0.7f)))
     ->build());
 
     auto ratComp = new Composite();
@@ -199,7 +198,6 @@ ForestScene::ForestScene(int id) : Scene(id) {
 //        glm::vec3(3, 4, 0),
 //        glm::vec3(3, 1, 0)),
 //    2.f));
-//    carComp->addChild(new Rotation(false, glm::vec3(1.f, 1.f, 1.f), 360.f, glm::vec3(0.f)));
 //    carComp->addChild(new LineTranslation(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.f, 10.f, 10.f), 1.f));
 
 //    auto linePoints = std::vector<glm::vec3>();

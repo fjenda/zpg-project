@@ -7,7 +7,9 @@
 #include <chrono>
 
 #include "Include/Application.h"
-#include "Include/Colors.h"
+#include "Scenes/SolarSystemScene.h"
+#include "Scenes/BallScene.h"
+#include "Scenes/MultipleShadersScene.h"
 
 int main()
 {
@@ -16,6 +18,10 @@ int main()
 
     Application& app = Application::get();
     app.initialization(1280, 720);
+
+//    app.addScene(new SolarSystemScene(2));
+//    app.addScene(new BallScene(3));
+//    app.addScene(new MultipleShadersScene(4));
 
     app.run();
 
