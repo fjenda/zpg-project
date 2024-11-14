@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.26)
-set(CMAKE_OSX_ARCHITECTURES x86_64)
+
+if(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES x86_64)
+endif()
+
 project(zpgProject)
 
 set(CMAKE_CXX_STANDARD 17)
